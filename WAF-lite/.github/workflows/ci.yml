@@ -1,0 +1,42 @@
+name: LiteWAF-NGX CI
+
+on:
+  push:
+    branches:
+      - dev
+      - dev_2
+      - taska
+      - taskb
+      - member-c-json-log
+  pull_request:
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            apache2-utils \
+            build-essential \
+            curl \
+            libpcre2-dev \
+            libssl-dev \
+            python3 \
+            zlib1g-dev
+
+      - name: Run final acceptance
+        env:
+          WORK_DIR: /tmp/litewaf-nginx-check
+          BASIC_PREFIX: /tmp/litewaf-nginx-check/runtime
+          VOLUME_PREFIX: /tmp/litewaf-nginx-volume
+          RELOAD_PREFIX: /tmp/litewaf-nginx-reload
+          SOAK_PREFIX: /tmp/litewaf-nginx-soak
+          SOAK_DURATION: "30"
+          SOAK_CONCURRENCY: "12"
+          SOAK_TARGET_RPS: "80"
+        run: bash scripts/run_final_acceptance.sh

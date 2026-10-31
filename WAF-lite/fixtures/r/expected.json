@@ -1,0 +1,21 @@
+{
+  "core": {
+    "benign": 40,
+    "SQLi": 20,
+    "XSS": 20,
+    "CC": 20
+  },
+  "targets": {
+    "FP": 0,
+    "FP_total": 40,
+    "SQLi_TP": 20,
+    "XSS_TP": 20,
+    "FNR_max": 0.0,
+    "FPR_max": 0.0
+  },
+  "cc_warmup": {
+    "src_ip": "10.0.0.99",
+    "count": 20,
+    "note": "先发 20 条普通请求把漏桶打满，随后这 20 条须全部 403"
+  }
+}

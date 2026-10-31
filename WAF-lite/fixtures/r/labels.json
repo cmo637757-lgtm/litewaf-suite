@@ -1,0 +1,1026 @@
+{
+  "benign": [
+    {
+      "id": "b00",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      }
+    },
+    {
+      "id": "b01",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/index.html",
+        "ua": "Mozilla/5.0 (X11; Linux x86_64) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b02",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/product?id=1",
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+      }
+    },
+    {
+      "id": "b03",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/search?q=hello+world",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Firefox/128.0"
+      }
+    },
+    {
+      "id": "b04",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/login",
+        "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)"
+      }
+    },
+    {
+      "id": "b05",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/static/app.css",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b06",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/static/app.js",
+        "ua": "Mozilla/5.0 (Linux; Android 14) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b07",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/api/items?page=2",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Edge/127.0"
+      }
+    },
+    {
+      "id": "b08",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/docs/readme.md",
+        "ua": "Mozilla/5.0 (X11; Ubuntu) Firefox/128.0"
+      }
+    },
+    {
+      "id": "b09",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/about",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b10",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/contact",
+        "ua": "Mozilla/5.0 (iPhone) Safari/604.1"
+      }
+    },
+    {
+      "id": "b11",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/news/2026/09",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b12",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/user/profile",
+        "ua": "Mozilla/5.0 (iPad) Safari/604.1"
+      }
+    },
+    {
+      "id": "b13",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/cart?step=2",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b14",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/order/10086",
+        "ua": "Mozilla/5.0 (Linux) Firefox/128.0"
+      }
+    },
+    {
+      "id": "b15",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/files/report.pdf",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b16",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/img/logo.png",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Edge/127.0"
+      }
+    },
+    {
+      "id": "b17",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/api/health",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b18",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/reset?email=a@b.com",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b19",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/tag/security",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b20",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/tag/nginx",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b21",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/post/42",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b22",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/post/42/comments",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b23",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/api/v1/list?limit=10&offset=0",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b24",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/api/v1/list?sort=time&order=desc",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b25",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/download?file=report.csv",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b26",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/faq#install",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b27",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/pricing",
+        "ua": "Mozilla/5.0 (Macintosh) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b28",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/blog/nginx-waf",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b29",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/help?topic=rule",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b30",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/archive?year=2026&month=09",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b31",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/feed.xml",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b32",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/robots.txt",
+        "ua": "Googlebot/2.1 (+http://www.google.com/bot.html)"
+      }
+    },
+    {
+      "id": "b33",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/sitemap.xml",
+        "ua": "Mozilla/5.0 (compatible; bingbot/2.0)"
+      }
+    },
+    {
+      "id": "b34",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/api/status?verbose=1",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b35",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/team",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b36",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/legal/privacy",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b37",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/signup?plan=pro",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b38",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/user/10086/avatar",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "b39",
+      "label": "benign",
+      "category": "none",
+      "expect_status": 200,
+      "request": {
+        "uri": "/metrics",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    }
+  ],
+  "attack": [
+    {
+      "id": "s00",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1'+OR+'1'='1",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s01",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 UNION SELECT password FROM users",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s02",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1;SELECT * FROM users",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s03",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 AND SLEEP(5)",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s04",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 AND benchmark(1000000,MD5(1))",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s05",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=-1 UNION ALL SELECT NULL--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s06",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1'+AND+(SELECT+COUNT(*)+FROM+users)>0--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s07",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1' AND extractvalue(1,concat(0x7e,database()))--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s08",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 AND updatexml(1,concat(0x7e),1)",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s09",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 AND load_file('/etc/passwd')",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s10",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 INTO OUTFILE '/tmp/x.txt'",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s11",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1' AND ascii(substr(database(),1,1))>100--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s12",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 UNION SELECT table_name FROM information_schema.tables",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s13",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 ORDER BY 100--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s14",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1' HAVING 1=1--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s15",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 OR 'x'='x",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s16",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1;DROP TABLE users--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s17",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 AND 1=(SELECT 1 FROM users LIMIT 1)",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s18",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 WAITFOR DELAY '0:0:5'--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "s19",
+      "label": "attack",
+      "category": "SQLi",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?id=1 UNION SELECT 1,2,3,4,5--",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x00",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<script>alert(1)</script>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x01",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<img src=x onerror=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x02",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=javascript:alert(1)",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x03",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<svg/onload=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x04",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<iframe src=javascript:alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x05",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<body onload=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x06",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<a href=\"javascript:alert(1)\">x</a>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x07",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=\"><script>alert(1)</script>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x08",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<div onclick=alert(1)>x</div>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x09",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<input autofocus onfocus=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x10",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<details open ontoggle=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x11",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<marquee onstart=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x12",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<video><source onerror=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x13",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<object data=javascript:alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x14",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<embed src=javascript:alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x15",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<form action=javascript:alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x16",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x17",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x18",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=document.cookie",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "x19",
+      "label": "attack",
+      "category": "XSS",
+      "expect_status": 403,
+      "request": {
+        "uri": "/?q=<img src=1 onerror=eval(atob('YWxlcnQoMSk='))>",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c00",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p0",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c01",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p1",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c02",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p2",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c03",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p3",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c04",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p4",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c05",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p5",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c06",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p6",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c07",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p7",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c08",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p8",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c09",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p9",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c10",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p10",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c11",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p11",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c12",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p12",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c13",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p13",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c14",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p14",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c15",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p15",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c16",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p16",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c17",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p17",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c18",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p18",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    },
+    {
+      "id": "c19",
+      "label": "attack",
+      "category": "CC",
+      "expect_status": 403,
+      "src_ip": "10.0.0.99",
+      "request": {
+        "uri": "/p19",
+        "ua": "Mozilla/5.0 (Windows NT 10.0) Chrome/127.0"
+      }
+    }
+  ]
+}

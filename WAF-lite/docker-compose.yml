@@ -1,0 +1,14 @@
+services:
+  litewaf-acceptance:
+    build:
+      context: .
+    environment:
+      WORK_DIR: /tmp/litewaf-nginx-check
+      BASIC_PREFIX: /tmp/litewaf-nginx-check/runtime
+      VOLUME_PREFIX: /tmp/litewaf-nginx-volume
+      RELOAD_PREFIX: /tmp/litewaf-nginx-reload
+      SOAK_PREFIX: /tmp/litewaf-nginx-soak
+      SOAK_DURATION: "30"
+      SOAK_CONCURRENCY: "12"
+      SOAK_TARGET_RPS: "80"
+    command: ["bash", "scripts/run_final_acceptance.sh"]

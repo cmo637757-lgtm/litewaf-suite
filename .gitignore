@@ -1,0 +1,39 @@
+# ---- 依赖与构建产物 ----
+node_modules/
+dist/
+target/
+*.jar
+*.class
+__pycache__/
+*.pyc
+*.pyo
+
+# ---- 运行时与本地临时产物 ----
+*.log
+logs/
+backups/
+evaluations/
+candidates/
+versions/
+runtime/
+_tmp_*
+*.tmp
+*.bak
+*.orig
+
+# ---- 本地工具（paramiko 等装在工作区里，不进仓库） ----
+.tools/
+.playwright-mcp/
+
+# ---- 编辑器 ----
+.vscode/
+.idea/
+.DS_Store
+
+# ---- 课程材料（老师给的，不对外传） ----
+1 阶段引导与系统思维.pdf
+3 前后端分离与接口设计.pdf
+6 日志采集.pdf
+7 规则加载&动态更新.pptx
+进阶式挑战性综合项目III课题任务书-- Web应用层攻防实战系统的设计与实现.pdf
+NEW_WAF完整需求卡片_V2_可裁剪实施版.md

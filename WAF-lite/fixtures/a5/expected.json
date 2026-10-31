@@ -1,0 +1,12 @@
+{
+  "rule": {
+    "window_s": 60,
+    "threshold": 3,
+    "suppress_s": 300
+  },
+  "trigger_count": 3,
+  "event_count": 5,
+  "delivery_count": 1,
+  "first_trigger_s": 30,
+  "notes": "第 3 条落在 30 秒首次触发，40/50 秒因抑制窗口内不再分发（delivery 仍是 1）"
+}

@@ -1,0 +1,52 @@
+server:
+  port: 18080
+  shutdown: graceful
+
+spring:
+  application:
+    name: litewaf-platform
+  datasource:
+    # 采集器写入的同一个库；时区统一 UTC，毫秒时间戳本身带时区信息
+    url: jdbc:mariadb://127.0.0.1:3306/litewaf?useUnicode=true&characterEncoding=utf8
+    username: litewaf
+    # 口令走环境变量，缺省值只为「本机一键演示」能跑；生产必须注入 LITEWAF_DB_PASSWORD
+    password: ${LITEWAF_DB_PASSWORD:LiteWaf@2026}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+  jackson:
+    # DTO 输出统一 snake_case，与需求卡片和前端约定一致
+    property-naming-strategy: SNAKE_CASE
+    time-zone: UTC
+    default-property-inclusion: always
+
+logging:
+  level:
+    root: INFO
+    com.litewaf: DEBUG
+
+app:
+  jwt:
+    # 签名密钥：**默认值只用于本机演示**，生产必须注入环境变量 LITEWAF_JWT_SECRET
+    # （至少 32 字节随机串；生成：openssl rand -base64 48）
+    # 换掉它会让所有已签发的 token 立刻失效（相当于强制全员重新登录）
+    secret: ${LITEWAF_JWT_SECRET:litewaf-demo-jwt-secret-please-change-in-production-2026}
+    ttl-minutes: 30
+  engine:
+    # 引擎执行器：只监听 127.0.0.1，后端与它同机部署
+    base-url: http://127.0.0.1:18081
+    token-file: /opt/litewaf/runtime/engine.token
+    # 单次调用超时（发布含 reload + 3 次探测，给足 30 秒）
+    timeout-seconds: 30
+  evaluation:
+    # s8_eval.py 把每次跑分写到 <dir>/<run_id>/report.json，平台只读不算
+    dir: /opt/litewaf/evaluations
+  collector:
+    # 采集器每轮写心跳到这里（lwaf_collect.py:write_status）
+    # 放 state/ 而不是 logs/：logs/ 要 root:root 755 才能被 logrotate 轮转
+    status-file: /opt/litewaf/state/collector_status.json
+    # 心跳超过这个窗口没更新就判定"不健康"，默认 15 秒（轮询 1 秒的 15 倍）
+    alive-window-ms: 15000
+  perf:
+    # API 耗时环形缓冲大小：只留最近 N 次请求做 P50/P95，不落库
+    buffer-size: 200

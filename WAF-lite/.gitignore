@@ -1,0 +1,26 @@
+# 编译产物
+build/
+*.o
+*.obj
+*.so
+*.a
+*.dSYM/
+objs/
+
+# Nginx 源码（如果放在这里，排除掉）
+nginx-1.24.0/
+
+# 日志文件
+*.log
+logs/*.csv
+logs/load/
+
+# 临时文件
+*.tmp
+*.swp
+*.swo
+
+# IDE 配置
+.vscode/
+.idea/
+.DS_Store

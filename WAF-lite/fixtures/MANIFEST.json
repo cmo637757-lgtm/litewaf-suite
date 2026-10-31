@@ -1,0 +1,34 @@
+{
+  "generated_by": "tools/gen_fixture.py",
+  "frozen_at": "2026-10-21T16:14:09.629459+00:00",
+  "files": {
+    "a5/events.log": {
+      "sha256": "cf7ddf6fc0e379ba45f2004b630aa134f80be32fe310fa59e63d661011654321",
+      "bytes": 1225
+    },
+    "a5/expected.json": {
+      "sha256": "5e7f27f7b053115a4200267ea52fab5d5f24660fc332ca118af34f217201e5d2",
+      "bytes": 286
+    },
+    "f20/access.log": {
+      "sha256": "ef65afc08f09724cfee3d4612e505b3f3549c6a7e09add6a87b20ab36b2a978c",
+      "bytes": 2608
+    },
+    "f20/expected.json": {
+      "sha256": "bcf36965818efcc2ce3a765038aa4bb90af6d0d0eece37b53afa3d19ef000af6",
+      "bytes": 531
+    },
+    "f20/reject.log": {
+      "sha256": "48896c47ef53a59946f0b56914286035f24fab5f6b84b0e8c7fc1c207bf04aa3",
+      "bytes": 1191
+    },
+    "r/expected.json": {
+      "sha256": "3071605b007bedbc82ce122a472c46bc1d8cdd638895d81253cab1a3e13872b9",
+      "bytes": 364
+    },
+    "r/labels.json": {
+      "sha256": "e056150325d69c97f507789b5ee79b42b263d41f3ddd89412e17fda5df66d85d",
+      "bytes": 24157
+    }
+  }
+}
