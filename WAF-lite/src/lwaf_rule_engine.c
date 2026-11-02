@@ -1299,6 +1299,108 @@ static const lwaf_rule_t g_li_xss_rule = {
 };
 
 /**
+ * @brief 判断一段文本是否只是普通函数表达式，不值得交给 libinjection 判 SQLi。
+ *
+ * `if(x<10,y,z)` / `max(a,b)` / `round(x,2)` 这类分支/聚合表达式在业务参数里很常见，
+ * libinjection 看到「函数调用 + 比较符」会判成 SQLi，误伤整类请求。
+ * 四条全满足才算表达式：ident( 开头、无引号分号注释、无 SQL 关键字、长度 < 64。
+ *
+ * @param s 已规范化的文本
+ * @return 1 是普通表达式，0 不是
+ */
+/**
+ * @brief 大小写不敏感的「包含」判断。
+ *
+ * 不用 strcasestr：它要 _GNU_SOURCE，在 nginx 的编译选项下会变成隐式声明，
+ * 配合 -Werror 直接编译失败。自己写一个十行的循环最省事。
+ *
+ * @param hay    被搜索的串
+ * @param needle 要找的小写子串
+ * @return 1 找到，0 没有
+ */
+static int
+lwaf_has_ci(const char *hay, const char *needle)
+{
+    size_t nl = strlen(needle), i, j;
+
+    if (nl == 0) {
+        return 1;
+    }
+    for (i = 0; hay[i] != ' '; i++) {
+        for (j = 0; j < nl; j++) {
+            char a = hay[i + j];
+            if (a >= 'A' && a <= 'Z') {
+                a = (char) (a - 'A' + 'a');
+            }
+            if (a != needle[j]) {
+                break;
+            }
+        }
+        if (j == nl) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int
+lwaf_looks_like_expression(const char *s)
+{
+    static const char *const kw[] = {
+        "select", "union", "insert", "update", "delete", "drop", "create",
+        "alter", " from", "where", "order", "group", "having", "into",
+        "sleep", "benchmark", "waitfor", "load_file", "outfile", "dumpfile",
+        "information_schema", "pg_catalog", "sysobjects", "exec", "xp_",
+        " or ", " and ", "%27", "'", "\"", ";", "--", "/*",
+        NULL
+    };
+    size_t i, len;
+
+    if (s == NULL || s[0] == '\0') {
+        return 0;
+    }
+    len = strlen(s);
+    if (len >= 64) {
+        return 0;
+    }
+    /*
+     * args 是 `q=if(x<10,y,z)` 这种带参数名的整串，真正要判的是 `=` 右边。
+     * 参数名最多 32 字符，超过说明不是普通 key=value，按普通文本处理。
+     */
+    {
+        const char *eq = strchr(s, '=');
+
+        if (eq != NULL && (size_t) (eq - s) < 32) {
+            s = eq + 1;
+        }
+    }
+
+    /* 1. 必须形如 ident( ... ) */
+    if (!(s[0] == '_' || (s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z'))) {
+        return 0;
+    }
+    for (i = 1; i < len; i++) {
+        char c = s[i];
+        if (c == '(') {
+            break;
+        }
+        if (!(c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
+            return 0;
+        }
+    }
+    if (i >= len) {
+        return 0;             /* 没有左括号，不是函数调用 */
+    }
+    /* 2/3. 不能含 SQL 特征 */
+    for (i = 0; kw[i] != NULL; i++) {
+        if (lwaf_has_ci(s, kw[i]) != NULL) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/**
  * @brief 对 args / body / cookie / url 各跑一次 libinjection。
  *
  * 只跑已规范化的字段（编码已在 lwaf_normalize_copy 里还原过），
@@ -1333,7 +1435,7 @@ lwaf_semantic_scan(const lwaf_request_context_t *ctx, int *sql_hit, int *xss_hit
             continue;
         }
 
-        if (*sql_hit == 0) {
+        if (*sql_hit == 0 && lwaf_looks_like_expression(s) == 0) {
             libinjection_sqli_init(&sf, s, len, FLAG_NONE);
             if (libinjection_is_sqli(&sf) == LIBINJECTION_RESULT_TRUE) {
                 *sql_hit = 1;
