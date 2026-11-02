@@ -164,6 +164,15 @@ if want api; then
     bad "误报闭环" "$(echo "$OUT" | grep -E 'FAIL|Error|Traceback' | head -3 | tr '\n' ' ')"
   fi
 
+  # 3b2. 三项请求级检查：CSRF / 防盗链 / 机器人（任务书第一要求）
+  OUT=$(KALI_PWD="${KALI_PWD:-kali}" bash "${SHARE_DIR}/scripts/s16_static_checks.sh" 2>&1) || true
+  if echo "$OUT" | grep -qE '通过 [0-9]+ 项，失败 0 项'; then
+    ok "CSRF/防盗链/机器人" "$(echo "$OUT" | grep -E '通过 [0-9]+ 项' | tail -1)"
+  else
+    bad "CSRF/防盗链/机器人" "$(echo "$OUT" | grep -E '\[FAIL\]' | head -3 | tr '
+' ' ')"
+  fi
+
   # 3c. 评估报告接口（R34-11 展示侧；跑分本身要单独跑 s8_eval.py）
   OUT=$(python3 "${SHARE_DIR}/scripts/s8_eval_api_test.py" 2>&1) || true
   if echo "$OUT" | grep -qE '失败 0 项|0 项失败'; then
