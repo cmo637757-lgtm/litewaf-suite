@@ -135,6 +135,11 @@ typedef struct {
 
     ngx_uint_t max_body_bytes;     /**< 请求体硬上限，超过直接 413；0 表示不检查. */
 
+    ngx_flag_t hotlink;            /**< 防盗链：静态资源被外站引用时拒绝. */
+    ngx_array_t *hotlink_refers;   /**< 允许引用本站资源的来源域名（ngx_str_t 数组）. */
+    ngx_flag_t bot_protection;     /**< 机器人监测：扫描器 UA / 空 UA 拦截. */
+    ngx_flag_t csrf_protection;    /**< CSRF 防护：非安全方法校验 Origin/Referer. */
+
     ngx_str_t log_path;            /**< JSON Lines audit log path. */
     ngx_str_t log_path_full;       /**< 配置期解析好的绝对路径；请求路径里不再调 ngx_conf_full_name. */
     ngx_fd_t log_fd;               /**< 复用的审计日志 fd（O_APPEND 写），NGX_INVALID_FILE = 未打开. */
@@ -189,6 +194,8 @@ static u_char *lwaf_json_escape(u_char *p, u_char *last, const u_char *data,
                                 size_t len);
 static ngx_int_t lwaf_log_write(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
                                 in_addr_t client_ip, lwaf_log_event_t *event);
+static ngx_int_t lwaf_static_checks(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
+                                    lwaf_request_state_t *state);
 
 extern ngx_module_t ngx_http_lite_waf_module;
 
@@ -349,6 +356,12 @@ ngx_http_lite_waf_create_loc_conf(ngx_conf_t *cf)
     conf->window = NGX_CONF_UNSET_UINT;
     conf->block_duration = NGX_CONF_UNSET_UINT;
     conf->max_body_bytes = NGX_CONF_UNSET_UINT;
+    conf->hotlink = NGX_CONF_UNSET;
+    /* nginx 的 ngx_conf_set_str_array_slot 只在 NGX_CONF_UNSET_PTR 时才建数组；
+     * 留 NULL 会直接 ngx_array_push(NULL) 段错误（1.24 实测）。 */
+    conf->hotlink_refers = NGX_CONF_UNSET_PTR;
+    conf->bot_protection = NGX_CONF_UNSET;
+    conf->csrf_protection = NGX_CONF_UNSET;
     /* pcalloc 清零后 fd == 0 会被误当成 stdin，必须显式置无效 */
     conf->log_fd = NGX_INVALID_FILE;
 
@@ -435,6 +448,12 @@ ngx_http_lite_waf_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_conf_merge_uint_value(conf->block_duration, prev->block_duration, 60);
     ngx_conf_merge_uint_value(conf->max_body_bytes, prev->max_body_bytes,
                               LWAF_DEFAULT_MAX_BODY_BYTES);
+    /* 三项默认全关：开了就改变既有行为，老部署升级过来不该被静默拦截 */
+    ngx_conf_merge_value(conf->hotlink, prev->hotlink, 0);
+    ngx_conf_merge_ptr_value(conf->hotlink_refers, prev->hotlink_refers, NULL);
+    ngx_conf_merge_value(conf->bot_protection, prev->bot_protection, 0);
+    ngx_conf_merge_value(conf->csrf_protection, prev->csrf_protection, 0);
+
     ngx_conf_merge_str_value(conf->log_path, prev->log_path, "logs/waf_audit.log");
 
     /* 审计日志路径在配置期就解析成绝对路径。原实现把 ngx_conf_full_name()
@@ -1301,6 +1320,15 @@ ngx_http_lite_waf_handler(ngx_http_request_t *r)
         }
 
         state->precheck_done = 1;
+
+        /* 三项请求级检查放在读 body 之前：不需要请求体，能早拒早省 */
+        {
+            ngx_int_t static_rc = lwaf_static_checks(r, conf, state);
+
+            if (static_rc != NGX_DECLINED) {
+                return static_rc;
+            }
+        }
     }
 
     if (!state->body_done && lwaf_request_needs_body(r)) {
@@ -1388,6 +1416,452 @@ ngx_http_lite_waf_handler(ngx_http_request_t *r)
         }
     }
 
+    return NGX_DECLINED;
+}
+
+
+/**
+ * @brief 大小写不敏感的「包含」判断。
+ *
+ * nginx 只有 ngx_strncasecmp（前缀比较），没有包含查找；libinjection 那边的
+ * lwaf_has_ci 是规则引擎里的 static 函数，模块里用不到，所以这里自己写一份。
+ *
+ * @param hay 被搜索的串（需 NUL 结尾）
+ * @param needle 要找的小写子串
+ * @return 1 找到，0 没有
+ */
+static int
+lwaf_contains_nocase(const char *hay, const char *needle)
+{
+    size_t nl = ngx_strlen(needle), i, j;
+
+    if (nl == 0) {
+        return 1;
+    }
+    for (i = 0; hay[i] != (char) 0; i++) {
+        for (j = 0; j < nl; j++) {
+            char a = hay[i + j];
+
+            if (a >= 'A' && a <= 'Z') {
+                a = (char) (a - 'A' + 'a');
+            }
+            if (a != needle[j]) {
+                break;
+            }
+        }
+        if (j == nl) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**
+ * @brief 判断 URI 是否指向静态资源（按扩展名）。
+ *
+ * 防盗链只该管图片/样式/脚本/音视频这类会被外站直接 `<img src>` 引用的资源；
+ * HTML 页面被外站「链接」是正常导航，不该拦。
+ *
+ * @param uri 请求 URI（可能带 query，只看路径部分）
+ * @return 1 是静态资源，0 不是
+ */
+static int
+lwaf_uri_is_static(ngx_str_t *uri)
+{
+    static const char *const exts[] = {
+        "jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "ico",
+        "css", "js", "map", "woff", "woff2", "ttf", "otf", "eot",
+        "mp4", "webm", "mp3", "wav", "ogg", "flv",
+        "zip", "rar", "7z", "tar", "gz", "pdf", "doc", "docx",
+        "xls", "xlsx", "ppt", "pptx", NULL
+    };
+    size_t i, ext_len;
+    const u_char *dot, *qs;
+
+    if (uri->len == 0) {
+        return 0;
+    }
+    qs = ngx_strlchr(uri->data, uri->data + uri->len, '?');
+    dot = NULL;
+    for (i = 0; i < uri->len && (qs == NULL || uri->data + i < qs); i++) {
+        if (uri->data[i] == '.') {
+            dot = uri->data + i;
+        }
+        if (uri->data[i] == '/') {
+            dot = NULL;      /* 目录里的点不算扩展名 */
+        }
+    }
+    if (dot == NULL) {
+        return 0;
+    }
+    ext_len = (size_t) ((qs != NULL ? qs : uri->data + uri->len) - dot - 1);
+    if (ext_len == 0 || ext_len > 5) {
+        return 0;
+    }
+    for (i = 0; exts[i] != NULL; i++) {
+        if (ngx_strncasecmp(dot + 1, (u_char *) exts[i], ext_len) == 0
+            && ngx_strlen(exts[i]) == ext_len)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**
+ * @brief 从 URL 里取出 host（去掉 scheme、端口、路径）。
+ *
+ * @param url 形如 `http://a.example.com:8080/x` 或 `a.example.com/x`
+ * @param out 输出缓冲
+ * @param cap 缓冲大小
+ * @return 1 取到，0 失败
+ */
+static int
+lwaf_url_host(const u_char *url, size_t len, u_char *out, size_t cap)
+{
+    size_t i, start = 0, end;
+    const u_char *p;
+
+    if (len == 0 || cap == 0) {
+        return 0;
+    }
+    p = NULL;
+    for (i = 0; i + 3 <= len; i++) {
+        if (url[i] == ':' && url[i + 1] == '/'
+            && url[i + 2] == '/')
+        {
+            p = url + i;
+            break;
+        }
+    }
+    if (p != NULL) {
+        start = (size_t) (p - url) + 3;
+    }
+    for (i = start; i < len; i++) {
+        if (url[i] == '/' || url[i] == '?') {
+            break;
+        }
+    }
+    end = i;
+    for (i = start; i < end; i++) {
+        if (url[i] == ':') {       /* 去端口 */
+            end = i;
+            break;
+        }
+    }
+    if (end <= start || end - start >= cap) {
+        return 0;
+    }
+    for (i = 0; i < end - start; i++) {
+        out[i] = (u_char) ngx_tolower(url[start + i]);
+    }
+    out[end - start] = '\0';
+    return 1;
+}
+
+/**
+ * @brief 防盗链：外站引用本站静态资源时拒绝。
+ *
+ * 放行条件（任一）：不是静态资源 / 没有 Referer / Referer 与本站同 host /
+ * Referer 命中 `lite_waf_hotlink_refers` 白名单（后缀匹配，支持 `.example.com`）。
+ *
+ * @return NGX_DECLINED 放行，否则返回应使用的状态码
+ */
+static ngx_int_t
+lwaf_check_hotlink(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
+                   lwaf_request_state_t *state)
+{
+    ngx_table_elt_t *referer;
+    ngx_str_t *refs;
+    u_char host[128];
+    size_t i;
+
+    if (!lwaf_uri_is_static(&r->uri)) {
+        return NGX_DECLINED;
+    }
+    referer = r->headers_in.referer;
+    if (referer == NULL || referer->value.len == 0
+        || (referer->value.len == 1 && referer->value.data[0] == '-'))
+    {
+        return NGX_DECLINED;       /* 直接访问 / 书签，正常 */
+    }
+
+    if (lwaf_url_host(referer->value.data, referer->value.len,
+                      host, sizeof(host)) == 0)
+    {
+        return NGX_DECLINED;       /* Referer 畸形，不拦（避免误伤） */
+    }
+
+    /* 同 host 放行 */
+    if (r->headers_in.server.len > 0
+        && r->headers_in.server.len == ngx_strlen(host)
+        && ngx_strncasecmp(r->headers_in.server.data, host,
+                           r->headers_in.server.len) == 0)
+    {
+        return NGX_DECLINED;
+    }
+
+    if (conf->hotlink_refers != NULL) {
+        refs = conf->hotlink_refers->elts;
+        for (i = 0; i < conf->hotlink_refers->nelts; i++) {
+            if (refs[i].len == 0 || ngx_strlen(host) < refs[i].len) {
+                continue;
+            }
+            if (ngx_strncasecmp(host + ngx_strlen(host) - refs[i].len,
+                                refs[i].data, refs[i].len) == 0)
+            {
+                return NGX_DECLINED;
+            }
+        }
+    }
+
+    {
+        lwaf_log_event_t event = {
+            .reason = "hotlink",
+            .action = "deny",
+            .status = conf->deny_status,
+            .cost_us = lwaf_now_us() - state->started_us,
+        };
+        (void) lwaf_log_write(r, conf, state->client_ip, &event);
+    }
+    return (ngx_int_t) conf->deny_status;
+}
+
+/**
+ * @brief 机器人监测：识别扫描器与脚本客户端。
+ *
+ * 名单只收「明确是扫描器」的 UA。**故意不拦 curl/wget/python-requests**：
+ * 验收脚本、执行器探针、线上巡检全用它们，拦了等于自伤。
+ * 另外「UA 为空且没有 Accept-Language」是典型裸脚本特征，单独算一条。
+ *
+ * @return NGX_DECLINED 放行，否则返回应使用的状态码
+ */
+static ngx_int_t
+lwaf_check_bot(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
+               lwaf_request_state_t *state)
+{
+    static const char *const bots[] = {
+        "sqlmap", "nikto", "nmap", "masscan", "nessus", "openvas",
+        "acunetix", "awvs", "appscan", "w3af", "zaproxy", "zap ",
+        "arachni", "skipfish", "wpscan", "dirbuster", "gobuster",
+        "ffuf", "feroxbuster", "nuclei", "jaeles", "xray", "hydra",
+        "metasploit", "netsparker", "burp", NULL
+    };
+    ngx_table_elt_t *ua;
+    size_t i;
+    const char *reason = NULL;
+
+    ua = r->headers_in.user_agent;
+    if (ua == NULL || ua->value.len == 0) {
+        if (r->headers_in.headers.part.nelts > 0) {
+            /* UA 头压根没发：多数浏览器一定会带 UA */
+            ngx_table_elt_t *al = NULL;
+            ngx_list_part_t *part = &r->headers_in.headers.part;
+            ngx_table_elt_t *h = part->elts;
+
+            for (i = 0; /* void */; i++) {
+                if (i >= part->nelts) {
+                    if (part->next == NULL) {
+                        break;
+                    }
+                    part = part->next;
+                    h = part->elts;
+                    i = 0;
+                }
+                if (h[i].hash == 0) {
+                    continue;
+                }
+                if (h[i].key.len == 15
+                    && ngx_strncasecmp(h[i].key.data,
+                                       (u_char *) "accept-language", 15) == 0)
+                {
+                    al = &h[i];
+                    break;
+                }
+            }
+            if (al == NULL) {
+                reason = "bot_ua_empty";
+            }
+        } else {
+            reason = "bot_ua_empty";
+        }
+    } else {
+        for (i = 0; bots[i] != NULL; i++) {
+            if (ngx_strncasecmp(ua->value.data, (u_char *) bots[i],
+                                ngx_strlen(bots[i])) == 0
+                || lwaf_contains_nocase((const char *) ua->value.data,
+                                        bots[i]))
+            {
+                reason = "bot_ua";
+                break;
+            }
+        }
+    }
+
+    if (reason == NULL) {
+        return NGX_DECLINED;
+    }
+    {
+        lwaf_log_event_t event = {
+            .reason = reason,
+            .action = "deny",
+            .status = conf->deny_status,
+            .cost_us = lwaf_now_us() - state->started_us,
+        };
+        (void) lwaf_log_write(r, conf, state->client_ip, &event);
+    }
+    return (ngx_int_t) conf->deny_status;
+}
+
+/**
+ * @brief CSRF 防护：非安全方法校验来源站点。
+ *
+ * 规则：GET/HEAD/OPTIONS 不管；带了 X-Requested-With 或 X-CSRF-Token 直接放；
+ * 有 Origin 比 Origin，没有就比 Referer，两者都没有放行（curl / 服务端调用）。
+ * 比对只比 host，忽略端口和协议——同机不同端口（5173 vs 18082）是开发常态。
+ *
+ * @return NGX_DECLINED 放行，否则返回应使用的状态码
+ */
+static ngx_int_t
+lwaf_check_csrf(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
+                lwaf_request_state_t *state)
+{
+    ngx_table_elt_t *origin, *referer, *h;
+    ngx_list_part_t *part;
+    u_char host[128];
+    size_t i;
+    const char *reason = NULL;
+
+    if (r->method != NGX_HTTP_POST && r->method != NGX_HTTP_PUT
+        && r->method != NGX_HTTP_PATCH
+        && r->method != NGX_HTTP_DELETE)
+    {
+        return NGX_DECLINED;
+    }
+
+    /* 前端已经处理过的请求（AJAX / 带 token）不重复校验 */
+    part = &r->headers_in.headers.part;
+    h = part->elts;
+    for (i = 0; /* void */; i++) {
+        if (i >= part->nelts) {
+            if (part->next == NULL) {
+                break;
+            }
+            part = part->next;
+            h = part->elts;
+            i = 0;
+        }
+        if (h[i].hash == 0) {
+            continue;
+        }
+        if ((h[i].key.len == 16
+             && ngx_strncasecmp(h[i].key.data,
+                                (u_char *) "x-requested-with", 16) == 0)
+            || (h[i].key.len == 12
+                && ngx_strncasecmp(h[i].key.data,
+                                   (u_char *) "x-csrf-token", 12) == 0))
+        {
+            return NGX_DECLINED;
+        }
+    }
+
+    origin = r->headers_in.headers.part.nelts > 0
+                 ? NULL : NULL;   /* 占位，下面用列表找 */
+    origin = NULL;
+    referer = NULL;
+    part = &r->headers_in.headers.part;
+    h = part->elts;
+    for (i = 0; /* void */; i++) {
+        if (i >= part->nelts) {
+            if (part->next == NULL) {
+                break;
+            }
+            part = part->next;
+            h = part->elts;
+            i = 0;
+        }
+        if (h[i].hash == 0) {
+            continue;
+        }
+        if (h[i].key.len == 6
+            && ngx_strncasecmp(h[i].key.data, (u_char *) "origin", 6) == 0)
+        {
+            origin = &h[i];
+        } else if (h[i].key.len == 7
+                   && ngx_strncasecmp(h[i].key.data,
+                                      (u_char *) "referer", 7) == 0)
+        {
+            referer = &h[i];
+        }
+    }
+
+    if (origin != NULL && origin->value.len > 0) {
+        if (lwaf_url_host(origin->value.data, origin->value.len,
+                          host, sizeof(host)) == 0)
+        {
+            return NGX_DECLINED;
+        }
+        reason = "csrf_origin";
+    } else if (referer != NULL && referer->value.len > 0) {
+        if (lwaf_url_host(referer->value.data, referer->value.len,
+                          host, sizeof(host)) == 0)
+        {
+            return NGX_DECLINED;
+        }
+        reason = "csrf_referer";
+    } else {
+        return NGX_DECLINED;
+    }
+
+    if (r->headers_in.server.len > 0
+        && r->headers_in.server.len == ngx_strlen(host)
+        && ngx_strncasecmp(r->headers_in.server.data, host,
+                           r->headers_in.server.len) == 0)
+    {
+        return NGX_DECLINED;
+    }
+
+    {
+        lwaf_log_event_t event = {
+            .reason = reason,
+            .action = "deny",
+            .status = conf->deny_status,
+            .cost_us = lwaf_now_us() - state->started_us,
+        };
+        (void) lwaf_log_write(r, conf, state->client_ip, &event);
+    }
+    return (ngx_int_t) conf->deny_status;
+}
+
+/**
+ * @brief 三项请求级检查的统一入口（IP 名单之后、读 body 之前调用）。
+ *
+ * @return NGX_DECLINED 放行，否则返回应使用的状态码
+ */
+static ngx_int_t
+lwaf_static_checks(ngx_http_request_t *r, lwaf_loc_conf_t *conf,
+                   lwaf_request_state_t *state)
+{
+    ngx_int_t rc;
+
+    if (conf->bot_protection) {
+        rc = lwaf_check_bot(r, conf, state);
+        if (rc != NGX_DECLINED) {
+            return rc;
+        }
+    }
+    if (conf->csrf_protection) {
+        rc = lwaf_check_csrf(r, conf, state);
+        if (rc != NGX_DECLINED) {
+            return rc;
+        }
+    }
+    if (conf->hotlink) {
+        rc = lwaf_check_hotlink(r, conf, state);
+        if (rc != NGX_DECLINED) {
+            return rc;
+        }
+    }
     return NGX_DECLINED;
 }
 
@@ -1554,6 +2028,34 @@ static ngx_command_t ngx_http_lite_waf_commands[] = {
       offsetof(lwaf_loc_conf_t, max_body_bytes),
       NULL },
 
+    { ngx_string("lite_waf_hotlink"),
+      NGX_HTTP_MAIN_CONF | NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(lwaf_loc_conf_t, hotlink),
+      NULL },
+
+    { ngx_string("lite_waf_hotlink_refers"),
+      NGX_HTTP_MAIN_CONF | NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_1MORE,
+      ngx_conf_set_str_array_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(lwaf_loc_conf_t, hotlink_refers),
+      NULL },
+
+    { ngx_string("lite_waf_bot_protection"),
+      NGX_HTTP_MAIN_CONF | NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(lwaf_loc_conf_t, bot_protection),
+      NULL },
+
+    { ngx_string("lite_waf_csrf_protection"),
+      NGX_HTTP_MAIN_CONF | NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(lwaf_loc_conf_t, csrf_protection),
+      NULL },
+
     { ngx_string("lite_waf_log_path"),
       NGX_HTTP_MAIN_CONF | NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_TAKE1,
       ngx_conf_set_str_slot,
@@ -1595,3 +2097,4 @@ ngx_module_t ngx_http_lite_waf_module = {
     NULL,
     NGX_MODULE_V1_PADDING
 };
+/* WRITETEST */

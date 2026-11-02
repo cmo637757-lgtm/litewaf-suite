@@ -1393,7 +1393,7 @@ lwaf_looks_like_expression(const char *s)
     }
     /* 2/3. 不能含 SQL 特征 */
     for (i = 0; kw[i] != NULL; i++) {
-        if (lwaf_has_ci(s, kw[i]) != NULL) {
+        if (lwaf_has_ci(s, kw[i])) {
             return 0;
         }
     }
