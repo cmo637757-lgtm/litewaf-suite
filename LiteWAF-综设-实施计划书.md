@@ -1,6 +1,6 @@
 # LiteWAF 可视化平台 · 综合项目 III 实施计划书
 
-> 版本 v2.3（2026-10-24 修订：v2.0 对抗样本复测；v2.1 引擎按命中次数计分 + 请求体硬上限；v2.2 三项运维强化——日志轮转与数据保留、密钥/口令环境变量外置、SSE 实时推送；**v2.3 引擎代码评审后的 6 处性能与正确性改动（CC 槽位回收、毫秒级漏水、日志 fd 复用、match_data 复用、提前退出），14 步验收 PASSED、吞吐 +48%~+63%、soak P95 −55%**；v1.1 以 `dev_2` 为唯一基线；v1.2 补四份课件 `1/3/6/7` 参考对照；v1.3 按 Kali 2026.3 重建后更新 §3.5 环境、数据库统一 MariaDB；v1.4 记录 S0 实测通过；v1.5 记录 S2 采集器与 S3 后端完成，并修正分位数公式；v1.6 记录 S4 前端完成与截图证据；v1.7 记录 S5 发布闭环、S6 告警、S7 一键验收全部完成，并附使用说明与工作报告；v1.8 补做 R34-10 误报闭环、R34-11 带标签评估、R36-01 脱敏导出，规则集升 rules-v2，ECharts 升 6.1；v1.9 补 S9 运维六件套（备份/静态站/采集器健康/性能页/规则试打/崩溃演练），一键验收扩到 15 项全绿，S8 缓冲段封闭；**v2.0 把评估样本从 80 条扩到 201 条对抗样本，规则集升 rules-v3（38 条），记录三次复测暴露的引擎机制限制**）｜ 依据：课程任务书（李美蓉）、《NEW_WAF 完整需求卡片 V2 可裁剪实施版》、`WAF-lite@dev_2` 实测、Windows 宿主 + Kali 2026.3 实测环境
+> 版本 v2.3（2026-10-24 修订：v2.0 对抗样本复测；v2.1 引擎按命中次数计分 + 请求体硬上限；v2.2 三项运维强化——日志轮转与数据保留、密钥/口令环境变量外置、SSE 实时推送；**v2.3 引擎代码评审后的 6 处性能与正确性改动（CC 槽位回收、毫秒级漏水、日志 fd 复用、match_data 复用、提前退出），14 步验收 PASSED、吞吐 +48%~+63%、soak P95 −55%**；**v2.4 用 OWASP CRS 公开样本（2282 攻击 + 676 正常）压测规则并升级到 rules-v5（74 条），修掉 5 个真实误报、201 条回归回到 TP99/FN1/FP0**；v1.1 以 `dev_2` 为唯一基线；v1.2 补四份课件 `1/3/6/7` 参考对照；v1.3 按 Kali 2026.3 重建后更新 §3.5 环境、数据库统一 MariaDB；v1.4 记录 S0 实测通过；v1.5 记录 S2 采集器与 S3 后端完成，并修正分位数公式；v1.6 记录 S4 前端完成与截图证据；v1.7 记录 S5 发布闭环、S6 告警、S7 一键验收全部完成，并附使用说明与工作报告；v1.8 补做 R34-10 误报闭环、R34-11 带标签评估、R36-01 脱敏导出，规则集升 rules-v2，ECharts 升 6.1；v1.9 补 S9 运维六件套（备份/静态站/采集器健康/性能页/规则试打/崩溃演练），一键验收扩到 15 项全绿，S8 缓冲段封闭；**v2.0 把评估样本从 80 条扩到 201 条对抗样本，规则集升 rules-v3（38 条），记录三次复测暴露的引擎机制限制**）｜ 依据：课程任务书（李美蓉）、《NEW_WAF 完整需求卡片 V2 可裁剪实施版》、`WAF-lite@dev_2` 实测、Windows 宿主 + Kali 2026.3 实测环境
 
 ---
 
@@ -39,7 +39,7 @@
 |---|---|---|---|
 | Nginx 模块 | `ngx_http_lite_waf_module/ngx_http_lite_waf_module.c` | 1296 行 | 挂载 `NGX_HTTP_ACCESS_PHASE`，13 条指令，shared dict 漏桶 |
 | 规则引擎 | `src/lwaf_rule_engine.c` + `include/lwaf_rule_engine.h` | 909 + 227 行 | PCRE2 正则、7 个检测区域、分类计分、阈值决策 |
-| 规则集 | `conf/litewaf_rules.conf` | `dev_2` 自带 21 条 MVP 规则（现在是 **38 条 rules-v3**，见 S1/S8/v2.0） | SQLi / XSS / RFI / 目录穿越 / 编码绕过 / 危险上传 / 扫描器 UA |
+| 规则集 | `conf/litewaf_rules.conf` | `dev_2` 自带 21 条 MVP 规则（现在是 **74 条 rules-v5**，见 S1/S8/v2.0/v2.4） | SQLi / XSS / RFI / 目录穿越 / 编码绕过 / 危险上传 / 扫描器 UA |
 | 测试 | `tests/test_rule_engine.c`、`scripts/run_*.sh`（8 个） | 151 + 1000 余行 | 单测、65 条端到端、reload、POST body、多 worker、漏桶、400 条批量、ab 压测、soak |
 | 工具 | `tools/lwaf_eval.c`、`calc_metrics.py`、`prepare_nginx_env.sh`、`build_product_docs.py` | 111 / 48 / 120 / 724 行 | 手工评估、TP/TN/FP/FN 统计、幂等环境准备、文档生成 |
 | 容器/CI | `Dockerfile`、`docker-compose.yml`、`.github/workflows/ci.yml` | Debian bookworm + nginx 1.31.1 + ubuntu-24.04 | **已跑通**：docker compose build 成功、容器内 65 条全过 |
@@ -245,7 +245,7 @@ bash scripts/run_final_acceptance.sh
 
 卡片第五章已定：**SQLi / XSS / CC 三类真实检测**，其余显示"未支持"不填 0。`dev_2` 的实际能力还多三样（目录穿越、危险上传扩展、扫描器 UA），答辩时按"已支持清单"如实列出即可。
 
-**实测口径（rules-v3，38 条）**：201 条对抗样本（SQLi 50 / XSS 50 / 正常 100 + CC 场景）→ SQLi 46/50、XSS 50/50、正常请求 0/101 误拦、CC 第 22 次 403，准确率 98.01%、精确率 100%、召回率 96.00%。**4 条漏报都是"裸 SQL 语句"**（`; SELECT * FROM`、`OR CHAR(65)=CHAR(65)`、`AND SUBSTRING(...)>0`、`AND (SELECT 1 FROM ...)`），根因是引擎按规则计分、不按命中次数——1000 号关键字规则命中 `select` 与 `from` 两次仍只算 4 分，够不到阈值 8。这条限制在 §7 已知限制里写明。九类里的「文件上传」只按后缀判（不做 multipart 结构解析）、「远程脚本执行」只认 RFI 特征，「CSRF / 防盗链」不在支持范围。
+**实测口径（rules-v5，74 条）**：201 条对抗样本（SQLi 50 / XSS 50 / 正常 100 + CC 场景）→ SQLi 49/50、XSS 50/50、正常请求 0/101 误拦、CC 第 23 次 403，准确率 99.50%、精确率 100%、召回率 99.00%（剩下 1 条漏报是 `OR CHAR(65)=CHAR(65)` 函数型盲注）。**另用 OWASP CRS 公开样本（2282 攻击 + 676 正常）做外部校验：全体检出 28.3%、三族（SQLi/XSS/穿越）36.0% / 61.7% / 32.8%、误拦 8.14%**（RCE/PHP 注入不覆盖，占样本 49%，见 §7 局限）。**4 条漏报都是"裸 SQL 语句"**（`; SELECT * FROM`、`OR CHAR(65)=CHAR(65)`、`AND SUBSTRING(...)>0`、`AND (SELECT 1 FROM ...)`），根因是引擎按规则计分、不按命中次数——1000 号关键字规则命中 `select` 与 `from` 两次仍只算 4 分，够不到阈值 8。这条限制在 §7 已知限制里写明。九类里的「文件上传」只按后缀判（不做 multipart 结构解析）、「远程脚本执行」只认 RFI 特征，「CSRF / 防盗链」不在支持范围。
 
 ---
 
@@ -378,7 +378,7 @@ bash scripts/run_final_acceptance.sh
 
 | 教师六问 | 本计划对应 | 证据 |
 |---|---|---|
-| ① 现在能拦哪些类型、每类多少条 payload | §4.3：只承诺 SQLi / XSS / RFI / 目录穿越 / 编码绕过 / 危险上传 / 扫描器 UA；规则集 **38 条（rules-v3）**，其中 SQLi 20 条、XSS 6 条 | 201 条对抗样本：SQLi 46/50、XSS 50/50、正常误拦 0/101（`s8_eval.py`） |
+| ① 现在能拦哪些类型、每类多少条 payload | §4.3：只承诺 SQLi / XSS / RFI / 目录穿越 / 编码绕过 / 危险上传 / 扫描器 UA；规则集 **74 条（rules-v5）**，其中 SQLi 31 条、XSS 26 条、穿越 9 条，另含从 OWASP CRS 筛选移植的 28 条 | 201 条对抗样本：SQLi 49/50、XSS 50/50、正常误拦 0/101（`s8_eval.py`）；CRS 外部样本 2282 条检出 28.3%、误拦 8.14% |
 | ② 某次拦截怎么找到日志、要多久 | S2 入库（`requests` + `waf_events`）+ S4 事件详情按 `event_id` 直达 | 页面「事件详情」按 id 打开；`/api/events/{id}` 实测单条查询 |
 | ③ 今天拦了多少、哪类最多、来源哪 | S4 首页 + `/api/stats/*` | 页面数字与 SQL 直算一致（F20：20/5/25%/0.3333） |
 | ④ 新加一条规则要多久 | S5：表单 → `check` → `publish`，探测三连通过即生效 | S5 13/13；规则页「规则试打」可先验证会不会误伤 |
@@ -485,6 +485,7 @@ bash scripts/run_final_acceptance.sh
 | **v2.2** | 2026-10-24 | **三项运维强化（1/2/4）**：① **日志轮转 + 数据保留**——`/etc/logrotate.d/litewaf` 每天 04:00、保留 7 份、超 20M 提前轮转、压缩，用 `copytruncate`（rename 会让采集器丢未读行），配 `litewaf-retain` 每日清 30 天前数据；因 `logs/` 收紧成 root:root 755，采集器心跳迁到新目录 `/opt/litewaf/state`。② **密钥外置**——`application.yml` 改 `${LITEWAF_JWT_SECRET:默认}` / `${LITEWAF_DB_PASSWORD:默认}`，启动加 `--preserve-env`（不加会被 sudo 清空），实测注入随机密钥后 `/proc/<pid>/environ` 可见、登录仍 200。④ **SSE 实时推送**——新增 `/api/stats/stream`（2 秒一帧，只推 recent + latest_id），EventSource 不能带 header 故 token 走 query 但 `JwtAuthFilter` **只对该路径**放行；前端断线 5 秒重连、失败退回 10 秒轮询，徽标显示「实时 / 轮询兜底」；实测新拦截 **3 秒内**自动出现在首页。新增 `s12_logrotate.sh` / `s12_restart.sh` / `s12_backend_rebuild.sh` / `s12_envtest.sh` / `s12_sse_test.sh` / `s12_front_rebuild.sh` / `s12_live_ping.sh`；顺带修 F20 校验在运行态下的假失败（常驻采集器并发写入，改成校验期间 `SIGSTOP` 挂起） |
 | **v2.3** | 2026-10-24 | **引擎代码评审后的 6 处改动（性能 + 正确性）**：① CC 表满改为「回收已过期且最久未见」的槽位（原 `stats[now % 4096]` 同秒互相覆盖，可用 IP 池绕过 CC）；② **CC 漏水改毫秒精度**（`lwaf_ip_stat_t` 尾部加 `last_seen_ms`，跨秒不再白送 1 秒排水量，`D021/D022` 用例由偶发放行变稳定 403）；③ 审计日志路径 `merge_loc_conf` 解析一次 + `log_fd` 常驻 O_APPEND（去掉每条日志的 `ngx_conf_full_name` 与 open/close）；④ pcre2 match_data 进程内复用（38 条规则不再各 create/free）；⑤ 命中即判阈值提前退出；⑥ `lwaf_rule_match` 复用 `lwaf_rule_match_count`。**实测：ab 正常 13969→22786 RPS（+63%）、ab 攻击 12766→18947 RPS（+48%）、soak P95 3076→1395 µs（−55%）、P99 7208→2219 µs（−69%）；14 步验收 PASSED、201 条样本 TP98/FN2/FP0/TN101 不变**。`基线说明.md` 补 §4.2 复跑数据与坑 10–12、新增 §7 优化记录 |
 
+| **v2.4** | 2026-11-02 | **用 OWASP CRS 公开样本压测规则（回应「样本量太少、容易过拟合」）**：从 `coreruleset-main.zip` 的 357 个回归 YAML 抽出 **2282 条攻击 + 676 条正常**样本（`s14_extract_crs.py`）；因 Windows 无 PCRE2，在 Kali 编离线评估器 `tools/lwaf_eval.c`（直接加载规则调引擎，**500 条/秒**）批量跑（`s14_bulk_eval2.py`）。**基线（38 条）全体检出 25.4% → 现在（74 条）28.3%**；三族：SQLi 32.2%→36.0%、XSS 49.8%→61.7%、穿越 31.3%→32.8%；误拦 8.73%→**8.14%**。补规则不是照抄：`s14_crs2rules.py` 抽 54 条 `@rx`，`s14_promote_crs.py` 逐条拿正常样本试误报、**零误报才留**（54 留 28）。**修掉 5 个真实误报**：1100 `https?://` 降 4 分改由 1102「危险参数名+scheme」把门；1200 改 `\.\.[\/]`（并要求规则文件里反斜杠写两份）；1303 排除 `<?xml`；删 1308（误吃 base64 的 `%3D`）；删 9005 的 `if(` 分支（正常表达式 `if(x<10,y,z)` 被误拦）。**201 条自建样本回归 TP=99 FN=1 FP=0 TN=101（99.50%）**、14 步验收 PASSED。规则集升 **rules-v5（74 条，sha256 `a436eda6…`）**。**已知局限**：URL path 不解码（`/post/1234%20OR%201=1` 这类漏）、RCE/PHP 注入不覆盖（占 CRS 样本 49%）、`x=https?` 这类无参数名的裸 scheme 不拦（避免正常业务传 URL 误伤） |
 ---
 
 *本计划书基于 2026-10-22 实测与 `dev_2` 分支实际情况编制；数值口径引用需求卡片第七章，若卡片修订以原文为准。*

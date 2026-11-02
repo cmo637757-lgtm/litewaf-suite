@@ -22,9 +22,9 @@ static void
 usage(const char *prog)
 {
     fprintf(stderr,
-            "usage: %s <rules.conf> <url> [args] [user-agent] [cookie]\n"
+            "usage: %s <rules.conf> <url> [args] [user-agent] [cookie] [body] [headers]\n"
             "example: %s conf/litewaf_rules.conf /api "
-            "'query=1%%20UNION%%20SELECT' 'Mozilla/5.0' ''\n",
+            "'query=1%%20UNION%%20SELECT' 'Mozilla/5.0' '' '' ''\n",
             prog, prog);
 }
 
@@ -93,8 +93,12 @@ main(int argc, char **argv)
     ctx.raw_args = argc > 3 ? argv[3] : "";
     ctx.raw_user_agent = argc > 4 ? argv[4] : "";
     ctx.raw_cookie = argc > 5 ? argv[5] : "";
-    ctx.raw_headers = "";
-    ctx.raw_body = "";
+    ctx.raw_headers = argc > 7 ? argv[7] : "";
+    /* 第六个位置参数是请求体：CRS 回归里大量样本是 POST body，不给它就没法测
+     * BODY zone；空串表示没有 body。第七个是 headers 块（"Name: value\n" 拼接），
+     * 只拼线上模块也会扫的那几个头（UA/Referer/Content-Type/Cookie），
+     * 否则评估结果会比真实实例虚高。 */
+    ctx.raw_body = argc > 6 ? argv[6] : "";
     lwaf_normalize_request_context(&ctx);
 
     lwaf_evaluate_request(&ctx, &rules, &thresholds, 403, &result);

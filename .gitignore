@@ -37,3 +37,12 @@ _tmp_*
 7 规则加载&动态更新.pptx
 进阶式挑战性综合项目III课题任务书-- Web应用层攻防实战系统的设计与实现.pdf
 NEW_WAF完整需求卡片_V2_可裁剪实施版.md
+
+# ---- 开发期一次性调试脚本（下划线前缀 / probe_*，不进仓库） ----
+scripts/_*.sh
+scripts/_*.py
+scripts/probe_*
+
+# 公开样本包体积太大，仓库只留解析后的 TSV
+samples/raw/
+samples/reports/

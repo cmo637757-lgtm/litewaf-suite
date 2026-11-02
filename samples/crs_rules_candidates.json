@@ -1,0 +1,443 @@
+{
+  "candidates": [
+    {
+      "crs_id": "942140",
+      "name": "SQL Injection Attack: Common DB Names Detected",
+      "regex": "(?i)\\b(?:d(?:atabas|b_nam)e[^0-9A-Z_a-z]*\\(|(?:information_schema|m(?:aster\\.\\.sysdatabases|s(?:db|ys(?:ac(?:cess(?:objects|storage|xml)|es)|modules2?|(?:object|querie|relationship)s))|ysql\\.db)|northwind|pg_(?:catalog|toast)|tempdb)\\b|s(?:chema(?:_name\\b|[^0-9A-Z_a-z]*\\()|(?:qlite_(?:temp_)?master|ys(?:aux|\\.database_name))\\b))",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942151",
+      "name": "SQL Injection Attack: SQL function name detected",
+      "regex": "(?i)\\b(?:a(?:dd(?:dat|tim)e|es_(?:de|en)crypt|s(?:cii(?:str)?|in)|tan2?)|b(?:enchmark|i(?:n_to_num|t_(?:and|count|length|x?or)))|c(?:har(?:acter)?_length|eil(?:ing)?|o(?:alesce|ercibility|llation|(?:mpres)?s|n(?:cat(?:_ws)?|nection_id|v(?:ert_tz)?)|t)|rc32|ur(?:(?:dat|tim)e|rent_(?:date|setting|time(?:stamp)?|user)))|d(?:a(?:t(?:abase(?:_to_xml)?|e(?:_(?:add|format|sub)|diff))|y(?:name|of(?:month|week|year)))|count|e(?:code|s_(?:de|en)crypt)|ump)|e(?:n(?:c(?:ode|rypt)|ds_?with)|x(?:p(?:ort_set)?|tract(?:value)?))|f(?:i(?:el|n)d_in_set|ound_rows|rom_(?:base64|days|unixtime))|g(?:e(?:ometrycollection|t(?:_(?:format|lock)|pgusername))|(?:r(?:eates|oup_conca)|tid_subse)t)|hex(?:toraw)?|i(?:fnull|n(?:et6?_(?:aton|ntoa)|s(?:ert|tr)|terval)|s(?:_(?:(?:free|used)_lock|ipv(?:4(?:_(?:compat|mapped))?|6)|n(?:ot(?:_null)?|ull)|superuser)|null))|json(?:_(?:a(?:gg|rray(?:_(?:elements(?:_text)?|length))?)|build_(?:array|object)|e(?:ac|xtract_pat)h(?:_text)?|object(?:_(?:agg|keys))?|populate_record(?:set)?|strip_nulls|t(?:o_record(?:set)?|ypeof))|b(?:_(?:array(?:_(?:elements(?:_text)?|length))?|build_(?:array|object)|e(?:ac|xtract_pat)h(?:_text)?|insert|object(?:_(?:agg|keys))?|p(?:ath_(?:(?:exists|match)(?:_tz)?|query(?:_(?:(?:array|first)(?:_tz)?|tz))?)|opulate_record(?:set)?|retty)|s(?:et(?:_lax)?|trip_nulls)|t(?:o_record(?:set)?|ypeof)))?|path)?|l(?:ast_(?:day|insert_id)|case|east|i(?:kely|nestring)|o(?:_(?:from_bytea|put)|ad_file|ca(?:ltimestamp|te)|g(?:10|2))|pad|trim)|m(?:a(?:ke(?:_set|date)|ster_pos_wait)|d5|i(?:crosecon)?d|onthname|ulti(?:linestring|po(?:int|lygon)))|n(?:ame_const|ot_in|ullif)|o(?:ct(?:et_length)?|(?:ld_passwo)?rd)|p(?:eriod_(?:add|diff)|g_(?:client_encoding|(?:databas|read_fil)e|l(?:argeobject|s_dir)|sleep|user)|o(?:lygon|w)|rocedure_analyse)|qu(?:ery_to_xml|ote)|r(?:a(?:dians|nd|wtohex)|elease_lock|ow_(?:count|to_json)|pad|trim)|s(?:chema|e(?:c_to_time|ssion_user)|ha[12]?|in|oundex|q(?:lite_(?:compileoption_(?:get|used)|source_id)|rt)|t(?:arts_?with|d(?:dev_(?:po|sam)p)?|r(?:_to_date|cmp))|ub(?:(?:dat|tim)e|str(?:ing(?:_index)?)?)|ys(?:date|tem_user))|t(?:ime(?:_(?:format|to_sec)|diff|stamp(?:add|diff)?)|o(?:_(?:base64|jsonb?)|n?char|(?:day|second)s)|r(?:im|uncate))|u(?:case|n(?:compress(?:ed_length)?|hex|i(?:str|x_timestamp))|(?:pdatexm|se_json_nul)l|tc_(?:date|time(?:stamp)?)|uid(?:_short)?)|var(?:_(?:po|sam)p|iance)|we(?:ek(?:day|ofyear)|ight_string)|xmltype|yearweek)[^0-9A-Z_a-z]*\\(",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942160",
+      "name": "Detects blind sqli tests using sleep() or benchmark()",
+      "regex": "(?i:sleep\\s*?\\(.*?\\)|benchmark\\s*?\\(.*?\\,.*?\\))",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942170",
+      "name": "Detects SQL benchmark and sleep injection attempts including",
+      "regex": "(?i)(?:select|;)[\\s\\x0b]+(?:benchmark|if|sleep)[\\s\\x0b]*?\\([\\s\\x0b]*?\\(?[\\s\\x0b]*?[0-9A-Z_a-z]+",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942220",
+      "name": "Looking for integer overflow attacks, these are taken from s",
+      "regex": "(?i)^(?:json\\.)?(?:429496729[56]|2(?:14748364[78]|.22507385850720(?:07|11)e-308)|-(?:214748364[89]|0000023456)|00000(?:12345|23456)|1e309)$",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942230",
+      "name": "Detects conditional SQL injection attempts",
+      "regex": "(?i)[\\s\\x0b\\(\\)]case[\\s\\x0b]+when.*?then|\\)[\\s\\x0b]*?like[\\s\\x0b]*?\\(|select.*?having[\\s\\x0b]*?[^\\s\\x0b]+[\\s\\x0b]*?[^\\s\\x0b0-9A-Z_a-z]|if[\\s\\x0b]?\\([0-9A-Z_a-z]+[\\s\\x0b]*?[<->~]",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942270",
+      "name": "Looking for basic sql injection. Common attack string for my",
+      "regex": "(?i)union.*?select.*?from",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942290",
+      "name": "Finds basic MongoDB SQL injection attempts",
+      "regex": "(?i)\\[?\\$(?:a(?:bs|c(?:cumulator|osh?)|dd(?:ToSet)?|ll(?:ElementsTrue)?|n(?:d|yElementTrue)|rray(?:ElemA|ToObjec)t|sinh?|tan[2h]?|vg)|b(?:etween|i(?:narySize|t(?:And|Not|(?:O|Xo)r)?)|ottomN?|sonSize|ucket(?:Auto)?)|c(?:eil|mp|o(?:n(?:cat(?:Arrays)?|d|vert)|sh?|unt|variance(?:Po|Sam)p)|urrentDate)|d(?:a(?:te(?:Add|Diff|From(?:Parts|String)|Subtract|T(?:o(?:Parts|String)|runc))|yOf(?:Month|Week|Year))|e(?:greesToRadians|nseRank|rivative)|iv(?:ide)?|ocumentNumber)|e(?:(?:a|lemMat)ch|q|x(?:ists|p(?:MovingAvg|r)?))|f(?:i(?:lter|rstN?)|loor|unction)|g(?:etField|roup|te?)|(?:hou|xo|yea)r|i(?:fNull|n(?:c|dexOf(?:Array|Bytes|CP)|tegral)?|s(?:Array|Number|o(?:DayOfWeek|Week(?:Year)?)))|jsonSchema|l(?:astN?|et|i(?:ke|(?:nearFil|tera)l)|n|o(?:cf|g(?:10)?)|t(?:e|rim)?)|m(?:a(?:p|xN?)|e(?:dian|rgeObjects|ta)|i(?:llisecond|n(?:N|ute)?)|o(?:d|nth)|ul(?:tiply)?)|n(?:atural|e|in|o[rt])|o(?:bjectToArray|r)|p(?:ercentile|o(?:[pw]|sition)|roject|u(?:ll(?:All)?|sh))|r(?:a(?:diansToDegrees|n(?:[dk]|ge))|e(?:(?:duc|nam)e|gex(?:Find(?:All)?|Match)?|place(?:All|One)|verseArray)|ound|trim)|s(?:(?:ampleRat|lic)e|e(?:cond|t(?:Difference|(?:Equal|WindowField)s|Field|I(?:ntersection|sSubset)|OnInsert|Union)?)|(?:hif|pli|qr)t|i(?:nh?|ze)|ort(?:Array)?|t(?:dDev(?:Po|Sam)p|r(?:Len(?:Bytes|CP)|casecmp))|u(?:b(?:str(?:Bytes|CP)?|tract)|m)|witch)|t(?:anh?|ext|o(?:Bool|D(?:(?:at|oubl)e|ecimal)|HashedIndexKey|Int|Lo(?:ng|wer)|ObjectId|String|U(?:UID|pper)|pN?)|r(?:im|unc)|s(?:Increment|Second)|ype)|unset|w(?:eek|here)|zip)\\b\\]?",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942320",
+      "name": "Detects MySQL and PostgreSQL stored procedure/function injec",
+      "regex": "(?i)create[\\s\\x0b]+(?:function|procedure)[\\s\\x0b]*?[0-9A-Z_a-z]+[\\s\\x0b]*?\\([\\s\\x0b]*?\\)[\\s\\x0b]*?-|d(?:eclare[^0-9A-Z_a-z]+[#@][\\s\\x0b]*?[0-9A-Z_a-z]+|iv[\\s\\x0b]*?\\([\\+\\-]*[\\s\\x0b\\.0-9]+,[\\+\\-]*[\\s\\x0b\\.0-9]+\\))|exec[\\s\\x0b]*?\\([\\s\\x0b]*?@|(?:lo_(?:impor|ge)t|procedure[\\s\\x0b]+analyse)[\\s\\x0b]*?\\(|;[\\s\\x0b]*?(?:declare|open)[\\s\\x0b]+[\\-0-9A-Z_a-z]+|::(?:b(?:igint|ool)|double[\\s\\x0b]+precision|int(?:eger)?|numeric|oid|real|(?:tex|smallin)t)",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942350",
+      "name": "Detects MySQL UDF injection and other data/structure manipul",
+      "regex": "(?i)create[\\s\\x0b]+function[\\s\\x0b].+[\\s\\x0b]returns|;[\\s\\x0b]*?(?:alter|(?:(?:cre|trunc|upd)at|re(?:nam|plac))e|d(?:e(?:lete|sc)|rop)|(?:inser|selec)t|load)\\b[\\s\\x0b]*?[\\(\\[]?[0-9A-Z_a-z]{2,}",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942500",
+      "name": "MySQL in-line comment detected",
+      "regex": "(?i)/\\*[\\s\\x0b]*?[!\\+](?:[\\s\\x0b\\(\\)\\-0-9=A-Z_a-z]+)?\\*/",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942560",
+      "name": "MySQL Scientific Notation payload detected",
+      "regex": "(?i)1\\.e(?:[\\(\\),]|\\.[\\$0-9A-Z_a-z])",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942150",
+      "name": "SQL Injection Attack: SQL function name detected",
+      "regex": "(?i)\\b(?:json(?:_[0-9A-Z_a-z]+)?|a(?:bs|(?:cos|sin)h?|tan[2h]?|vg)|c(?:eil(?:ing)?|h(?:a(?:nges|r(?:set)?)|r)|o(?:alesce|sh?|unt)|ast)|d(?:e(?:grees|fault)|a(?:te|y))|exp|f(?:loor(?:avg)?|ormat|ield)|g(?:lob|roup_concat)|h(?:ex|our)|i(?:f(?:null)?|if|n(?:str)?)|l(?:ast(?:_insert_rowid)?|ength|ike(?:l(?:ihood|y))?|n|o(?:ad_extension|g(?:10|2)?|wer(?:pi)?|cal)|trim)|m(?:ax|in(?:ute)?|o(?:d|nth))|n(?:ullif|ow)|p(?:i|ow(?:er)?|rintf|assword)|quote|r(?:a(?:dians|ndom(?:blob)?)|e(?:p(?:lace|eat)|verse)|ound|trim|ight)|s(?:i(?:gn|nh?)|oundex|q(?:lite_(?:compileoption_(?:get|used)|offset|source_id|version)|rt)|u(?:bstr(?:ing)?|m)|econd|leep)|t(?:anh?|otal(?:_changes)?|r(?:im|unc)|ypeof|ime)|u(?:n(?:icode|likely)|(?:pp|s)er)|zeroblob|bin|v(?:alues|ersion)|week|year)[^0-9A-Z_a-z]*\\(",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942361",
+      "name": "Detects basic SQL injection based on keyword alter or union",
+      "regex": "(?i:^(?:json\\.)?[\\W\\d]+\\s*?(?:alter|union)\\b)",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942410",
+      "name": "SQL Injection Attack",
+      "regex": "(?i)\\b(?:a(?:(?:b|co)s|vg)|bin|c(?:(?:as|o(?:nver|un))t|h(?:ar(?:set)?|r))|d(?:a(?:te|y)|e(?:fault|grees))|elt|f(?:ield|loor|ormat)|(?:hou|quarte|yea)r|i[fns]|l(?:ast|e(?:ft|ngth)|n|ikelihood|o(?:cal|g|wer))|m(?:ax|in(?:ute)?|o(?:d|nth))|now|p(?:assword|i|o(?:sition|wer))|r(?:awtonhex(?:toraw)?|e(?:p(?:eat|lace)|verse)|ight|ound)|s(?:econd|ign|leep|pace|tddev|um)|t(?:an|ime|o_(?:n?char|(?:day|second)s))|u(?:nlikely|(?:pp|s)er)|v(?:alues|ersion)|week)[^0-9A-Z_a-z]*?\\(",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942470",
+      "name": "SQL Injection Attack",
+      "regex": "(?i)autonomous_transaction|(?:current_use|n?varcha|tbcreato)r|db(?:a_users|ms_java)|open(?:owa_util|query|rowset)|s(?:p_(?:(?:addextendedpro|sqlexe)c|execute(?:sql)?|help|is_srvrolemember|makewebtask|oacreate|p(?:assword|repare)|replwritetovarbin)|ql_(?:longvarchar|variant))|utl_(?:file|http)|xp_(?:availablemedia|(?:cmdshel|servicecontro)l|dirtree|e(?:numdsn|xecresultset)|filelist|loginconfig|makecab|ntsec(?:_enumdomains)?|reg(?:addmultistring|delete(?:key|value)|enum(?:key|value)s|re(?:ad|movemultistring)|write)|terminate(?:_process)?)",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942480",
+      "name": "SQL Injection Attack",
+      "regex": "(?i)\\b(?:(?:d(?:bms_[0-9A-Z_a-z]+\\.|elete\\b[^0-9A-Z_a-z]*?\\bfrom)|(?:group\\b.*?\\bby\\b.{1,100}?\\bhav|overlay\\b[^0-9A-Z_a-z]*?\\(.*?\\b[^0-9A-Z_a-z]*?plac)ing|in(?:ner\\b[^0-9A-Z_a-z]*?\\bjoin|sert\\b[^0-9A-Z_a-z]*?\\binto|to\\b[^0-9A-Z_a-z]*?\\b(?:dump|out)file)|load\\b[^0-9A-Z_a-z]*?\\bdata\\b.*?\\binfile|s(?:elect\\b.{1,100}?\\b(?:(?:.*?\\bdump\\b.*|(?:count|length)\\b.{1,100}?)\\bfrom|(?:data_typ|from\\b.{1,100}?\\bwher)e|instr|to(?:_(?:cha|numbe)r|p\\b.{1,100}?\\bfrom))|ys_context)|u(?:nion\\b.{1,100}?\\bselect|tl_inaddr))\\b|print\\b[^0-9A-Z_a-z]*?@@)|(?:collation[^0-9A-Z_a-z]*?\\(a|@@version|;[^0-9A-Z_a-z]*?\\b(?:drop|shutdown))\\b|'(?:dbo|msdasql|s(?:a|qloledb))'",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942430",
+      "name": "Restricted SQL Character Anomaly Detection (args): # of spec",
+      "regex": "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){12})",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "942450",
+      "name": "SQL Bin or Hex Encoding Identified",
+      "regex": "(?i)\\b0x[0-9a-f]{3,}|(?:x'[0-9a-f]{3,}|b'[01]{10,})'",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942510",
+      "name": "SQLi bypass attempt by ticks or backticks detected",
+      "regex": "`(?:[\\s\\x0b\\(\\)\\+\\-0-9<=@-Z_a-\\{\\}]{2,29}|(?:[\\+/-9A-Za-z]{4})+(?:(?:[\\+/-9A-Za-z]{2}=|[\\+/-9A-Za-z]{3})=)?)`",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942152",
+      "name": "SQL Injection Attack: SQL function name detected",
+      "regex": "(?i)\\b(?:a(?:dd(?:dat|tim)e|es_(?:de|en)crypt|s(?:cii(?:str)?|in)|tan2?)|b(?:enchmark|i(?:n_to_num|t_(?:and|count|length|x?or)))|c(?:har(?:acter)?_length|eil(?:ing)?|o(?:alesce|ercibility|llation|(?:mpres)?s|n(?:cat(?:_ws)?|nection_id|v(?:ert(?:_tz)?)?)|t)|rc32|ur(?:(?:dat|tim)e|rent_(?:date|setting|time(?:stamp)?|user)))|d(?:a(?:t(?:abase(?:_to_xml)?|e(?:_(?:add|format|sub)|diff))|y(?:name|of(?:month|week|year)))|count|e(?:code|grees|s_(?:de|en)crypt)|ump)|e(?:lt|n(?:c(?:ode|rypt)|ds_?with)|x(?:p(?:ort_set)?|tract(?:value)?))|f(?:i(?:el|n)d_in_set|ound_rows|rom_(?:base64|days|unixtime))|g(?:e(?:ometrycollection|t(?:_(?:format|lock)|pgusername))|(?:r(?:eates|oup_conca)|tid_subse)t)|hex(?:toraw)?|i(?:fnull|n(?:et6?_(?:aton|ntoa)|s(?:ert|tr)|terval)|s(?:_(?:(?:free|used)_lock|ipv(?:4(?:_(?:compat|mapped))?|6)|n(?:ot(?:_null)?|ull)|superuser)|null))|json(?:_(?:a(?:gg|rray(?:_(?:elements(?:_text)?|length))?)|build_(?:array|object)|e(?:ac|xtract_pat)h(?:_text)?|object(?:_(?:agg|keys))?|populate_record(?:set)?|strip_nulls|t(?:o_record(?:set)?|ypeof))|b(?:_(?:array(?:_(?:elements(?:_text)?|length))?|build_(?:array|object)|object(?:_(?:agg|keys))?|e(?:ac|xtract_pat)h(?:_text)?|insert|p(?:ath_(?:(?:exists|match)(?:_tz)?|query(?:_(?:(?:array|first)(?:_tz)?|tz))?)|opulate_record(?:set)?|retty)|s(?:et(?:_lax)?|trip_nulls)|t(?:o_record(?:set)?|ypeof)))?|path)?|l(?:ast_(?:day|insert_id)|case|e(?:as|f)t|i(?:kel(?:ihood|y)|nestring)|o(?:_(?:from_bytea|put)|ad_file|ca(?:ltimestamp|te)|g(?:10|2)|wer)|pad|trim)|m(?:a(?:ke(?:_set|date)|ster_pos_wait)|d5|i(?:crosecon)?d|onthname|ulti(?:linestring|po(?:int|lygon)))|n(?:ame_const|ot_in|ullif)|o(?:ct(?:et_length)?|(?:ld_passwo)?rd)|p(?:eriod_(?:add|diff)|g_(?:client_encoding|(?:databas|read_fil)e|l(?:argeobject|s_dir)|sleep|user)|o(?:(?:lyg|siti)on|w)|rocedure_analyse)|qu(?:arter|ery_to_xml|ote)|r(?:a(?:dians|nd|wtohex)|elease_lock|ow_(?:count|to_json)|pad|trim)|s(?:chema|e(?:c_to_time|ssion_user)|ha[12]?|in|oundex|pace|q(?:lite_(?:compileoption_(?:get|used)|source_id)|rt)|t(?:arts_?with|d(?:dev_(?:po|sam)p)?|r(?:_to_date|cmp))|ub(?:(?:dat|tim)e|str(?:ing(?:_index)?)?)|ys(?:date|tem_user))|t(?:ime(?:_(?:format|to_sec)|diff|stamp(?:add|diff)?)|o(?:_(?:base64|jsonb?)|n?char|(?:day|second)s)|r(?:im|uncate))|u(?:case|n(?:compress(?:ed_length)?|hex|i(?:str|x_timestamp)|likely)|(?:pdatexm|se_json_nul)l|tc_(?:date|time(?:stamp)?)|uid(?:_short)?)|var(?:_(?:po|sam)p|iance)|we(?:ek(?:day|ofyear)|ight_string)|xmltype|yearweek)[^0-9A-Z_a-z]*\\(",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942321",
+      "name": "Detects MySQL and PostgreSQL stored procedure/function injec",
+      "regex": "(?i)create[\\s\\x0b]+(?:function|procedure)[\\s\\x0b]*?[0-9A-Z_a-z]+[\\s\\x0b]*?\\([\\s\\x0b]*?\\)[\\s\\x0b]*?-|d(?:eclare[^0-9A-Z_a-z]+[#@][\\s\\x0b]*?[0-9A-Z_a-z]+|iv[\\s\\x0b]*?\\([\\+\\-]*[\\s\\x0b\\.0-9]+,[\\+\\-]*[\\s\\x0b\\.0-9]+\\))|exec[\\s\\x0b]*?\\([\\s\\x0b]*?@|(?:lo_(?:impor|ge)t|procedure[\\s\\x0b]+analyse)[\\s\\x0b]*?\\(|;[\\s\\x0b]*?(?:declare|open)[\\s\\x0b]+[\\-0-9A-Z_a-z]+|::(?:b(?:igint|ool)|double[\\s\\x0b]+precision|int(?:eger)?|numeric|oid|real|(?:tex|smallin)t)",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942251",
+      "name": "Detects HAVING injections",
+      "regex": "(?i)\\W+\\d*?\\s*?\\bhaving\\b\\s*?[^\\s\\-]",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942420",
+      "name": "Restricted SQL Character Anomaly Detection (cookies): # of s",
+      "regex": "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){8})",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "942431",
+      "name": "Restricted SQL Character Anomaly Detection (args): # of spec",
+      "regex": "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){6})",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "942460",
+      "name": "Meta-Character Anomaly Detection Alert - Repetitive Non-Word",
+      "regex": "\\W{4}",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "942511",
+      "name": "SQLi bypass attempt by ticks detected",
+      "regex": "'(?:[\\s\\x0b\\(\\)\\+\\-0-9<=@-Z_a-\\{\\}]{2,29}|(?:[\\+/-9A-Za-z]{4})+(?:(?:[\\+/-9A-Za-z]{2}=|[\\+/-9A-Za-z]{3})=)?)'",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942530",
+      "name": "SQLi query termination detected",
+      "regex": "';",
+      "category": "SQL",
+      "score": 8,
+      "source": "942"
+    },
+    {
+      "crs_id": "942421",
+      "name": "Restricted SQL Character Anomaly Detection (cookies): # of s",
+      "regex": "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){3})",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "942432",
+      "name": "Restricted SQL Character Anomaly Detection (args): # of spec",
+      "regex": "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){2})",
+      "category": "SQL",
+      "score": 6,
+      "source": "942"
+    },
+    {
+      "crs_id": "941110",
+      "name": "XSS Filter - Category 1: Script Tag Vector",
+      "regex": "(?i)<script[^>]*>[\\s\\S]*?",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941130",
+      "name": "XSS Filter - Category 3: Attribute Vector",
+      "regex": "(?i).(?:\\b(?:(?:x(?:link:href|html|mlns)|data:text/html|formaction)\\b|pattern[\\s\\x0b]*=)|(?:!ENTITY[\\s\\x0b]+(?:%[\\s\\x0b]+)?[^\\s\\x0b]+[\\s\\x0b]+(?:SYSTEM|PUBLIC)|@import|;base64)\\b)",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941140",
+      "name": "XSS Filter - Category 4: Javascript URI Vector",
+      "regex": "(?i)[a-z]+=(?:[^:=]+:[^;]+;)*?[^:=]+:url\\(javascript",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941190",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<style.*?>.*?(?:@[\\x5ci]|(?:[:=]|&#x?0*(?:58|3[AD]|61);?).*?(?:[\\(\\x5c]|&#x?0*(?:40|28|92|5C);?))",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941200",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i:<.*[:]?vmlframe.*?[\\s/+]*?src[\\s/+]*=)",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941210",
+      "name": "Javascript Word Detected",
+      "regex": "(?i)(?:j|&#(?:0*(?:74|106)|x0*[46]A);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:v|&#(?:0*(?:86|118)|x0*[57]6);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;)).",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941220",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)(?:v|&#(?:0*(?:118|86)|x0*[57]6);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:b|&#(?:0*(?:98|66)|x0*[46]2);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\\t\\n\\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;)).",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941230",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<EMBED[\\s/+].*?(?:src|type).*?=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941240",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "<[?]?import[\\s/+\\S]*?implementation[\\s/+]*?=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941260",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i:<META[\\s/+].*?charset[\\s/+]*=)",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941270",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<LINK[\\s/+].*?href[\\s/+]*=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941280",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<BASE[\\s/+].*?href[\\s/+]*=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941290",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<APPLET[\\s/+>]",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941300",
+      "name": "IE XSS Filters - Attack Detected",
+      "regex": "(?i)<OBJECT[\\s\\x0b\\+/].*?(?:type|c(?:ode(?:type)?|lassid)|data)[\\s\\x0b\\+/]*=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941350",
+      "name": "UTF-7 Encoding IE XSS - Attack Detected",
+      "regex": "\\+ADw-.*(?:\\+AD4-|>)|<.*\\+AD4-",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941360",
+      "name": "JSFuck / Hieroglyphy obfuscation detected",
+      "regex": "![!+ ]\\[\\]",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941370",
+      "name": "JavaScript global variable found",
+      "regex": "(?:self|document|t(?:his|op)|window)[\\s\\x0b]*(?:/\\*|[\\)\\[]).+?(?:\\]|\\*/)",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941390",
+      "name": "Javascript method detected",
+      "regex": "(?i)\\b(?:eval|set(?:timeout|interval)|new[\\s\\x0b]+Function|a(?:lert|tob)|btoa|(?:promp|impor)t|con(?:firm|sole\\.(?:log|dir))|fetch)[\\s\\x0b]*[\\(\\{]",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941400",
+      "name": "XSS JavaScript function without parentheses",
+      "regex": "((?:\\[[^\\]]*\\]|Reflect)[^\\.]*\\.).*(?:map|sort|apply)[^\\.]*\\..*call[^`]*`.*`",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941150",
+      "name": "XSS Filter - Category 5: Disallowed HTML Attributes",
+      "regex": "(?i)\\b(?:s(?:tyle|rc)|href)\\b[\\s\\S]*?=",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941320",
+      "name": "Possible XSS Attack Detected - HTML Tag Handler",
+      "regex": "<(?:a(?:bbr|cronym|ddress|pplet|rea|udioscope)?|b(?:ase(?:front)?|do|gsound|ig|l(?:(?:ackfac|ockquot)e|ink)|ody|[qr]|utton)?|c(?:aption|enter|ite|o(?:de|l(?:group)?|mment))|d(?:[dt]|e?l|fn|i[rv])|em(?:bed)?|f(?:ieldset|n|o(?:nt|rm)|rame(?:set)?)|h(?:[1r]|ead|tml)|i(?:frame|layer|mg|n(?:put|s)|sindex)?|k(?:db|eygen)|l(?:a(?:bel|yer)|egend|i(?:mittext|nk|sting)?)|m(?:a(?:p|rquee)|e(?:nu|ta)|ulticol)|no(?:br|embed|frames|s(?:cript|martquotes))|o(?:bject|l|pt(?:group|ion))|p(?:aram|laintext|re)?|q|r(?:t|uby)|s(?:amp|cript|e(?:lect|rver)|hadow|idebar|mall|pa(?:cer|n)|t(?:r(?:ike|ong)|yle)|u[bp])?|t(?:(?:ab|it)le|body|[dr]|extarea|(?:foo)?t|h(?:ead)?)|ul?|(?:va|wb)r|xm[lp])[^0-9A-Z_a-z]",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "941380",
+      "name": "AngularJS client side template injection detected",
+      "regex": "\\{\\{.*?}}",
+      "category": "XSS",
+      "score": 8,
+      "source": "941"
+    },
+    {
+      "crs_id": "930100",
+      "name": "Path Traversal Attack (/../) or (/.../)",
+      "regex": "(?i)(?:[/\\x5c]|%(?:2(?:f|5(?:2f|5c|c(?:1%259c|0%25af))|%46)|5c|c(?:0%(?:[2aq]f|5c|9v)|1%(?:[19p]c|8s|af))|(?:bg%q|(?:e|f(?:8%8)?0%8)0%80%a)f|u(?:221[56]|EFC8|F025|002f)|%3(?:2(?:%(?:%6|4)6|F)|5%%63)|1u)|0x(?:2f|5c))(?:\\.(?:%0[01]|\\?)?|\\?\\.?|%(?:2(?:(?:5(?:2|c0%25a))?e|%45)|c0(?:\\.|%[256aef]e)|u(?:(?:ff0|002)e|2024)|%32(?:%(?:%6|4)5|E)|(?:e|f(?:(?:8|c%80)%8)?0%8)0%80%ae)|0x2e){2,3}(?:[/\\x5c]|%(?:2(?:f|5(?:2f|5c|c(?:1%259c|0%25af))|%46)|5c|c(?:0%(?:[2aq]f|5c|9v)|1%(?:[19p]c|8s|af))|(?:bg%q|(?:e|f(?:8%8)?0%8)0%80%a)f|u(?:221[56]|EFC8|F025|002f)|%3(?:2(?:%(?:%6|4)6|F)|5%%63)|1u)|0x(?:2f|5c))",
+      "category": "TRAVERSAL",
+      "score": 8,
+      "source": "930"
+    },
+    {
+      "crs_id": "930110",
+      "name": "Path Traversal Attack (/../) or (/.../)",
+      "regex": "(?:^|[/;\\x5c])\\.{2,3}[/;\\x5c]",
+      "category": "TRAVERSAL",
+      "score": 8,
+      "source": "930"
+    }
+  ],
+  "skipped": {
+    "not_rx": 10,
+    "quotes": 33,
+    "tx_var": 0,
+    "chain": 2,
+    "empty": 0
+  }
+}

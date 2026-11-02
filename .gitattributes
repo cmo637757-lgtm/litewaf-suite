@@ -1,0 +1,15 @@
+# 强制这些文件在仓库里始终是 LF。
+# 原因：规则文件里一个多出来的 \r 就能让 PCRE2 编译失败（S0 踩过），
+#       shell 脚本的 \r 会让 `set -euo pipefail` 变成 `pipefail\r`。
+*.conf    text eol=lf
+*.sh      text eol=lf
+*.py      text eol=lf
+*.tsv     text eol=lf
+*.c       text eol=lf
+*.h       text eol=lf
+*.sql     text eol=lf
+*.yml     text eol=lf
+*.md      text eol=lf
+*.json    text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
