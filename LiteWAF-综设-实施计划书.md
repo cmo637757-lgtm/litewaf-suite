@@ -498,6 +498,16 @@ bash scripts/run_final_acceptance.sh
 - 规则集仍 82 条，内容升级：CRS 承诺类别检出 37.8% → **44.4%**，误拦 8.28% → 7.69%；自建千条样本 99.01% → **100%**，误拦 1.31%。
 - 新增脚本：`s15_build_engine.sh`（含 libinjection 编译）、`s15_p1_eval.sh`（双样本对比）、`s15_rule_spot.sh`（规则抽检）。
 
+### v2.8（2026-11-02 深夜，答辩前回归）
+
+- 引擎 **14 步全量验收 `FINAL ACCEPTANCE PASSED`**（82 条规则 + libinjection + 预处理层）：
+  soak 30 秒 2400 请求 0 失败、79.96 RPS、P95 1308 µs、P99 5952 µs。
+- 千条级自建样本复跑：SQLi **323/323**、XSS **788/788**、误拦 5/383（1.31%）。
+- CRS 公开样本复跑：全体 **29.89%**，承诺类别（SQL/XSS/穿越/RFI/扫描器）**44.25%**，误拦 7.40%。
+- `s7_accept.sh --skip-engine` 15 项 PASS、0 失败、1 SKIP。
+- 脚本修正：`s11_engine_check.sh` 改为整体 root 跑（`/tmp/lc` 是 root 建的，kali 删不动、
+  验收里 chmod 编译产物也会 Operation not permitted），这是之前 14 步偶发失败的真因。
+
 ### v2.7（2026-11-02 深夜）
 
 - P6 站内信：告警规则的 `channel` 从「只有 webhook」扩到 `webhook` / `inapp`；站内信落 `inapp_messages` 表，
