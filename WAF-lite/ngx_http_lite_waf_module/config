@@ -1,5 +1,9 @@
 ngx_addon_name=ngx_http_lite_waf_module
-CORE_INCS="$CORE_INCS $ngx_addon_dir/../include"
+# libinjection 的头文件在 src/libinjection/，必须单独加进 CORE_INCS，
+# 否则 nginx 编译 objs/addon/src/lwaf_rule_engine.o 时找不到 libinjection_sqli.h
+CORE_INCS="$CORE_INCS $ngx_addon_dir/../include $ngx_addon_dir/../src/libinjection"
 HTTP_MODULES="$HTTP_MODULES ngx_http_lite_waf_module"
-NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_lite_waf_module.c $ngx_addon_dir/../src/lwaf_rule_engine.c"
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_lite_waf_module.c $ngx_addon_dir/../src/lwaf_rule_engine.c $ngx_addon_dir/../src/libinjection/libinjection_sqli.c $ngx_addon_dir/../src/libinjection/libinjection_html5.c $ngx_addon_dir/../src/libinjection/libinjection_xss.c"
+# libinjection 是第三方代码，用 -w 压掉它的警告，免得 -Wextra 淹掉我们自己的告警
+CFLAGS="$CFLAGS -w -I$ngx_addon_dir/../src/libinjection"
 CORE_LIBS="$CORE_LIBS -lpcre2-8"

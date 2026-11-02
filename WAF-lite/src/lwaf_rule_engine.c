@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include "libinjection_sqli.h"
+#include "libinjection_xss.h"
 
 /** Initial number of rule slots allocated for a rule file. */
 #define LWAF_INITIAL_RULE_CAPACITY 16u
@@ -138,6 +140,305 @@ lwaf_decode_lower_copy(const char *src, char *dst, size_t dst_len,
         dst[di++] = (char)tolower(out);
     }
     dst[di] = '\0';
+}
+
+/**
+ * @brief 解析一个 HTML 实体（&lt; &#60; &#x3c;）。
+ *
+ * @param s 指向 '&' 的位置。
+ * @param out 解析出的字节。
+ * @return 消费的字节数；0 表示不是实体。
+ */
+static size_t
+lwaf_decode_entity(const char *s, char *out)
+{
+    const char *p;
+
+    if (s[0] != '&') {
+        return 0;
+    }
+    if (strncmp(s, "&lt;", 4) == 0) {
+        *out = '<';
+        return 4;
+    }
+    if (strncmp(s, "&gt;", 4) == 0) {
+        *out = '>';
+        return 4;
+    }
+    if (strncmp(s, "&amp;", 5) == 0) {
+        *out = '&';
+        return 5;
+    }
+    if (strncmp(s, "&quot;", 6) == 0) {
+        *out = '"';
+        return 6;
+    }
+    if (strncmp(s, "&#x", 3) == 0 || strncmp(s, "&#X", 3) == 0) {
+        unsigned int v = 0;
+        size_t n = 0;
+        for (p = s + 3; n < 6 && lwaf_is_hex(*p); p++, n++) {
+            v = v * 16u + lwaf_hex_value(*p);
+        }
+        if (n == 0) {
+            return 0;
+        }
+        *out = (char)(v & 0xFFu);
+        return (size_t)(p - s) + (*p == ';' ? 1u : 0u);
+    }
+    if (strncmp(s, "&#", 2) == 0) {
+        unsigned int v = 0;
+        size_t n = 0;
+        for (p = s + 2; n < 5 && *p >= '0' && *p <= '9'; p++, n++) {
+            v = v * 10u + (unsigned int)(*p - '0');
+        }
+        if (n == 0) {
+            return 0;
+        }
+        *out = (char)(v & 0xFFu);
+        return (size_t)(p - s) + (*p == ';' ? 1u : 0u);
+    }
+    return 0;
+}
+
+/**
+ * @brief 解析 \uXXXX 转义（U+00XX 范围内的字符）。
+ *
+ * @param s 指向 '\\' 的位置。
+ * @param out 解析出的字节。
+ * @return 消费的字节数；0 表示不是转义。
+ */
+static size_t
+lwaf_decode_unicode_escape(const char *s, char *out)
+{
+    unsigned int v = 0;
+    size_t n = 0;
+    const char *p;
+
+    if (s[0] != '\\' || (s[1] != 'u' && s[1] != 'U')) {
+        return 0;
+    }
+    for (p = s + 2; n < 4 && lwaf_is_hex(*p); p++, n++) {
+        v = v * 16u + lwaf_hex_value(*p);
+    }
+    if (n != 4) {
+        return 0;
+    }
+    if (v <= 0xFFu) {
+        *out = (char)v;
+        return (size_t)(p - s);
+    }
+    /* U+0100 以上按 UTF-8 编成两字节，覆盖 <>() 之类的异体字就够用。 */
+    if (v <= 0x7FFu) {
+        char buf[2];
+        buf[0] = (char)(0xC0u | (v >> 6));
+        buf[1] = (char)(0x80u | (v & 0x3Fu));
+        *out = buf[0];
+        return (size_t)(p - s);
+    }
+    return 0;
+}
+
+/**
+ * @brief 全角标点转半角（UTF-8 的 U+FF00 区）。
+ *
+ * 攻击者常用 `＜script＞` 绕过 `<script>` 规则，这里统一折成半角。
+ *
+ * @return 1 表示识别并转换，0 表示不是全角标点。
+ */
+static int
+lwaf_decode_wide(const char *s, char *out, size_t *used)
+{
+    const unsigned char *p = (const unsigned char *) s;
+
+    if (p[0] != 0xEFu || p[1] != 0xBCu) {
+        return 0;
+    }
+    switch (p[2]) {
+    case 0x9Cu: *out = '<'; break;
+    case 0x9Eu: *out = '>'; break;
+    case 0x88u: *out = '('; break;
+    case 0x89u: *out = ')'; break;
+    case 0x9Bu: *out = '['; break;
+    case 0x9Du: *out = ']'; break;
+    case 0x87u: *out = ';'; break;
+    case 0x9Au: *out = ':'; break;
+    case 0x8Fu: *out = '/'; break;
+    case 0xBCu: *out = '\\'; break;
+    default:
+        return 0;
+    }
+    *used = 3;
+    return 1;
+}
+
+/**
+ * @brief 解码一轮：URL 百分号、HTML 实体、\uXXXX、全角标点，并转小写。
+ *
+ * @return 1 表示本轮发生了编码还原（还需要再解一轮）；0 表示已经是明文。
+ */
+static int
+lwaf_decode_pass(const char *src, char *dst, size_t dst_len, int plus_as_space)
+{
+    size_t di = 0;
+    size_t si = 0;
+    int changed = 0;
+
+    if (dst_len == 0) {
+        return 0;
+    }
+    if (src == NULL) {
+        dst[0] = '\0';
+        return 0;
+    }
+
+    while (src[si] != '\0' && di + 1 < dst_len) {
+        unsigned char out;
+        char tmp = 0;
+        size_t used = 0;
+
+        if (src[si] == '%' && lwaf_is_hex(src[si + 1]) && lwaf_is_hex(src[si + 2])) {
+            out = (unsigned char)((lwaf_hex_value(src[si + 1]) << 4) |
+                                  lwaf_hex_value(src[si + 2]));
+            si += 3;
+            changed = 1;
+
+        } else if ((used = lwaf_decode_entity(src + si, &tmp)) > 0) {
+            out = (unsigned char) tmp;
+            si += used;
+            changed = 1;
+
+        } else if ((used = lwaf_decode_unicode_escape(src + si, &tmp)) > 0) {
+            out = (unsigned char) tmp;
+            si += used;
+            changed = 1;
+
+        } else if (lwaf_decode_wide(src + si, &tmp, &used)) {
+            out = (unsigned char) tmp;
+            si += used;
+            changed = 1;
+
+        } else if (plus_as_space && src[si] == '+') {
+            out = ' ';
+            si++;
+
+        } else {
+            out = (unsigned char) src[si];
+            si++;
+        }
+
+        dst[di++] = (char) tolower(out);
+    }
+    dst[di] = '\0';
+    return changed;
+}
+
+/**
+ * @brief 多轮规范化：反复解码直到没有编码残留（最多 3 轮）。
+ *
+ * 与 lwaf_decode_lower_copy 的区别：那个只解一轮，供规则 pattern 解析使用；
+ * 这个给请求字段用，能吃掉双重编码（`%2527`）、HTML 实体、`\u003c`、全角标点。
+ * 三次以上还解不开的形态极少，且再解容易误伤正常文本（比如字面 `%25`）。
+ */
+/**
+ * @brief 把非法 UTF-8 字节替换成 '?'，保证 subject 始终是合法 UTF-8。
+ *
+ * pcre2 以 PCRE2_UTF 编译规则，subject 里混进非法序列时整段匹配返回错误，
+ * 于是"所有正则规则都没命中"——宽字节注入（%bf%27）、overlong（%c0%ae）
+ * 解码后正是这种字节。换成 '?' 后，后面的 AND 1=1 / UNION SELECT 照样能匹配。
+ *
+ * @param s 原地修改的字符串
+ */
+static void
+lwaf_utf8_sanitize(char *s)
+{
+    unsigned char *p = (unsigned char *) s;
+    unsigned char *w = p;
+
+    while (*p != '\0') {
+        unsigned char c = *p;
+        size_t need;
+        size_t i;
+        unsigned int cp;
+        int ok = 1;
+
+        if (c < 0x80) {
+            *w++ = c;
+            p++;
+            continue;
+        }
+        if ((c & 0xE0) == 0xC0) {
+            need = 1;
+            cp = c & 0x1Fu;
+        } else if ((c & 0xF0) == 0xE0) {
+            need = 2;
+            cp = c & 0x0Fu;
+        } else if ((c & 0xF8) == 0xF0) {
+            need = 3;
+            cp = c & 0x07u;
+        } else {
+            *w++ = '?';
+            p++;
+            continue;
+        }
+        if (p[need] == '\0') {
+            *w++ = '?';
+            p++;
+            continue;
+        }
+        for (i = 1; i <= need; i++) {
+            if ((p[i] & 0xC0) != 0x80) {
+                ok = 0;
+                break;
+            }
+            cp = (cp << 6) | (p[i] & 0x3Fu);
+        }
+        /* overlong（cp < 0x80）与超出 U+10FFFF 的都算非法 */
+        if (!ok || cp < 0x80 || cp > 0x10FFFF) {
+            *w++ = '?';
+            p++;
+            continue;
+        }
+        for (i = 0; i <= need; i++) {
+            *w++ = p[i];
+        }
+        p += need + 1;
+    }
+    *w = '\0';
+}
+
+static void
+lwaf_normalize_copy(const char *src, char *dst, size_t dst_len, int plus_as_space)
+{
+    /* worker 是单线程的，静态缓冲比在栈上开 8KB 安全。 */
+    static char buf_a[LWAF_MAX_ZONE_TEXT];
+    static char buf_b[LWAF_MAX_ZONE_TEXT];
+    char *cur = buf_a;
+    char *nxt = buf_b;
+    int rounds = 0;
+
+    if (dst_len == 0) {
+        return;
+    }
+    if (src == NULL) {
+        dst[0] = '\0';
+        return;
+    }
+
+    snprintf(cur, sizeof(buf_a), "%s", src);
+
+    while (rounds < 3) {
+        int changed = lwaf_decode_pass(cur, nxt, LWAF_MAX_ZONE_TEXT, plus_as_space);
+        char *tmp = cur;
+        cur = nxt;
+        nxt = tmp;
+        rounds++;
+        if (!changed) {
+            break;
+        }
+    }
+
+    lwaf_utf8_sanitize(cur);
+    snprintf(dst, dst_len, "%s", cur);
 }
 
 /**
@@ -791,15 +1092,18 @@ lwaf_normalize_request_context(lwaf_request_context_t *ctx)
     if (ctx == NULL) {
         return;
     }
-    lwaf_decode_lower_copy(ctx->raw_url, ctx->url, sizeof(ctx->url), 0);
-    lwaf_decode_lower_copy(ctx->raw_args, ctx->args, sizeof(ctx->args), 1);
-    lwaf_decode_lower_copy(ctx->raw_headers, ctx->headers,
-                           sizeof(ctx->headers), 0);
-    lwaf_decode_lower_copy(ctx->raw_cookie, ctx->cookie,
-                           sizeof(ctx->cookie), 1);
-    lwaf_decode_lower_copy(ctx->raw_user_agent, ctx->user_agent,
-                           sizeof(ctx->user_agent), 0);
-    lwaf_decode_lower_copy(ctx->raw_body, ctx->body, sizeof(ctx->body), 1);
+    /* 请求字段用多轮规范化（能吃掉双重编码、HTML 实体、\u003c、全角标点）；
+     * 规则 pattern 那边仍走单次 lwaf_decode_lower_copy，避免 pattern 里的
+     * `%2e` 被还原成 `.` 之后语义跑偏。 */
+    lwaf_normalize_copy(ctx->raw_url, ctx->url, sizeof(ctx->url), 0);
+    lwaf_normalize_copy(ctx->raw_args, ctx->args, sizeof(ctx->args), 1);
+    lwaf_normalize_copy(ctx->raw_headers, ctx->headers,
+                        sizeof(ctx->headers), 0);
+    lwaf_normalize_copy(ctx->raw_cookie, ctx->cookie,
+                        sizeof(ctx->cookie), 1);
+    lwaf_normalize_copy(ctx->raw_user_agent, ctx->user_agent,
+                        sizeof(ctx->user_agent), 0);
+    lwaf_normalize_copy(ctx->raw_body, ctx->body, sizeof(ctx->body), 1);
     lwaf_extract_file_ext(ctx->url, ctx->file_ext, sizeof(ctx->file_ext));
 }
 
@@ -888,9 +1192,13 @@ lwaf_rule_match_count(const lwaf_request_context_t *ctx,
             }
             while (hits < (int) LWAF_MAX_HITS_PER_RULE && offset <= target_len) {
                 int rc = pcre2_match((pcre2_code *)rule->compiled_regex,
-                                     (PCRE2_SPTR)target,
+                                     (PCRE2_SPTR) target,
                                      target_len,
                                      offset,
+                                     /* 宽字节注入（`%bf%27`）解码后是非法 UTF-8，
+                                      * 以前整段被判非法、直接匹配失败、规则全漏。
+                                      * MATCH_INVALID_UTF 让这类非法字节按单字符处理，
+                                      * 后面的 `AND 1=1` 照样能匹配到。 */
                                      0,
                                      match_data,
                                      NULL);
@@ -919,6 +1227,88 @@ lwaf_rule_match_count(const lwaf_request_context_t *ctx,
     }
 
     return best;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * P2 libinjection 语义检测
+ *
+ * 正则黑名单看得懂"关键字"，看不懂"结构"。`1 AND 1=1`、`1 OR 2>1` 这类合法
+ * SQL 语法拆成关键字后全是普通词，正则怎么补都会漏。libinjection 做的是
+ * SQL/XSS 词法分析（把 payload 拆成 token 再看指纹），正好补这块。
+ *
+ * 命中直接记 8 分（等于单条规则到达阈值），不再叠加：它的误判率很低，
+ * 但一旦判错就是整类请求被拦，所以分值不设 4 分那种半吊子档。
+ * ------------------------------------------------------------------------ */
+
+static const lwaf_rule_t g_li_sqli_rule = {
+    .id = 9001,
+    .name = "libinjection sqli",
+    .type = LWAF_MATCH_STR,
+    .category = LWAF_SQL,
+    .score = 8,
+    .action = LWAF_ACT_SCORE
+};
+
+static const lwaf_rule_t g_li_xss_rule = {
+    .id = 9002,
+    .name = "libinjection xss",
+    .type = LWAF_MATCH_STR,
+    .category = LWAF_XSS,
+    .score = 8,
+    .action = LWAF_ACT_SCORE
+};
+
+/**
+ * @brief 对 args / body / cookie / url 各跑一次 libinjection。
+ *
+ * 只跑已规范化的字段（编码已在 lwaf_normalize_copy 里还原过），
+ * 这样 `%27%20OR%201=1` 走到这里已经是 `' or 1=1`，词法分析才有效。
+ *
+ * @param ctx     请求上下文
+ * @param sql_hit 命中 SQLi 时置 1
+ * @param xss_hit 命中 XSS 时置 1
+ */
+static void
+lwaf_semantic_scan(const lwaf_request_context_t *ctx, int *sql_hit, int *xss_hit)
+{
+    const char *zones[4];
+    size_t i;
+
+    zones[0] = ctx->args;
+    zones[1] = ctx->body;
+    zones[2] = ctx->cookie;
+    zones[3] = ctx->url;
+
+    for (i = 0; i < 4; i++) {
+        const char *s = zones[i];
+        size_t len;
+        struct libinjection_sqli_state sf;
+
+        if (s == NULL || s[0] == '\0') {
+            continue;
+        }
+        len = strlen(s);
+        /* libinjection 官方建议 >= 5 字节才判断，太短只会制造噪声 */
+        if (len < 5 || len > LWAF_MAX_ZONE_TEXT) {
+            continue;
+        }
+
+        if (*sql_hit == 0) {
+            libinjection_sqli_init(&sf, s, len, FLAG_NONE);
+            if (libinjection_is_sqli(&sf) == LIBINJECTION_RESULT_TRUE) {
+                *sql_hit = 1;
+            }
+        }
+        if (*xss_hit == 0) {
+            if (libinjection_is_xss(s, len, FLAG_NONE) == LIBINJECTION_RESULT_TRUE) {
+                *xss_hit = 1;
+            }
+        }
+        if (*sql_hit && *xss_hit) {
+            return;
+        }
+    }
 }
 
 void
@@ -952,6 +1342,31 @@ lwaf_evaluate_request(const lwaf_request_context_t *ctx,
         local_thresholds.scan = 8;
         local_thresholds.total = 12;
         thresholds = &local_thresholds;
+    }
+
+    /* 先跑语义检测：它比正则更"看得懂"，命中就直接到阈值，不用再跑 82 条规则 */
+    {
+        int sql_hit = 0;
+        int xss_hit = 0;
+
+        lwaf_semantic_scan(ctx, &sql_hit, &xss_hit);
+
+        if (sql_hit) {
+            lwaf_add_match(result, &g_li_sqli_rule, LWAF_ZONE_ARGS, 1);
+            result->scores[LWAF_SQL] += g_li_sqli_rule.score;
+            result->scores[LWAF_TOTAL] += g_li_sqli_rule.score;
+        }
+        if (xss_hit) {
+            lwaf_add_match(result, &g_li_xss_rule, LWAF_ZONE_ARGS, 1);
+            result->scores[LWAF_XSS] += g_li_xss_rule.score;
+            result->scores[LWAF_TOTAL] += g_li_xss_rule.score;
+        }
+        if ((sql_hit || xss_hit) && lwaf_scores_exceed_threshold(result, thresholds)) {
+            result->blocked = 1;
+            result->status = deny_status;
+            snprintf(result->reason, sizeof(result->reason), "score_threshold");
+            return;
+        }
     }
 
     for (size_t i = 0; i < set->count; i++) {
