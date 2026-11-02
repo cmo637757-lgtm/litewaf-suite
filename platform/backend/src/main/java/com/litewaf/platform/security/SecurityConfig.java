@@ -54,7 +54,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/stats/**", "/api/events/**",
                                 "/api/alerts/**", "/api/alert-rules/**", "/api/fp/**",
-                                "/api/evaluations/**", "/api/collector/**", "/api/perf/**")
+                                "/api/evaluations/**", "/api/collector/**", "/api/perf/**",
+                                "/api/messages/**", "/api/blocklist/**")
+                        .hasAnyRole("ADMIN", "VIEWER")
+                        // 站内消息的「标记已读」是写操作，但只影响自己的阅读状态，viewer 也该能用
+                        .requestMatchers(HttpMethod.POST, "/api/messages/*/read", "/api/messages/read-all")
                         .hasAnyRole("ADMIN", "VIEWER")
                         .requestMatchers(HttpMethod.POST, "/api/rules/test")
                         .hasAnyRole("ADMIN", "VIEWER")

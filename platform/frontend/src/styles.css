@@ -509,3 +509,48 @@ table.data tbody tr:hover {
 .panel {
   overflow-x: auto;
 }
+
+/* P6 站内消息列表：一条一行，未读的左侧加一条高亮竖线 */
+.msg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.msg-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.msg-list li:last-child {
+  border-bottom: 0;
+}
+
+.msg-list li.unread .msg-title {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.msg-list li.unread::before {
+  content: '';
+  width: 3px;
+  align-self: stretch;
+  background: var(--accent, #4a9eff);
+  border-radius: 2px;
+}
+
+.msg-title {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+
+.msg-time {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+}

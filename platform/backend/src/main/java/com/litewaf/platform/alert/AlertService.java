@@ -4,6 +4,7 @@ import com.litewaf.platform.alert.AlertDtos.Alert;
 import com.litewaf.platform.alert.AlertDtos.ConsumerState;
 import com.litewaf.platform.alert.AlertDtos.Rule;
 import com.litewaf.platform.alert.AlertDtos.WebhookPayload;
+import com.litewaf.platform.blocklist.BlocklistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,7 @@ public class AlertService {
 
     private final AlertRepository repo;
     private final ObjectMapper json;
+    private final BlocklistService blocklist;
 
     /** 连接 2 秒、总超时 5 秒、不跟随重定向（R35-04） */
     private final HttpClient http = HttpClient.newBuilder()
@@ -55,9 +57,10 @@ public class AlertService {
             .followRedirects(HttpClient.Redirect.NEVER)
             .build();
 
-    public AlertService(AlertRepository repo, ObjectMapper json) {
+    public AlertService(AlertRepository repo, ObjectMapper json, BlocklistService blocklist) {
         this.repo = repo;
         this.json = json;
+        this.blocklist = blocklist;
     }
 
     /**
@@ -127,10 +130,12 @@ public class AlertService {
                     }
                     repo.bumpTrigger(alertId, t, severity);
                     deliver(alertId, rule);
+                    autoBlock(ip, alertId, rule, severity);
                 } else {
                     alertId = active;
                     repo.linkEvent(alertId, eventId);
                     repo.bumpTrigger(alertId, t, severity);
+                    autoBlock(ip, alertId, rule, severity);
                 }
             }
         }
@@ -169,11 +174,56 @@ public class AlertService {
         return true;
     }
 
-    /** 新建一条投递记录并立即发送。 */
+    /** 新建一条投递记录并立即发送（按规则配置的渠道分流：webhook 出网 / inapp 落库）。 */
+    /**
+     * 红色告警自动封禁来源 IP（P7）。只在判红时动手，黄警只通知不封，避免误封正常用户。
+     * 封禁失败不影响告警链路，BlocklistService 内部已吞异常。
+     */
+    private void autoBlock(String ip, long alertId, Rule rule, String severity) {
+        if (!"red".equals(severity)) {
+            return;
+        }
+        try {
+            blocklist.block(ip, "auto_alert", alertId, rule.name());
+        } catch (RuntimeException e) {
+            log.warn("自动封禁失败 ip={} alert={}: {}", ip, alertId, e.getMessage());
+        }
+    }
+
     private void deliver(long alertId, Rule rule) {
+        String channel = rule.channel() == null ? "webhook" : rule.channel();
+        if ("inapp".equals(channel)) {
+            deliverInapp(alertId, rule);
+            return;
+        }
         long deliveryId = repo.createDelivery(alertId, rule.webhookUrl());
         repo.bumpDeliveryCount(alertId);
         doSend(deliveryId, alertId, rule.webhookUrl());
+    }
+
+    /**
+     * 站内信：不发出网请求，直接落 inapp_messages 表。
+     * 投递记录仍然写一条（url=inapp://local、状态直接 sent），
+     * 这样「投递次数/成功率」在页面上不用区分渠道就能对齐。
+     */
+    private void deliverInapp(long alertId, Rule rule) {
+        var detail = repo.detail(alertId);
+        if (detail == null) {
+            return;
+        }
+        Alert a = detail.alert();
+        String prefix = "red".equals(a.severity()) ? "【红】" : "【黄】";
+        String title = prefix + rule.name() + "：" + a.clientIp();
+        StringBuilder body = new StringBuilder();
+        body.append("类型 ").append(a.category())
+                .append("，窗口内 ").append(a.eventCount()).append(" 条，触发 ").append(a.triggerCount()).append(" 次");
+        if (a.burstRatio() > 1.05) {
+            body.append("，相对基线突增 ").append(String.format("%.1f", a.burstRatio())).append(" 倍");
+        }
+        repo.createInapp(alertId, a.severity(), title, body.toString(), System.currentTimeMillis());
+        long deliveryId = repo.createDelivery(alertId, "inapp://local");
+        repo.bumpDeliveryCount(alertId);
+        repo.updateDelivery(deliveryId, "sent", null, null, 0);
     }
 
     /** 真正发 HTTP：2xx=成功；4xx/5xx=失败；超时/连接异常=unknown（重试后仍失败就留 FAILED）。 */

@@ -95,6 +95,16 @@ public final class AlertDtos {
             int failed24h,
             long p95DelayMs) {}
 
+    /** 站内消息（P6：channel=inapp 的告警落这里，不发出网请求）。 */
+    public record InappMessage(
+            long id,
+            long alertId,
+            String severity,
+            String title,
+            String body,
+            long createdAtMs,
+            Long readAtMs) {}
+
     /** webhook 请求体（R35-04 固定字段，P5 增补 severity/burst_ratio，老字段不动）。 */
     public record WebhookPayload(
             String schema_version,

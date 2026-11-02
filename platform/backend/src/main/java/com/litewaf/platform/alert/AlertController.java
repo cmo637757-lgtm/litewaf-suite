@@ -3,6 +3,7 @@ package com.litewaf.platform.alert;
 import com.litewaf.platform.alert.AlertDtos.Alert;
 import com.litewaf.platform.alert.AlertDtos.AlertDetail;
 import com.litewaf.platform.alert.AlertDtos.ConsumerState;
+import com.litewaf.platform.alert.AlertDtos.InappMessage;
 import com.litewaf.platform.alert.AlertDtos.Rule;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +75,11 @@ public class AlertController {
         return Map.of("ok", true, "id", id);
     }
 
+    @GetMapping("/alerts/health")
+    public com.litewaf.platform.alert.AlertDtos.AlertHealth health() {
+        return repo.health(System.currentTimeMillis());
+    }
+
     @GetMapping("/alerts")
     public List<Alert> list(@RequestParam(required = false) Long from,
                             @RequestParam(required = false) Long to,
@@ -104,6 +110,30 @@ public class AlertController {
             throw new AlertNotFoundException(id);
         }
         return Map.of("ok", true, "id", id);
+    }
+
+    // ---- P6 站内消息 ----
+
+    @GetMapping("/messages")
+    public List<InappMessage> messages(@RequestParam(defaultValue = "false") boolean unread_only,
+                                       @RequestParam(defaultValue = "50") int limit) {
+        return repo.listInapp(unread_only, limit);
+    }
+
+    @GetMapping("/messages/unread-count")
+    public Map<String, Object> unreadCount() {
+        return Map.of("count", repo.unreadInappCount());
+    }
+
+    /** 标记单条已读（幂等：已读过的再调返回 updated=0）。 */
+    @PostMapping("/messages/{id}/read")
+    public Map<String, Object> markRead(@PathVariable long id) {
+        return Map.of("ok", true, "id", id, "updated", repo.markInappRead(id));
+    }
+
+    @PostMapping("/messages/read-all")
+    public Map<String, Object> markAllRead() {
+        return Map.of("ok", true, "updated", repo.markAllInappRead());
     }
 
     /** 标记已处理 / 撤销已处理。 */

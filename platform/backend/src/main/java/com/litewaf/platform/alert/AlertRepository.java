@@ -5,6 +5,7 @@ import com.litewaf.platform.alert.AlertDtos.AlertDetail;
 import com.litewaf.platform.alert.AlertDtos.ConsumerState;
 import com.litewaf.platform.alert.AlertDtos.Delivery;
 import com.litewaf.platform.alert.AlertDtos.EventBrief;
+import com.litewaf.platform.alert.AlertDtos.InappMessage;
 import com.litewaf.platform.alert.AlertDtos.Rule;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -42,6 +43,41 @@ public class AlertRepository {
         return new Rule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
                 rs.getString(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getInt(9),
                 rs.getString(10), rs.getString(11), rs.getString(12), rs.getInt(13) == 1);
+    }
+
+    /**
+     * 告警健康度（P8）：最近 24 小时的量级、分级分布、投递成功率与告警延迟 P95。
+     *
+     * <p>「延迟」= 告警首次触发到首次投递的时间差，反映消费器/网络是否堵。
+     * 用 PERCENTILE_CONT 不可靠（MariaDB 版本差异），改成排序取第 95% 条。
+     */
+    public AlertDtos.AlertHealth health(long nowMs) {
+        long since = nowMs - 24L * 3600_000L;
+        int events = intOf("SELECT COUNT(*) FROM waf_events WHERE event_time_ms >= ?", since);
+        int alerts = intOf("SELECT COUNT(*) FROM alerts WHERE first_trigger_ms >= ?", since);
+        int yellow = intOf("SELECT COUNT(*) FROM alerts WHERE first_trigger_ms >= ? AND severity = 'yellow'", since);
+        int red = intOf("SELECT COUNT(*) FROM alerts WHERE first_trigger_ms >= ? AND severity = 'red'", since);
+        int deliveries = intOf("SELECT COUNT(*) FROM alert_deliveries WHERE created_at >= ?", since);
+        int failed = intOf("SELECT COUNT(*) FROM alert_deliveries WHERE created_at >= ? AND status IN ('failed','unknown')", since);
+        // MariaDB 不支持 LIMIT/OFFSET 里套子查询，只能先算条数再取偏移
+        long p95 = -1;
+        if (deliveries > 0) {
+            int offset = (int) Math.floor(deliveries * 0.05);
+            Long v = jdbc.queryForObject(
+                    "SELECT d FROM (SELECT (dl.created_at - a.first_trigger_ms) AS d FROM alert_deliveries dl "
+                            + "JOIN alerts a ON a.id = dl.alert_id WHERE dl.created_at >= ?) t "
+                            + "ORDER BY d DESC LIMIT 1 OFFSET ?",
+                    Long.class, since, offset);
+            if (v != null) {
+                p95 = v;
+            }
+        }
+        return new AlertDtos.AlertHealth(events, alerts, yellow, red, deliveries, failed, p95);
+    }
+
+    private int intOf(String sql, Object... args) {
+        Integer n = jdbc.queryForObject(sql, Integer.class, args);
+        return n == null ? 0 : n;
     }
 
     public List<Rule> rules() {
@@ -290,6 +326,42 @@ public class AlertRepository {
         jdbc.update("UPDATE alert_deliveries SET status = ?, http_code = ?, last_error = ?, attempts = attempts + 1, "
                         + "next_retry_ms = ?, updated_at = ? WHERE id = ?",
                 status, httpCode, error, nextRetryMs, System.currentTimeMillis(), deliveryId);
+    }
+
+    // ---- P6 站内消息 ----
+
+    public long createInapp(long alertId, String severity, String title, String body, long nowMs) {
+        jdbc.update("INSERT INTO inapp_messages (alert_id, severity, title, body, created_at_ms) "
+                + "VALUES (?, ?, ?, ?, ?)", alertId, severity, title, body, nowMs);
+        return jdbc.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+    }
+
+    public List<InappMessage> listInapp(boolean unreadOnly, int limit) {
+        String sql = "SELECT id, alert_id, severity, title, body, created_at_ms, read_at_ms FROM inapp_messages "
+                + (unreadOnly ? "WHERE read_at_ms IS NULL " : "")
+                + "ORDER BY created_at_ms DESC, id DESC LIMIT ?";
+        return jdbc.query(sql, (rs, i) -> {
+            long readAt = rs.getLong("read_at_ms");
+            return new InappMessage(rs.getLong("id"), rs.getLong("alert_id"), rs.getString("severity"),
+                    rs.getString("title"), rs.getString("body"), rs.getLong("created_at_ms"),
+                    rs.wasNull() ? null : readAt);
+        }, Math.min(Math.max(limit, 1), 200));
+    }
+
+    public int unreadInappCount() {
+        Integer n = jdbc.queryForObject("SELECT COUNT(*) FROM inapp_messages WHERE read_at_ms IS NULL", Integer.class);
+        return n == null ? 0 : n;
+    }
+
+    /** 返回受影响行数（重复标记幂等，第二次影响 0 行）。 */
+    public int markInappRead(long id) {
+        return jdbc.update("UPDATE inapp_messages SET read_at_ms = ? WHERE id = ? AND read_at_ms IS NULL",
+                System.currentTimeMillis(), id);
+    }
+
+    public int markAllInappRead() {
+        return jdbc.update("UPDATE inapp_messages SET read_at_ms = ? WHERE read_at_ms IS NULL",
+                System.currentTimeMillis());
     }
 
     /** 到期待重试的投递（失败且 next_retry_ms 已到）。 */

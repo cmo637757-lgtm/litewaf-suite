@@ -48,6 +48,8 @@ VERSIONS = os.path.join(RT, "versions")
 CANDIDATES = os.path.join(RT, "candidates")
 CONF_DIR = os.path.join(RT, "conf")
 MAIN_CONF = os.path.join(CONF_DIR, "nginx.conf")
+BLACKLIST_FILE = os.path.join(CONF_DIR, "blacklist.conf")
+IP_RE = re.compile(r"^[0-9a-fA-F:.]{3,45}$")
 
 ID_RE = re.compile(r"^[A-Za-z0-9_-]{1,40}$")
 CC_DEFAULT = {"max_requests": 20, "window": 10, "block_duration": 60}
@@ -339,6 +341,62 @@ def do_publish(candidate_id):
             "probe": probe, "reload_output": reload_out, "restored_cc": old_cc}
 
 
+def read_blocklist():
+    """读现有黑名单。文件每行一条 `lite_waf_blacklist <ip>/32;`，由平台自动维护。"""
+    if not os.path.isfile(BLACKLIST_FILE):
+        return []
+    ips = []
+    with open(BLACKLIST_FILE, encoding="utf-8") as f:
+        for line in f:
+            m = re.match(r"^\s*lite_waf_blacklist\s+([0-9a-fA-F:.]+?)(?:/32)?\s*;", line)
+            if m:
+                ips.append(m.group(1))
+    return ips
+
+
+def write_blocklist(ips):
+    """原子写：先写 .tmp 再 os.replace，避免 reload 读到半个文件。"""
+    os.makedirs(CONF_DIR, exist_ok=True)
+    lines = ["# 自动封禁名单：红色告警触发时由平台写入，执行器 reload 后生效\n",
+             "# 手动加一条也行，格式：lite_waf_blacklist <ip>/32;\n"]
+    for ip in sorted(set(ips)):
+        lines.append("    lite_waf_blacklist %s/32;\n" % ip)
+    tmp = BLACKLIST_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.writelines(lines)
+    os.replace(tmp, BLACKLIST_FILE)
+
+
+def do_blocklist(ip, action="add"):
+    """
+    加/删一条黑名单并 reload。黑名单是配置期指令（lite_waf_blacklist），
+    改完必须 reload 才生效——所以这里比 publish 便宜得多，但仍然是一次 nginx 重载。
+    """
+    ip = (ip or "").strip()
+    if not ip or not IP_RE.match(ip):
+        return {"ok": False, "error": "IP 格式不合法：%r" % ip}
+    if action not in ("add", "remove"):
+        return {"ok": False, "error": "action 只能是 add 或 remove"}
+    cur = read_blocklist()
+    if action == "remove":
+        if ip not in cur:
+            return {"ok": True, "changed": False, "count": len(cur), "items": sorted(cur)}
+        cur = [x for x in cur if x != ip]
+    else:
+        if ip in cur:
+            return {"ok": True, "changed": False, "count": len(cur), "items": sorted(cur)}
+        cur = cur + [ip]
+    write_blocklist(cur)
+    ok_test, test_out = nginx_test("conf/nginx.conf")
+    if not ok_test:
+        return {"ok": False, "error": "写入后 nginx -t 失败：" + test_out[-300:]}
+    ok_reload, reload_out = nginx_reload()
+    if not ok_reload:
+        return {"ok": False, "error": "reload 失败：" + reload_out[-300:]}
+    log("blocklist %s %s → 现有 %d 条" % (action, ip, len(cur)))
+    return {"ok": True, "changed": True, "count": len(cur), "items": sorted(cur)}
+
+
 def do_rollback():
     cur, prev = read_ptr("current"), read_ptr("previous")
     if not prev or prev == cur:
@@ -430,11 +488,15 @@ class Handler(BaseHTTPRequestHandler):
                 res = do_publish(body.get("candidate_id"))
                 log("publish → ok=%s version=%s" % (res.get("ok"), res.get("version")))
                 return self._send(200, res)
+            if self.path == "/blocklist":
+                res = do_blocklist(body.get("ip"), body.get("action") or "add")
+                log("blocklist → ok=%s count=%s" % (res.get("ok"), res.get("count")))
+                return self._send(200, res)
             if self.path == "/rollback":
                 res = do_rollback()
                 log("rollback → ok=%s" % res.get("ok"))
                 return self._send(200, res)
-            return self._send(404, {"ok": False, "error": "未知动作（只支持 check/publish/rollback）"})
+            return self._send(404, {"ok": False, "error": "未知动作（只支持 check/publish/rollback/blocklist）"})
         except subprocess.TimeoutExpired:
             return self._send(500, {"ok": False, "error": "nginx 命令超时"})
         except Exception as exc:                    # noqa: BLE001

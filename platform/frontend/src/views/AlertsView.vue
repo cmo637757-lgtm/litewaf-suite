@@ -21,6 +21,11 @@ const busy = ref('')
 const error = ref('')
 const notice = ref('')
 const filterHandled = ref('all')
+// P6 站内信：与告警实例同源，但走独立接口（channel=inapp 的规则把消息落这里）
+const messages = ref([])
+const blocklist = ref([])
+const health = ref(null)
+const unread = ref(0)
 
 // 规则编辑草稿：用 id 做键，避免编辑时整行被轮询刷掉
 const draft = ref({})
@@ -48,11 +53,19 @@ const deliveryState = (d) => {
 async function loadAll() {
   error.value = ''
   try {
-    const [rs, as, st] = await Promise.all([
+    const [rs, as, st, ms, uc, bl, hl] = await Promise.all([
       api('/api/alert-rules'),
       api('/api/alerts?limit=100'),
-      api('/api/alerts/state')
+      api('/api/alerts/state'),
+      api('/api/messages?limit=8'),
+      api('/api/messages/unread-count'),
+      api('/api/blocklist?limit=20'),
+      api('/api/alerts/health')
     ])
+    messages.value = Array.isArray(ms) ? ms : ms.items || []
+    blocklist.value = Array.isArray(bl) ? bl : bl.items || []
+    health.value = hl
+    unread.value = uc.count || 0
     // 后端这两个接口直接返回数组（不是分页包装），兼容两种形状
     rules.value = Array.isArray(rs) ? rs : rs.items || []
     alerts.value = Array.isArray(as) ? as : as.items || []
@@ -138,6 +151,44 @@ async function markHandled() {
   }
 }
 
+const deliveryRate = computed(() => {
+  const h = health.value
+  if (!h || !h.deliveries24h) return '—'
+  return (((h.deliveries24h - h.failed24h) / h.deliveries24h) * 100).toFixed(1) + '%'
+})
+
+function fmtDelay(ms) {
+  if (ms < 1000) return ms + ' ms'
+  if (ms < 60000) return (ms / 1000).toFixed(1) + ' 秒'
+  return (ms / 60000).toFixed(1) + ' 分钟'
+}
+
+async function unblockIp(ip) {
+  busy.value = 'bl'
+  error.value = ''
+  try {
+    await api(`/api/blocklist/${encodeURIComponent(ip)}/unblock`, { method: 'POST' })
+    await loadAll()
+  } catch (e) {
+    error.value = e.status === 403 ? '只有管理员能解封' : e.message
+  } finally {
+    busy.value = ''
+  }
+}
+
+async function readAllMessages() {
+  busy.value = 'msg'
+  try {
+    const r = await api('/api/messages/read-all', { method: 'POST' })
+    notice.value = `已把 ${r.updated} 条站内消息标记为已读`
+    await loadAll()
+  } catch (e) {
+    error.value = e.message || String(e)
+  } finally {
+    busy.value = ''
+  }
+}
+
 onMounted(loadAll)
 </script>
 
@@ -167,6 +218,39 @@ onMounted(loadAll)
     <!-- 消费器状态 -->
     <section class="panel">
       <div class="panel-title">
+        <span>告警健康（近 24 小时）</span>
+        <span class="muted small">消费器是否跟得上、投递有没有失败、告警延迟有多大</span>
+      </div>
+      <div v-if="health" class="grid-kpi">
+        <div class="kpi">
+          <div class="label">事件量</div>
+          <div class="value">{{ health.events_last24h }}</div>
+          <div class="hint">24 小时内入库的拦截事件</div>
+        </div>
+        <div class="kpi">
+          <div class="label">告警数</div>
+          <div class="value">{{ health.alerts_last24h }}</div>
+          <div class="hint">
+            黄 {{ health.yellow24h }} · 红 {{ health.red24h }}
+            <span v-if="health.red24h" class="sev sev-red" style="margin-left: 4px">有红警</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">投递成功率</div>
+          <div class="value">{{ deliveryRate }}</div>
+          <div class="hint">
+            成功 {{ health.deliveries24h - health.failed24h }} / {{ health.deliveries24h }}
+            <span v-if="health.failed24h" class="sev sev-red" style="margin-left: 4px">失败 {{ health.failed24h }}</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">告警延迟 P95</div>
+          <div class="value">{{ health.p95_delay_ms < 0 ? '—' : fmtDelay(health.p95_delay_ms) }}</div>
+          <div class="hint">事件发生到告警投递出去的 95 分位耗时</div>
+        </div>
+      </div>
+
+      <div class="panel-title">
         <span>告警消费器</span>
         <span class="muted small">每 2 秒拉一批已入库事件；只对“事件时间距现在 ≤ 120 秒”的做实时通知</span>
       </div>
@@ -186,6 +270,72 @@ onMounted(loadAll)
           <div class="sub">关联事件合计 {{ totalEvents }} 条</div>
         </div>
       </div>
+    </section>
+
+    <!-- 站内信（P6：channel=inapp 的规则把消息落库，不再死等 webhook） -->
+    <section class="panel">
+      <div class="panel-title">
+        <span>
+          站内消息
+          <span v-if="unread" class="sev sev-red" style="margin-left: 6px">{{ unread }} 条未读</span>
+          <span v-else class="muted small" style="margin-left: 6px">全部已读</span>
+        </span>
+        <button class="btn btn-ghost" :disabled="!unread || busy === 'msg'" @click="readAllMessages">
+          全部标记已读
+        </button>
+      </div>
+      <ul v-if="messages.length" class="msg-list">
+        <li v-for="m in messages" :key="m.id" :class="{ unread: !m.read_at_ms }">
+          <span class="sev" :class="'sev-' + (m.severity || 'yellow')">
+            {{ m.severity === 'red' ? '红' : '黄' }}
+          </span>
+          <span class="msg-title">{{ m.title }}</span>
+          <span class="muted small">{{ m.body }}</span>
+          <span class="msg-time mono">{{ fmtTime(m.created_at_ms) }}</span>
+        </li>
+      </ul>
+      <p v-else class="muted">还没有站内消息。把某条规则的「渠道」改成「站内」再触发一次就会出现在这里。</p>
+    </section>
+
+    <!-- 自动封禁名单（红色告警触发时平台写进来的） -->
+    <section class="panel">
+      <div class="panel-title">
+        <span>
+          自动封禁名单
+          <span v-if="blocklist.filter((b) => b.active).length" class="sev sev-red" style="margin-left: 6px">
+            {{ blocklist.filter((b) => b.active).length }} 个 IP 封禁中
+          </span>
+          <span v-else class="muted small" style="margin-left: 6px">当前没有封禁</span>
+        </span>
+        <span class="muted small">红色告警自动写入引擎黑名单；解封会同时清引擎侧和这张表</span>
+      </div>
+      <table v-if="blocklist.length" class="data">
+        <thead>
+          <tr>
+            <th>来源 IP</th><th>原因</th><th>关联告警</th><th>规则</th>
+            <th>封禁时间</th><th>状态</th><th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="b in blocklist" :key="b.id">
+            <td class="mono">{{ b.client_ip }}</td>
+            <td>{{ b.reason === 'auto_alert' ? '红色告警自动' : b.reason }}</td>
+            <td class="mono">{{ b.alert_id ? '#' + b.alert_id : '—' }}</td>
+            <td>{{ b.rule_name || '—' }}</td>
+            <td class="mono">{{ fmtTime(b.created_at_ms) }}</td>
+            <td>
+              <span class="tag" :class="{ 'tag-red': b.active }">{{ b.active ? '封禁中' : '已解除' }}</span>
+            </td>
+            <td>
+              <button v-if="b.active" class="btn btn-ghost" :disabled="busy === 'bl'" @click="unblockIp(b.client_ip)">
+                解封
+              </button>
+              <span v-else class="muted small mono">{{ fmtTime(b.released_at_ms) }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-else class="muted">还没有封禁记录。红色告警（阈值两倍以上、或相对基线 10 倍）触发后会出现在这里。</p>
     </section>
 
     <!-- 规则 -->
