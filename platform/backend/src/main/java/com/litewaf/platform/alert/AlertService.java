@@ -40,6 +40,9 @@ public class AlertService {
     /** 单批最多消费多少条事件（卡片要求 ≤200） */
     private static final int BATCH = 200;
 
+    /** 突增检测的回看窗口：过去一小时的平均每窗计数作基线 */
+    private static final long BURST_LOOKBACK_MS = 3_600_000L;
+
     /** Webhook 失败后的重试间隔（毫秒）：10 秒、30 秒、2 分钟，之后只留 failed 等人工重试 */
     private static final long[] RETRY_BACKOFF = {10_000L, 30_000L, 120_000L};
 
@@ -93,26 +96,41 @@ public class AlertService {
                 }
                 long windowMs = rule.windowS() * 1000L;
                 long bucketStart = (t / windowMs) * windowMs;
-                int cnt = repo.countInBucket(ip, cat, bucketStart, t);
-                if (cnt < rule.threshold()) {
+                int cnt = repo.countInBucket(rule, ip, cat, bucketStart, t);
+
+                // 突增检测：与本维度过去一小时「平均每窗」比。基线 < 1 说明历史太稀，
+                // 此时任何倍数都没有统计意义，直接不判（否则冷启动时两条事件就能报「突增 100 倍」）。
+                double base = repo.baselineAvg(rule, ip, cat, windowMs, BURST_LOOKBACK_MS, t);
+                boolean burst = base >= 1.0 && cnt >= rule.ratio() * base;
+                if (cnt < rule.threshold() && !burst) {
                     continue;
                 }
-                // 到了这里说明"该桶内已经攒够阈值"，本条事件算一次候选触发
+
+                // 分级：超过阈值两倍、或相对基线 10 倍以上判红，其余按规则默认级别；只升不降
+                String severity = rule.severity() == null ? "yellow" : rule.severity();
+                if (cnt >= 2 * rule.threshold() || (base >= 1.0 && cnt / base >= 10)) {
+                    severity = "red";
+                }
+                double burstRatio = base >= 1.0 ? cnt / base : 0.0;
+                String metric = rule.metric() == null ? "category" : rule.metric();
+
+                // 到了这里说明"该桶内已经攒够阈值（或突增）"，本条事件算一次候选触发
                 Long active = repo.findActive(rule.id(), ip, cat, now);
                 long alertId;
                 if (active == null) {
-                    alertId = repo.createAlert(rule.id(), ip, cat, bucketStart, t, t + rule.suppressS() * 1000L);
+                    alertId = repo.createAlert(rule.id(), ip, cat, metric, bucketStart, t,
+                            t + rule.suppressS() * 1000L, severity, burstRatio);
                     // 首次触发时，把桶内"到此刻为止"已经攒下的事件一并补进关联表，
                     // 否则 event_count 只从触发的那条算起，前面几条就丢了（A5 场景要求 5 条全在）
-                    for (long eid : repo.eventIdsInBucket(ip, cat, bucketStart, t)) {
+                    for (long eid : repo.eventIdsInBucket(rule, ip, cat, bucketStart, t)) {
                         repo.linkEvent(alertId, eid);
                     }
-                    repo.bumpTrigger(alertId, t);
+                    repo.bumpTrigger(alertId, t, severity);
                     deliver(alertId, rule);
                 } else {
                     alertId = active;
                     repo.linkEvent(alertId, eventId);
-                    repo.bumpTrigger(alertId, t);
+                    repo.bumpTrigger(alertId, t, severity);
                 }
             }
         }
@@ -166,7 +184,8 @@ public class AlertService {
         }
         Alert a = detail.alert();
         WebhookPayload p = new WebhookPayload("1.0", deliveryId, alertId, a.ruleName(), a.clientIp(),
-                a.category(), a.firstTriggerMs(), a.lastTriggerMs(), a.eventCount(), a.triggerCount());
+                a.category(), a.firstTriggerMs(), a.lastTriggerMs(), a.eventCount(), a.triggerCount(),
+                a.severity(), a.burstRatio());
 
         String status;
         Integer code = null;

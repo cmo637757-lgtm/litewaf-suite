@@ -2,13 +2,14 @@ package com.litewaf.platform.alert;
 
 import com.litewaf.platform.alert.AlertDtos.Alert;
 import com.litewaf.platform.alert.AlertDtos.AlertDetail;
-import com.litewaf.platform.alert.AlertDtos.EventBrief;
 import com.litewaf.platform.alert.AlertDtos.ConsumerState;
 import com.litewaf.platform.alert.AlertDtos.Delivery;
+import com.litewaf.platform.alert.AlertDtos.EventBrief;
 import com.litewaf.platform.alert.AlertDtos.Rule;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ import java.util.Map;
  *
  * 全部用显式 SQL：告警语义（固定桶、抑制、去重）很难用 ORM 表达清楚，
  * 写出来反而更容易对照需求卡片逐条核验。
+ *
+ * P5 起「数什么」由 rule.metric 决定，所以计数相关的 SQL 都改成
+ * 「metricWhere() 拼 WHERE + metricArgs() 给参数」两段式，避免为每个维度
+ * 复制一份几乎相同的 SQL。注意拼进去的只有列名/运算符，值一律走占位符。
  */
 @Repository
 public class AlertRepository {
@@ -29,16 +34,26 @@ public class AlertRepository {
 
     // ── 规则 ────────────────────────────────────────────────────────────
 
-    public List<Rule> rules() {
-        return jdbc.query("SELECT id, name, category, threshold, window_s, suppress_s, webhook_url, enabled "
-                        + "FROM alert_rules ORDER BY id",
-                (rs, i) -> new Rule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
-                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) == 1));
+    private static final String RULE_COLS =
+            "id, name, metric, match_value, category, threshold, ratio, window_s, suppress_s, "
+                    + "severity, channel, webhook_url, enabled";
+
+    private static Rule mapRule(java.sql.ResultSet rs, int i) throws java.sql.SQLException {
+        return new Rule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                rs.getString(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getInt(9),
+                rs.getString(10), rs.getString(11), rs.getString(12), rs.getInt(13) == 1);
     }
 
-    public void updateRule(int id, int threshold, int windowS, int suppressS, String webhookUrl, boolean enabled) {
-        jdbc.update("UPDATE alert_rules SET threshold = ?, window_s = ?, suppress_s = ?, webhook_url = ?, enabled = ? "
-                + "WHERE id = ?", threshold, windowS, suppressS, webhookUrl, enabled ? 1 : 0, id);
+    public List<Rule> rules() {
+        return jdbc.query("SELECT " + RULE_COLS + " FROM alert_rules ORDER BY id", AlertRepository::mapRule);
+    }
+
+    /** 全量更新一条规则（前端「保存」按钮走这里）。 */
+    public void updateRule(int id, int threshold, double ratio, int windowS, int suppressS,
+                           String severity, String channel, String webhookUrl, boolean enabled) {
+        jdbc.update("UPDATE alert_rules SET threshold = ?, ratio = ?, window_s = ?, suppress_s = ?, "
+                        + "severity = ?, channel = ?, webhook_url = ?, enabled = ? WHERE id = ?",
+                threshold, ratio, windowS, suppressS, severity, channel, webhookUrl, enabled ? 1 : 0, id);
     }
 
     // ── 消费游标 ─────────────────────────────────────────────────────────
@@ -61,30 +76,93 @@ public class AlertRepository {
                         + "WHERE id > ? ORDER BY id LIMIT ?", lastId, limit);
     }
 
-    // ── 固定时间桶计数 ───────────────────────────────────────────────────
+    // ── 按监控项计数 ─────────────────────────────────────────────────────
 
     /**
-     * 统计某个 IP 在某个固定桶内、到事件时刻为止的累计事件数。
+     * 监控项对应的 WHERE 片段。
      *
-     * 桶边界 = floor(event_time / window) * window，与卡片 R35-02 一致。
-     * 上界用「本条事件的时间」而不是「桶结束时间」：判定"第 N 个事件触发"必须看
-     * 截至这一刻攒了多少，否则批量补数时会把同一批的后续事件也算进前面的候选里，
-     * trigger_count 会被放大。
+     * 这里拼的只有列名和运算符，所有用户输入（IP / 关键词 / 状态码）都走占位符，
+     * 不存在拼接注入。
      */
-    public int countInBucket(String ip, String category, long bucketStart, long upToMs) {
+    private static String metricWhere(Rule r) {
+        return switch (r.metric() == null ? "category" : r.metric()) {
+            case "ip" -> "client_ip = ?";
+            case "uri" -> "uri LIKE ?";
+            case "rule" -> "rule_name LIKE ?";
+            case "status" -> "status = ?";
+            default -> "client_ip = ? AND category_display = ?";
+        };
+    }
+
+    private static Object[] metricArgs(Rule r, String ip, String cat) {
+        return switch (r.metric() == null ? "category" : r.metric()) {
+            case "ip" -> new Object[]{ip};
+            case "uri", "rule" -> new Object[]{"%" + r.matchValue() + "%"};
+            case "status" -> new Object[]{Integer.parseInt(r.matchValue().trim())};
+            default -> new Object[]{ip, cat};
+        };
+    }
+
+    /** 当前固定桶内、到事件时刻为止的累计事件数。 */
+    public int countInBucket(Rule rule, String ip, String category, long bucketStart, long upToMs) {
+        List<Object> args = new ArrayList<>(List.of(metricArgs(rule, ip, category)));
+        args.add(bucketStart);
+        args.add(upToMs);
         Integer n = jdbc.queryForObject(
-                "SELECT COUNT(*) FROM waf_events WHERE client_ip = ? AND category_display = ? "
-                        + "AND event_time_ms >= ? AND event_time_ms <= ?",
-                Integer.class, ip, category, bucketStart, upToMs);
+                "SELECT COUNT(*) FROM waf_events WHERE " + metricWhere(rule)
+                        + " AND event_time_ms >= ? AND event_time_ms <= ?",
+                Integer.class, args.toArray());
         return n == null ? 0 : n;
     }
 
     /** 桶内到此刻为止的事件 id（首次触发时要把它们全部补进关联表）。 */
-    public List<Long> eventIdsInBucket(String ip, String category, long bucketStart, long upToMs) {
+    public List<Long> eventIdsInBucket(Rule rule, String ip, String category, long bucketStart, long upToMs) {
+        List<Object> args = new ArrayList<>(List.of(metricArgs(rule, ip, category)));
+        args.add(bucketStart);
+        args.add(upToMs);
         return jdbc.queryForList(
-                "SELECT id FROM waf_events WHERE client_ip = ? AND category_display = ? "
-                        + "AND event_time_ms >= ? AND event_time_ms <= ? ORDER BY id",
-                Long.class, ip, category, bucketStart, upToMs);
+                "SELECT id FROM waf_events WHERE " + metricWhere(rule)
+                        + " AND event_time_ms >= ? AND event_time_ms <= ? ORDER BY id",
+                Long.class, args.toArray());
+    }
+
+    /**
+     * 过去 lookbackMs 内、同维度每窗口事件数的均值（突增检测的基线）。
+     *
+     * 只统计窗口大小与规则一致的桶，空桶不计入——否则流量稀疏时段均值被
+     * 稀释到接进 0，任何两条事件都能判成「突增 100 倍」。
+     *
+     * 维度口径与计数一致：category 规则按类别看全站历史，ip 规则只看这个 IP 自己。
+     *
+     * @return 均值；没有任何历史桶时返回 0（调用方据此跳过突增判定，冷启动保护）
+     */
+    public double baselineAvg(Rule rule, String ip, String category, long windowMs, long lookbackMs, long nowMs) {
+        List<Object> args = new ArrayList<>();
+        args.add(windowMs);                     // FLOOR(event_time_ms / ?) 出现在 SELECT 里，排最前
+        switch (rule.metric() == null ? "category" : rule.metric()) {
+            case "ip" -> args.add(ip);
+            case "uri", "rule" -> args.add("%" + rule.matchValue() + "%");
+            case "status" -> args.add(Integer.parseInt(rule.matchValue().trim()));
+            default -> args.add(category);
+        }
+        args.add(nowMs - lookbackMs);
+        args.add(nowMs);
+        Double avg = jdbc.queryForObject(
+                "SELECT AVG(c) FROM (SELECT FLOOR(event_time_ms / ?) AS b, COUNT(*) AS c FROM waf_events WHERE "
+                        + baselineWhere(rule) + " AND event_time_ms >= ? AND event_time_ms < ? GROUP BY b) t",
+                Double.class, args.toArray());
+        return avg == null ? 0.0 : avg;
+    }
+
+    /** 基线统计用的 WHERE 片段：与 {@link #metricWhere} 一致，只是 category 维度按类别看全站。 */
+    private static String baselineWhere(Rule r) {
+        return switch (r.metric() == null ? "category" : r.metric()) {
+            case "ip" -> "client_ip = ?";
+            case "uri" -> "uri LIKE ?";
+            case "rule" -> "rule_name LIKE ?";
+            case "status" -> "status = ?";
+            default -> "category_display = ?";
+        };
     }
 
     // ── 告警实例 ─────────────────────────────────────────────────────────
@@ -98,13 +176,14 @@ public class AlertRepository {
         return ids.isEmpty() ? null : ids.get(0);
     }
 
-    public long createAlert(long ruleId, String ip, String category, long bucketStart,
-                            long firstTriggerMs, long suppressedUntilMs) {
-        jdbc.update("INSERT INTO alerts (rule_id, client_ip, category, bucket_start, first_trigger_ms, "
-                        + "last_trigger_ms, trigger_count, event_count, suppressed_until_ms, handled, delivery_count, created_at) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, 0, 0, ?)",
-                ruleId, ip, category, bucketStart, firstTriggerMs, firstTriggerMs, suppressedUntilMs,
-                System.currentTimeMillis());
+    public long createAlert(long ruleId, String ip, String category, String metric, long bucketStart,
+                            long firstTriggerMs, long suppressedUntilMs, String severity, double burstRatio) {
+        jdbc.update("INSERT INTO alerts (rule_id, client_ip, category, metric, bucket_start, first_trigger_ms, "
+                        + "last_trigger_ms, trigger_count, event_count, suppressed_until_ms, handled, delivery_count, "
+                        + "severity, burst_ratio, created_at) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, 0, 0, ?, ?, ?)",
+                ruleId, ip, category, metric, bucketStart, firstTriggerMs, firstTriggerMs, suppressedUntilMs,
+                severity, burstRatio, System.currentTimeMillis());
         return jdbc.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
     }
 
@@ -117,10 +196,11 @@ public class AlertRepository {
         return n > 0;
     }
 
-    /** 一次候选触发：trigger_count +1，刷新最后触发时间。 */
-    public void bumpTrigger(long alertId, long triggerMs) {
-        jdbc.update("UPDATE alerts SET trigger_count = trigger_count + 1, last_trigger_ms = ? WHERE id = ?",
-                triggerMs, alertId);
+    /** 一次候选触发：trigger_count +1，刷新最后触发时间；级别只升不降。 */
+    public void bumpTrigger(long alertId, long triggerMs, String severity) {
+        jdbc.update("UPDATE alerts SET trigger_count = trigger_count + 1, last_trigger_ms = ?, "
+                + "severity = IF(severity = 'red' OR ? = 'red', 'red', severity) WHERE id = ?",
+                triggerMs, severity, alertId);
     }
 
     public void bumpDeliveryCount(long alertId) {
@@ -133,13 +213,23 @@ public class AlertRepository {
 
     // ── 列表与详情 ───────────────────────────────────────────────────────
 
+    private static final String ALERT_SELECT =
+            "SELECT a.id, r.name, a.client_ip, a.category, a.metric, a.bucket_start, a.first_trigger_ms, "
+                    + "a.last_trigger_ms, a.suppressed_until_ms, a.trigger_count, a.event_count, a.delivery_count, "
+                    + "a.severity, a.burst_ratio, a.handled, "
+                    + "(SELECT d.status FROM alert_deliveries d WHERE d.alert_id = a.id ORDER BY d.id DESC LIMIT 1) "
+                    + "FROM alerts a JOIN alert_rules r ON r.id = a.rule_id ";
+
+    private static Alert mapAlert(java.sql.ResultSet rs, int i, long now) throws java.sql.SQLException {
+        return new Alert(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                rs.getLong(6), rs.getLong(7), rs.getLong(8), rs.getLong(9), rs.getInt(10), rs.getInt(11),
+                rs.getInt(12), rs.getString(13), rs.getDouble(14), rs.getLong(9) > now,
+                rs.getInt(15) == 1, rs.getString(16));
+    }
+
     public List<Alert> list(Long fromMs, Long toMs, Boolean handled, int limit) {
-        StringBuilder sql = new StringBuilder(
-                "SELECT a.id, r.name, a.client_ip, a.category, a.bucket_start, a.first_trigger_ms, a.last_trigger_ms, a.suppressed_until_ms, "
-                        + "a.trigger_count, a.event_count, a.delivery_count, a.suppressed_until_ms, a.handled, "
-                        + "(SELECT d.status FROM alert_deliveries d WHERE d.alert_id = a.id ORDER BY d.id DESC LIMIT 1) "
-                        + "FROM alerts a JOIN alert_rules r ON r.id = a.rule_id WHERE 1 = 1");
-        List<Object> args = new java.util.ArrayList<>();
+        StringBuilder sql = new StringBuilder(ALERT_SELECT).append("WHERE 1 = 1");
+        List<Object> args = new ArrayList<>();
         if (fromMs != null) {
             sql.append(" AND a.first_trigger_ms >= ?");
             args.add(fromMs);
@@ -156,21 +246,12 @@ public class AlertRepository {
         args.add(limit);
 
         long now = System.currentTimeMillis();
-        return jdbc.query(sql.toString(), (rs, i) -> new Alert(
-                rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getLong(5),
-                rs.getLong(6), rs.getLong(7), rs.getLong(8), rs.getInt(9), rs.getInt(10), rs.getInt(11),
-                rs.getLong(12) > now, rs.getInt(13) == 1, rs.getString(14)), args.toArray());
+        return jdbc.query(sql.toString(), (rs, i) -> mapAlert(rs, i, now), args.toArray());
     }
 
     public AlertDetail detail(long id) {
-        List<Alert> one = jdbc.query(
-                "SELECT a.id, r.name, a.client_ip, a.category, a.bucket_start, a.first_trigger_ms, a.last_trigger_ms, a.suppressed_until_ms, "
-                        + "a.trigger_count, a.event_count, a.delivery_count, a.suppressed_until_ms, a.handled, "
-                        + "(SELECT d.status FROM alert_deliveries d WHERE d.alert_id = a.id ORDER BY d.id DESC LIMIT 1) "
-                        + "FROM alerts a JOIN alert_rules r ON r.id = a.rule_id WHERE a.id = ?",
-                (rs, i) -> new Alert(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getLong(5),
-                        rs.getLong(6), rs.getLong(7), rs.getLong(8), rs.getInt(9), rs.getInt(10), rs.getInt(11),
-                        rs.getLong(12) > System.currentTimeMillis(), rs.getInt(13) == 1, rs.getString(14)), id);
+        long now = System.currentTimeMillis();
+        List<Alert> one = jdbc.query(ALERT_SELECT + "WHERE a.id = ?", (rs, i) -> mapAlert(rs, i, now), id);
         if (one.isEmpty()) {
             return null;
         }
@@ -193,10 +274,9 @@ public class AlertRepository {
     /** 某条告警所属的规则（人工重试时要用它的 webhook 地址）。 */
     public Rule ruleOf(long alertId) {
         List<Rule> rs = jdbc.query(
-                "SELECT r.id, r.name, r.category, r.threshold, r.window_s, r.suppress_s, r.webhook_url, r.enabled "
-                        + "FROM alert_rules r JOIN alerts a ON a.rule_id = r.id WHERE a.id = ?",
-                (r, i) -> new Rule(r.getInt(1), r.getString(2), r.getString(3), r.getInt(4),
-                        r.getInt(5), r.getInt(6), r.getString(7), r.getInt(8) == 1), alertId);
+                "SELECT " + RULE_COLS.replace("id,", "r.id,").replace("name,", "r.name,")
+                        + " FROM alert_rules r JOIN alerts a ON a.rule_id = r.id WHERE a.id = ?",
+                AlertRepository::mapRule, alertId);
         return rs.isEmpty() ? null : rs.get(0);
     }
 

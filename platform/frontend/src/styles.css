@@ -305,6 +305,27 @@ table.data tbody tr:hover {
   background: var(--panel-2);
 }
 
+/* 告警等级：黄=需要关注，红=已经确认异常（数量翻倍或突增 10 倍以上） */
+.sev {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  border: 1px solid transparent;
+}
+
+.sev-yellow {
+  color: #f2c46b;
+  border-color: #6b5220;
+  background: #2f2716;
+}
+
+.sev-red {
+  color: #ff8a8a;
+  border-color: #7f1d1d;
+  background: #331717;
+}
+
 .tag.sql {
   color: #f87171;
   border-color: #7f1d1d;

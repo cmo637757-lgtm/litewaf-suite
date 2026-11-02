@@ -37,12 +37,15 @@ public class AlertController {
         return repo.rules();
     }
 
-    /** 改阈值/窗口/抑制/Webhook/启停。窗口与抑制的基本约束在这里兜一层。 */
+    /** 改阈值/窗口/抑制/Webhook/启停，以及 P5 新增的倍数/级别/渠道。约束在这里兜一层。 */
     @PostMapping("/alert-rules/{id}")
     public Map<String, Object> updateRule(@PathVariable int id, @RequestBody Map<String, Object> body) {
         int threshold = intOf(body.get("threshold"), 3);
         int windowS = intOf(body.get("window_s"), 60);
         int suppressS = intOf(body.get("suppress_s"), 300);
+        double ratio = doubleOf(body.get("ratio"), 5.0);
+        String severity = String.valueOf(body.getOrDefault("severity", "yellow"));
+        String channel = String.valueOf(body.getOrDefault("channel", "webhook"));
         String url = String.valueOf(body.getOrDefault("webhook_url", ""));
         boolean enabled = !Boolean.FALSE.equals(body.get("enabled"));
 
@@ -55,10 +58,19 @@ public class AlertController {
         if (suppressS < windowS || suppressS > 86400) {
             throw new IllegalArgumentException("suppress_s 必须 ≥ window_s 且 ≤ 86400");
         }
+        if (ratio < 1.0 || ratio > 100.0) {
+            throw new IllegalArgumentException("ratio（突增倍数）必须是 1.0-100.0");
+        }
+        if (!"yellow".equals(severity) && !"red".equals(severity)) {
+            throw new IllegalArgumentException("severity 只能是 yellow 或 red");
+        }
+        if (!"webhook".equals(channel) && !"inapp".equals(channel)) {
+            throw new IllegalArgumentException("channel 只能是 webhook 或 inapp");
+        }
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             throw new IllegalArgumentException("webhook_url 只允许 http/https");
         }
-        repo.updateRule(id, threshold, windowS, suppressS, url, enabled);
+        repo.updateRule(id, threshold, ratio, windowS, suppressS, severity, channel, url, enabled);
         return Map.of("ok", true, "id", id);
     }
 
@@ -110,6 +122,17 @@ public class AlertController {
             return Integer.parseInt(String.valueOf(v).trim());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("参数必须是整数：" + v);
+        }
+    }
+
+    private static double doubleOf(Object v, double dft) {
+        if (v == null) {
+            return dft;
+        }
+        try {
+            return Double.parseDouble(String.valueOf(v).trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("参数必须是数字：" + v);
         }
     }
 

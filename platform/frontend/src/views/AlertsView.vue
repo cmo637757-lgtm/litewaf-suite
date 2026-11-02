@@ -78,6 +78,9 @@ async function saveRule(rule) {
       threshold: Number(d.threshold),
       window_s: Number(d.window_s),
       suppress_s: Number(d.suppress_s),
+      ratio: Number(d.ratio ?? 5),
+      severity: d.severity || 'yellow',
+      channel: d.channel || 'webhook',
       webhook_url: d.webhook_url,
       enabled: !!d.enabled
     }
@@ -210,6 +213,24 @@ onMounted(loadAll)
             <span>抑制（秒）</span>
             <input v-model.number="draft[r.id].suppress_s" type="number" class="input w-90" />
           </label>
+          <label>
+            <span>突增倍数</span>
+            <input v-model.number="draft[r.id].ratio" type="number" step="0.5" class="input w-90" />
+          </label>
+          <label>
+            <span>默认等级</span>
+            <select v-model="draft[r.id].severity" class="input" style="width: 96px">
+              <option value="yellow">黄</option>
+              <option value="red">红</option>
+            </select>
+          </label>
+          <label>
+            <span>渠道</span>
+            <select v-model="draft[r.id].channel" class="input" style="width: 116px">
+              <option value="webhook">Webhook</option>
+              <option value="inapp">站内</option>
+            </select>
+          </label>
           <label class="grow">
             <span>Webhook</span>
             <input v-model="draft[r.id].webhook_url" class="input" />
@@ -239,6 +260,7 @@ onMounted(loadAll)
             <th>首次触发</th>
             <th>来源 IP</th>
             <th>类型</th>
+            <th>等级</th>
             <th>触发次数</th>
             <th>关联事件</th>
             <th>投递</th>
@@ -256,6 +278,12 @@ onMounted(loadAll)
             <td class="mono">{{ fmtTime(a.first_trigger_ms) }}</td>
             <td class="mono">{{ a.client_ip }}</td>
             <td><span class="tag">{{ a.category }}</span></td>
+            <td>
+              <span class="sev" :class="'sev-' + (a.severity || 'yellow')">
+                {{ a.severity === 'red' ? '红' : '黄' }}
+              </span>
+              <span v-if="a.burst_ratio > 1.05" class="muted small">突增 {{ a.burst_ratio.toFixed(1) }}×</span>
+            </td>
             <td class="mono">{{ a.trigger_count }}</td>
             <td class="mono">{{ a.event_count }}</td>
             <td>
