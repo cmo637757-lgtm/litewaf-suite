@@ -132,6 +132,7 @@ typedef struct lwaf_request_context_s {
     char cookie[LWAF_MAX_ZONE_TEXT];             /**< Decoded lowercase cookie. */
     char user_agent[LWAF_MAX_ZONE_TEXT];         /**< Lowercase User-Agent. */
     char body[LWAF_MAX_ZONE_TEXT];               /**< Decoded lowercase body. */
+    int encoding_artifact;                       /**< 原始串里出现编码痕迹（%u/&#x/\\u）时置 1。 */
     char file_ext[32];                           /**< Lowercase URI extension. */
 } lwaf_request_context_t;
 

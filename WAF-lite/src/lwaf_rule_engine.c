@@ -1086,11 +1086,50 @@ lwaf_rule_parse_line(const char *line, lwaf_rule_set_t *set,
     return 1;
 }
 
+/**
+ * @brief 判断原始串里有没有「编码痕迹」（`%u003c`、`%25u`、`&#x3c`、`\u003c`）。
+ *
+ * 正常业务不会往参数里塞这些东西；出现即说明有人在尝试绕过规则匹配。
+ * 归一化会把它们还原成 `<`，痕迹消失，所以必须在这里、在覆盖字段之前先看。
+ */
+static int
+lwaf_has_encoding_artifact(const char *s)
+{
+    if (s == NULL) {
+        return 0;
+    }
+    for (; *s != '\0'; s++) {
+        if (s[0] == '%') {
+            if ((s[1] == 'u' || s[1] == 'U')
+                && s[2] >= '0' && s[2] <= '9') {
+                return 1;                       /* %u003c */
+            }
+            if (s[1] == '2' && s[2] == '5'
+                && (s[3] == 'u' || s[3] == 'U')) {
+                return 1;                       /* %25u003c 双重编码 */
+            }
+        } else if (s[0] == '&' && s[1] == '#' && (s[2] == 'x' || s[2] == 'X')) {
+            return 1;                           /* &#x3c */
+        } else if (s[0] == '\\' && (s[1] == 'u' || s[1] == 'U')
+                   && s[2] >= '0' && s[2] <= '9') {
+            return 1;                           /* \u003c */
+        }
+    }
+    return 0;
+}
+
 void
 lwaf_normalize_request_context(lwaf_request_context_t *ctx)
 {
     if (ctx == NULL) {
         return;
+    }
+    ctx->encoding_artifact = 0;
+    if (lwaf_has_encoding_artifact(ctx->raw_args)
+        || lwaf_has_encoding_artifact(ctx->raw_url)
+        || lwaf_has_encoding_artifact(ctx->raw_body)
+        || lwaf_has_encoding_artifact(ctx->raw_cookie)) {
+        ctx->encoding_artifact = 1;
     }
     /* 请求字段用多轮规范化（能吃掉双重编码、HTML 实体、\u003c、全角标点）；
      * 规则 pattern 那边仍走单次 lwaf_decode_lower_copy，避免 pattern 里的
@@ -1369,6 +1408,13 @@ lwaf_evaluate_request(const lwaf_request_context_t *ctx,
         }
     }
 
+    /* 编码痕迹单独记账：它不依赖任何规则命中，命中数固定 1 次。
+     * 放在规则循环之前，这样即使某条规则先触发 block 也能在日志里看到。 */
+    if (ctx->encoding_artifact) {
+        result->scores[LWAF_EVADE] += 8u;
+        result->scores[LWAF_TOTAL] += 8u;
+    }
+
     for (size_t i = 0; i < set->count; i++) {
         lwaf_zone_t zone = LWAF_ZONE_UNKNOWN;
         const lwaf_rule_t *rule = &set->items[i];
@@ -1395,7 +1441,18 @@ lwaf_evaluate_request(const lwaf_request_context_t *ctx,
         lwaf_add_match(result, rule, zone, (uint32_t) hits);
 
         if (rule->action == LWAF_ACT_SCORE) {
-            uint32_t gained = rule->score * (uint32_t) hits;
+            /* 首次命中拿满分，之后每多一次 +50%，总贡献封顶 2 倍。
+             * 原先是 score*hits（上限 3 倍）：弱特征规则只要在参数里出现三次
+             * 就能单独顶上阈值，`/docs/../about` 这种正常路径被判穿越就是它。 */
+            uint32_t mult;
+            if (hits <= 1) {
+                mult = 2u;                      /* 1.0x */
+            } else if (hits == 2) {
+                mult = 3u;                      /* 1.5x */
+            } else {
+                mult = 4u;                      /* 2.0x，封顶 */
+            }
+            uint32_t gained = (rule->score * mult) / 2u;
             result->scores[rule->category] += gained;
             result->scores[LWAF_TOTAL] += gained;
 
