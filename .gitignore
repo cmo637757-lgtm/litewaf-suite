@@ -46,3 +46,7 @@ scripts/probe_*
 # 公开样本包体积太大，仓库只留解析后的 TSV
 samples/raw/
 samples/reports/
+
+# 临时生成器与规则修补脚本（一次性）
+_tmp_*
+*.bak-*
